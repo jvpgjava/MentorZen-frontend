@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEssayStore } from '@/store/essayStore';
 import { EssayService } from '@/services/essayService';
 import { EssayCreateRequest } from '@/types';
-import toast from 'react-hot-toast';
+import { showToast } from '@/utils/toast';
 
 const NewEssay: React.FC = () => {
   const navigate = useNavigate();
@@ -88,9 +88,18 @@ const NewEssay: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const canSaveDraft = () => {
+    return formData.title?.trim() && wordCount >= 1;
+  };
+
   const handleSaveDraft = async () => {
     if (!formData.title?.trim()) {
       setErrors({ title: 'Título é obrigatório para salvar rascunho' });
+      return;
+    }
+
+    if (wordCount < 1) {
+      setErrors({ content: 'Escreva pelo menos 1 palavra para salvar rascunho' });
       return;
     }
 
@@ -105,10 +114,10 @@ const NewEssay: React.FC = () => {
 
       const essay = await EssayService.createEssay(essayData);
       addEssay(essay);
-      toast.success('Rascunho salvo com sucesso');
+      showToast.success('Rascunho salvo com sucesso');
       navigate('/essays/drafts');
     } catch (error: any) {
-      toast.error('Erro ao salvar rascunho: ' + (error.message || 'Erro desconhecido'));
+      showToast.error('Erro ao salvar rascunho: ' + (error.message || 'Erro desconhecido'), 'Erro ao Salvar');
     } finally {
       setIsLoading(false);
     }
@@ -128,10 +137,10 @@ const NewEssay: React.FC = () => {
 
       const essay = await EssayService.createEssay(essayData);
       addEssay(essay);
-      toast.success('Redação enviada para análise');
+      showToast.success('Redação enviada para análise', 'Redação Enviada');
       navigate(`/essays/${essay.id}/feedback`);
     } catch (error: any) {
-      toast.error('Erro ao enviar redação: ' + (error.message || 'Erro desconhecido'));
+      showToast.error('Erro ao enviar redação: ' + (error.message || 'Erro desconhecido'), 'Erro ao Enviar');
     } finally {
       setIsLoading(false);
     }
@@ -147,8 +156,12 @@ const NewEssay: React.FC = () => {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-4 mb-4">
-        <div className="w-16 h-16 rounded-lg flex items-center justify-center">
-          <i className="pi pi-plus text-orange-500 text-4xl"></i>
+        <div className="flex items-center justify-center">
+          <img 
+            src="/essay-icons/TodasRedacoesIcon.png" 
+            alt="Nova Redação" 
+            className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
+          />
         </div>
         <div>
           <h1 className="text-4xl font-bold zen-gradient-text mb-2">Nova Redação</h1>
@@ -263,9 +276,13 @@ const NewEssay: React.FC = () => {
             <Button
               label="Salvar Rascunho"
               icon="pi pi-save"
-              className="flex-1 bg-white border-2 border-orange-500 text-orange-600 hover:bg-orange-50 shadow-lg hover:shadow-xl transition-all duration-300 font-medium px-6 py-3 text-lg rounded-lg"
+              className={`flex-1 border-0 shadow-lg hover:shadow-xl transition-all duration-300 font-medium px-6 py-3 text-lg rounded-lg ${
+                canSaveDraft()
+                  ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white !text-white'
+                  : 'bg-gray-200 text-gray-400 opacity-50 cursor-not-allowed'
+              }`}
               onClick={handleSaveDraft}
-              disabled={isLoading}
+              disabled={isLoading || !canSaveDraft()}
             />
             <Button
               label="Enviar para Análise"

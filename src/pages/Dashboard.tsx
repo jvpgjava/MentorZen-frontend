@@ -5,6 +5,7 @@ import { Chart } from 'primereact/chart';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Badge } from 'primereact/badge';
+import { Avatar } from 'primereact/avatar';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { useEssayStore } from '@/store/essayStore';
@@ -13,7 +14,7 @@ import { FeedbackService } from '@/services/feedbackService';
 import { Essay, EssayStatus, UserStats } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import toast from 'react-hot-toast';
+import { showToast } from '@/utils/toast';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ const Dashboard: React.FC = () => {
 
     } catch (error: any) {
       console.error('Error loading dashboard data:', error);
-      toast.error(error.message || 'Erro ao carregar dados do dashboard. Tente novamente.');
+      showToast.error(error.message || 'Erro ao carregar dados do dashboard. Tente novamente.', 'Erro ao Carregar');
 
       setEssays([]);
       setRecentEssays([]);
@@ -104,8 +105,8 @@ const Dashboard: React.FC = () => {
           essays.filter(e => e.status === EssayStatus.ARCHIVED).length
         ],
         backgroundColor: [
-          '#f97316',
           '#eab308',
+          '#f97316',
           '#22c55e',
           '#6b7280'
         ],
@@ -148,12 +149,16 @@ const Dashboard: React.FC = () => {
       <div className="relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 text-white rounded-2xl p-8 shadow-xl">
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-              <i className="pi pi-graduation-cap text-2xl"></i>
-            </div>
+            <Avatar
+              image={user?.profilePictureUrl ? `http://localhost:8080${user.profilePictureUrl}` : undefined}
+              label={!user?.profilePictureUrl ? user?.name?.charAt(0).toUpperCase() : undefined}
+              className={!user?.profilePictureUrl ? "bg-white text-orange-500 shadow-lg border-2 border-white" : "bg-white shadow-lg border-2 border-white"}
+              size="large"
+              shape="circle"
+            />
             <div>
               <h1 className="text-3xl font-bold">
-                Olá, {user?.name?.split(' ')[0]}! 👋
+                Olá, {user?.name?.split(' ')[0]}!
               </h1>
               <p className="text-orange-100 text-lg">
                 Bem-vindo de volta ao Zen
@@ -173,11 +178,15 @@ const Dashboard: React.FC = () => {
         <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
           <div className="stats-card-content">
             <div className="stats-card-text">
-              <p className="text-gray-600 text-xs lg:text-sm font-medium mb-2">Total de Redações</p>
-              <p className="text-2xl lg:text-3xl font-bold text-gray-900">{essayStats.total}</p>
+              <p className="text-orange-600 text-xs lg:text-sm font-medium mb-2">Total de Redações</p>
+              <p className="text-2xl lg:text-3xl font-bold text-orange-600">{essayStats.total}</p>
             </div>
-            <div className="stats-card-icon w-12 h-12 lg:w-14 lg:h-14 bg-blue-100 rounded-xl flex items-center justify-center">
-              <i className="pi pi-file text-blue-600 text-xl lg:text-2xl"></i>
+            <div className="stats-card-icon flex items-center justify-center">
+              <img 
+                src="/essay-icons/TodasRedacoesIcon.png" 
+                alt="Total de Redações" 
+                className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
+              />
             </div>
           </div>
         </div>
@@ -185,11 +194,15 @@ const Dashboard: React.FC = () => {
         <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
           <div className="stats-card-content">
             <div className="stats-card-text">
-              <p className="text-gray-600 text-xs lg:text-sm font-medium mb-2">Redações Analisadas</p>
+              <p className="text-green-600 text-xs lg:text-sm font-medium mb-2">Redações Analisadas</p>
               <p className="text-2xl lg:text-3xl font-bold text-green-600">{essayStats.analyzed}</p>
             </div>
-            <div className="stats-card-icon w-12 h-12 lg:w-14 lg:h-14 bg-green-100 rounded-xl flex items-center justify-center">
-              <i className="pi pi-check-circle text-green-600 text-xl lg:text-2xl"></i>
+            <div className="stats-card-icon flex items-center justify-center">
+              <img 
+                src="/essay-icons/RedacoesAnalisadasIcon.png" 
+                alt="Redações Analisadas" 
+                className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
+              />
             </div>
           </div>
         </div>
@@ -197,13 +210,17 @@ const Dashboard: React.FC = () => {
         <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
           <div className="stats-card-content">
             <div className="stats-card-text">
-              <p className="text-gray-600 text-xs lg:text-sm font-medium mb-2">Nota Média</p>
-              <p className="text-2xl lg:text-3xl font-bold text-orange-600">
+              <p className="text-yellow-600 text-xs lg:text-sm font-medium mb-2">Nota Média</p>
+              <p className="text-2xl lg:text-3xl font-bold text-yellow-600">
                 {userStats?.averageScore?.toFixed(0) || '0'}
               </p>
             </div>
-            <div className="stats-card-icon w-12 h-12 lg:w-14 lg:h-14 bg-orange-100 rounded-xl flex items-center justify-center">
-              <i className="pi pi-star-fill text-orange-600 text-xl lg:text-2xl"></i>
+            <div className="stats-card-icon flex items-center justify-center">
+              <img 
+                src="/essay-icons/NotaMediaIcon.png" 
+                alt="Nota Média" 
+                className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
+              />
             </div>
           </div>
         </div>
@@ -211,11 +228,15 @@ const Dashboard: React.FC = () => {
         <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
           <div className="stats-card-content">
             <div className="stats-card-text">
-              <p className="text-gray-600 text-xs lg:text-sm font-medium mb-2">Rascunhos</p>
-              <p className="text-2xl lg:text-3xl font-bold text-yellow-600">{essayStats.drafts}</p>
+              <p className="text-blue-600 text-xs lg:text-sm font-medium mb-2">Rascunhos</p>
+              <p className="text-2xl lg:text-3xl font-bold text-blue-600">{essayStats.drafts}</p>
             </div>
-            <div className="stats-card-icon w-12 h-12 lg:w-14 lg:h-14 bg-yellow-100 rounded-xl flex items-center justify-center">
-              <i className="pi pi-file-edit text-yellow-600 text-xl lg:text-2xl"></i>
+            <div className="stats-card-icon flex items-center justify-center">
+              <img 
+                src="/essay-icons/RascunhosIcon.png" 
+                alt="Rascunhos" 
+                className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
+              />
             </div>
           </div>
         </div>
@@ -240,20 +261,20 @@ const Dashboard: React.FC = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm w-full max-w-sm">
                   <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 bg-orange-500 rounded-full flex-shrink-0 shadow-sm border border-orange-400"></div>
-                    <span className="text-gray-700 font-medium">Rascunhos</span>
+                    <div className="w-5 h-5 bg-yellow-500 rounded-full flex-shrink-0 shadow-sm border border-yellow-400"></div>
+                    <span className="text-yellow-600 font-medium">Rascunhos</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 bg-yellow-500 rounded-full flex-shrink-0 shadow-sm border border-yellow-400"></div>
-                    <span className="text-gray-700 font-medium">Enviadas</span>
+                    <div className="w-5 h-5 bg-orange-500 rounded-full flex-shrink-0 shadow-sm border border-orange-400"></div>
+                    <span className="text-orange-600 font-medium">Enviadas</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-5 h-5 bg-green-500 rounded-full flex-shrink-0 shadow-sm border border-green-400"></div>
-                    <span className="text-gray-700 font-medium">Analisadas</span>
+                    <span className="text-green-600 font-medium">Analisadas</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-5 h-5 bg-gray-500 rounded-full flex-shrink-0 shadow-sm border border-gray-400"></div>
-                    <span className="text-gray-700 font-medium">Arquivadas</span>
+                    <span className="text-gray-600 font-medium">Arquivadas</span>
                   </div>
                 </div>
               </div>
@@ -388,8 +409,12 @@ const Dashboard: React.FC = () => {
             </DataTable>
           ) : (
             <div className="text-center py-12">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i className="pi pi-file text-4xl text-gray-400"></i>
+              <div className="flex items-center justify-center mx-auto mb-6">
+                <img 
+                  src="/essay-icons/TodasRedacoesIcon.png" 
+                  alt="Redações" 
+                  className="w-24 h-24 lg:w-28 lg:h-28 object-contain opacity-50"
+                />
               </div>
               <h3 className="text-xl text-gray-600 mb-3 font-medium">Nenhuma redação ainda</h3>
               <p className="text-gray-500 mb-6 max-w-md mx-auto">

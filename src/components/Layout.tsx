@@ -226,16 +226,23 @@ const Layout: React.FC = () => {
         className="w-80"
         pt={{
           closeButton: {
-            className: 'absolute right-4 top-4 z-50'
+            className: 'absolute right-4 top-4 z-50 !bg-transparent !border-none !text-orange-500 hover:!text-orange-600 !shadow-none'
+          },
+          root: {
+            className: '!p-0'
+          },
+          content: {
+            className: '!p-0'
           }
         }}
-        header={
-          <div className="flex items-center gap-2 p-4">
-            <div className="w-20 h-20 rounded-lg flex items-center justify-center">
+      >
+        <div className="flex flex-col h-full">
+          <div className="flex items-center gap-3 px-4 pt-6 pb-4 border-b border-gray-200">
+            <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0">
               <img
                 src="/assets/zen-logo.png"
                 alt="Zen Logo"
-                className="w-20 h-20 object-contain"
+                className="w-16 h-16 object-contain"
               />
             </div>
             <div>
@@ -244,9 +251,8 @@ const Layout: React.FC = () => {
               </div>
             </div>
           </div>
-        }
-      >
-        <div className="p-4 space-y-2">
+          
+          <div className="flex-1 overflow-y-auto p-4 space-y-2">
           {menuItems.map((item, index) => (
             <div key={index}>
               {item.items ? (
@@ -278,8 +284,8 @@ const Layout: React.FC = () => {
                 </button>
               )}
             </div>
-          ))}
-
+          )          )}
+          </div>
         </div>
       </Sidebar>
 

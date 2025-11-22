@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
+import { Toast } from 'primereact/toast';
 import { useAuthStore } from '@/store/authStore';
+import { setToastRef } from '@/utils/toast';
 import Layout from '@/components/Layout';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
@@ -25,50 +26,19 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 
 const App: React.FC = () => {
   const { isAuthenticated } = useAuthStore();
+  const toastRef = useRef<Toast>(null);
+
+  React.useEffect(() => {
+    setToastRef(toastRef);
+  }, []);
 
   return (
     <Router>
       <div className="App">
-        <Toaster
+        <Toast 
+          ref={toastRef} 
           position="top-right"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: '#fff',
-              color: '#1f2937',
-              border: '1px solid #e5e7eb',
-              borderRadius: '12px',
-              boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
-              padding: '16px',
-              fontSize: '14px',
-              fontWeight: '500',
-              minWidth: '320px',
-            },
-            success: {
-              iconTheme: {
-                primary: '#10B981',
-                secondary: '#fff',
-              },
-              style: {
-                borderLeft: '4px solid #10B981',
-              },
-            },
-            error: {
-              iconTheme: {
-                primary: '#EF4444',
-                secondary: '#fff',
-              },
-              style: {
-                borderLeft: '4px solid #EF4444',
-              },
-            },
-            loading: {
-              iconTheme: {
-                primary: '#f97316',
-                secondary: '#fff',
-              },
-            },
-          }}
+          className="mt-4"
         />
 
         <Routes>

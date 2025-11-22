@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useAuthStore } from '@/store/authStore';
 import config, { logger } from '@/config';
-import toast from 'react-hot-toast';
+import { showToast } from '@/utils/toast';
 
 class ApiClient {
   private client: AxiosInstance;
@@ -39,29 +39,64 @@ class ApiClient {
 
         if (error.response?.status === 401) {
           clearAuth();
-          toast.error('Sessão expirada. Faça login novamente.');
+          const message = error.response.data?.message || 'Sessão expirada. Faça login novamente.';
+          showToast.error(message, 'Sessão Expirada');
           window.location.href = '/login';
-        } else if (error.response?.status === 403) {
-          toast.error('Acesso negado.');
-        } else if (error.response?.status >= 500) {
-          toast.error('Erro interno do servidor. Tente novamente.');
-        } else if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
-          logger.error('Network Error:', error);
-          toast.error('Erro de conexão. Verifique se o backend está rodando em http://localhost:8080');
-        } else if (error.response) {
-          const message = error.response.data?.message || error.response.statusText || 'Erro na requisição';
-          logger.error('API Error:', {
+          return Promise.reject(error);
+        }
+
+        if (error.response?.status === 403) {
+          const message = error.response.data?.message || 'Acesso negado.';
+          showToast.error(message, 'Acesso Negado');
+          return Promise.reject(error);
+        }
+
+        if (error.response?.status >= 500) {
+          const message = error.response.data?.message || 'Erro interno do servidor. Tente novamente.';
+          showToast.error(message, 'Erro do Servidor');
+          logger.error('Server Error:', {
             status: error.response.status,
-            message,
-            url: error.config?.url,
-            baseURL: error.config?.baseURL
+            message: error.response.data?.message,
+            path: error.response.data?.path,
+            url: error.config?.url
           });
-          if (error.response.status !== 401 && error.response.status !== 403) {
-            toast.error(message);
+          return Promise.reject(error);
+        }
+
+        if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
+          logger.error('Network Error:', error);
+          showToast.error('Erro de conexão. Verifique se o backend está rodando em http://localhost:8080', 'Erro de Conexão');
+          return Promise.reject(error);
+        }
+
+        if (error.response) {
+          const errorData = error.response.data;
+          let message = errorData?.message || error.response.statusText || 'Erro na requisição';
+
+          if (error.response.status === 422 && errorData?.validationErrors) {
+            const validationErrors = errorData.validationErrors;
+            const firstError = Object.values(validationErrors)[0] as string;
+            message = firstError || message;
+            
+            logger.warn('Validation Error:', {
+              status: error.response.status,
+              validationErrors,
+              url: error.config?.url
+            });
+            showToast.warn(message, 'Validação');
+          } else {
+            logger.error('API Error:', {
+              status: error.response.status,
+              message,
+              error: errorData?.error,
+              path: errorData?.path,
+              url: error.config?.url
+            });
+            showToast.error(message, 'Erro');
           }
         } else {
           logger.error('Unknown Error:', error);
-          toast.error('Erro desconhecido. Verifique o console para mais detalhes.');
+          showToast.error('Erro desconhecido. Verifique o console para mais detalhes.', 'Erro Desconhecido');
         }
 
         return Promise.reject(error);

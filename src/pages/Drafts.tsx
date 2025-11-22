@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Card } from 'primereact/card';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-import { Toast } from 'primereact/toast';
 import { useNavigate } from 'react-router-dom';
 import { useEssayStore } from '@/store/essayStore';
 import { EssayService } from '@/services/essayService';
 import { Essay, EssayStatus } from '@/types';
-import toast from 'react-hot-toast';
+import { showToast } from '@/utils/toast';
 
 const Drafts: React.FC = () => {
   const navigate = useNavigate();
@@ -18,7 +16,6 @@ const Drafts: React.FC = () => {
   const [globalFilter, setGlobalFilter] = useState('');
   const [drafts, setDrafts] = useState<Essay[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const toastRef = React.useRef<Toast>(null);
 
   useEffect(() => {
     loadDrafts();
@@ -31,7 +28,7 @@ const Drafts: React.FC = () => {
       setDrafts(essays);
       setEssays(essays);
     } catch (error: any) {
-      toast.error(error.message || 'Erro ao carregar rascunhos. Tente novamente.');
+      showToast.error(error.message || 'Erro ao carregar rascunhos. Tente novamente.', 'Erro ao Carregar');
     } finally {
       setIsLoading(false);
     }
@@ -99,7 +96,7 @@ const Drafts: React.FC = () => {
 
   const handleSubmitDraft = (essay: any) => {
     if (essay.wordCount < 10) {
-      toast.error('A redação deve ter pelo menos 10 palavras para ser enviada para análise.');
+      showToast.warn('A redação deve ter pelo menos 10 palavras para ser enviada para análise.', 'Validação');
       return;
     }
 
@@ -123,9 +120,9 @@ const Drafts: React.FC = () => {
       await EssayService.deleteEssay(essayId);
       removeEssay(essayId);
       setDrafts(drafts.filter(d => d.id !== essayId));
-      toast.success('Rascunho excluído com sucesso');
+      showToast.success('Rascunho excluído com sucesso');
     } catch (error: any) {
-      toast.error('Erro ao excluir rascunho: ' + (error.message || 'Erro desconhecido'));
+      showToast.error('Erro ao excluir rascunho: ' + (error.message || 'Erro desconhecido'), 'Erro ao Excluir');
     }
   };
 
@@ -140,27 +137,24 @@ const Drafts: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <Toast ref={toastRef} />
       <ConfirmDialog />
 
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-xl flex items-center justify-center">
-            <i className="pi pi-file-edit text-yellow-600 text-4xl"></i>
+          <div className="flex items-center justify-center">
+            <img 
+              src="/essay-icons/RascunhosIcon.png" 
+              alt="Rascunhos" 
+              className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
+            />
           </div>
           <div>
-            <h1 className="text-4xl font-bold text-yellow-600 mb-2">Meus Rascunhos</h1>
-            <p className="text-yellow-500 text-lg font-medium">
+            <h1 className="text-4xl font-bold text-blue-600 mb-2">Meus Rascunhos</h1>
+            <p className="text-blue-500 text-lg font-medium">
               Continue trabalhando em suas redações salvas ({drafts.length} rascunhos)
             </p>
           </div>
         </div>
-        <Button
-          label="Nova Redação"
-          icon="pi pi-plus"
-          className="bg-gradient-to-r from-orange-500 to-orange-600 border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium px-6 py-3 text-lg rounded-lg"
-          onClick={() => navigate('/essays/new')}
-        />
       </div>
 
       {drafts.length > 0 && (
@@ -189,14 +183,18 @@ const Drafts: React.FC = () => {
       {drafts.length === 0 ? (
         <Card className="shadow-lg border-0">
           <div className="p-12 text-center">
-            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <i className="pi pi-file-edit text-4xl text-gray-400"></i>
+            <div className="flex items-center justify-center mx-auto mb-6">
+              <img 
+                src="/essay-icons/RascunhosIcon.png" 
+                alt="Rascunhos" 
+                className="w-24 h-24 lg:w-28 lg:h-28 object-contain opacity-50"
+              />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">
+            <p className="text-xl font-normal text-gray-900 mb-3 opacity-50">
               Nenhum rascunho encontrado
-            </h3>
-            <p className="text-gray-600 mb-6 max-w-md mx-auto">
-              Você ainda não tem rascunhos salvos. Use o botão "Nova Redação" no topo da página para começar a escrever e salvar como rascunho.
+            </p>
+            <p className="text-gray-600 mb-6 max-w-md mx-auto opacity-50">
+              Você ainda não tem rascunhos salvos. Comece criando uma nova redação e salve como rascunho.
             </p>
           </div>
         </Card>

@@ -3,7 +3,6 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { Toast } from 'primereact/toast';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Badge } from 'primereact/badge';
 import { useForm, Controller } from 'react-hook-form';
@@ -12,7 +11,7 @@ import { z } from 'zod';
 import { EssayService } from '@/services/essayService';
 import { useEssayStore } from '@/store/essayStore';
 import { Essay, EssayCreateRequest } from '@/types';
-import toast from 'react-hot-toast';
+import { showToast } from '@/utils/toast';
 
 const essaySchema = z.object({
   title: z.string()
@@ -73,17 +72,17 @@ const EssayEditor: React.FC<EssayEditorProps> = ({ essay, onSave, onCancel }) =>
       if (essay?.id) {
         savedEssay = await EssayService.updateEssay(essay.id, data);
         updateEssay(savedEssay);
-        toast.success('Redação atualizada com sucesso!');
+        showToast.success('Redação atualizada com sucesso!');
       } else {
         savedEssay = await EssayService.createEssay(data);
         addEssay(savedEssay);
-        toast.success('Redação criada com sucesso!');
+        showToast.success('Redação criada com sucesso!');
       }
 
       onSave?.(savedEssay);
     } catch (error) {
       console.error('Error saving essay:', error);
-      toast.error('Erro ao salvar redação. Tente novamente.');
+      showToast.error('Erro ao salvar redação. Tente novamente.', 'Erro ao Salvar');
     } finally {
       setIsLoading(false);
     }

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Dropdown } from 'primereact/dropdown';
 import { useAuthStore } from '@/store/authStore';
 import { ProfileService, UpdateProfileRequest, ChangePasswordRequest } from '@/services/profileService';
-import toast from 'react-hot-toast';
+import { showToast } from '@/utils/toast';
 
 const Profile: React.FC = () => {
   const navigate = useNavigate();
@@ -59,10 +59,10 @@ const Profile: React.FC = () => {
 
       updateUser(updatedUser);
 
-      toast.success('Perfil atualizado com sucesso');
+      showToast.success('Perfil atualizado com sucesso');
     } catch (error: any) {
       const message = error.response?.data?.message || 'Erro ao atualizar perfil';
-      toast.error(message || 'Erro ao atualizar perfil');
+      showToast.error(message || 'Erro ao atualizar perfil', 'Erro ao Atualizar');
     } finally {
       setIsLoading(false);
     }
@@ -72,12 +72,12 @@ const Profile: React.FC = () => {
     e.preventDefault();
 
     if (passwordData.newPassword !== confirmPassword) {
-      toast.error('A nova senha e a confirmação devem ser iguais');
+      showToast.warn('A nova senha e a confirmação devem ser iguais', 'Validação');
       return;
     }
 
     if (passwordData.newPassword.length < 6) {
-      toast.error('A senha deve ter pelo menos 6 caracteres');
+      showToast.warn('A senha deve ter pelo menos 6 caracteres', 'Validação');
       return;
     }
 
@@ -88,10 +88,10 @@ const Profile: React.FC = () => {
       setPasswordData({ currentPassword: '', newPassword: '' });
       setConfirmPassword('');
 
-      toast.success('Senha alterada com sucesso');
+      showToast.success('Senha alterada com sucesso');
     } catch (error: any) {
       const message = error.response?.data?.message || 'Erro ao alterar senha';
-      toast.error(message || 'Erro ao alterar senha');
+      showToast.error(message || 'Erro ao alterar senha', 'Erro ao Alterar Senha');
     } finally {
       setIsLoading(false);
     }
@@ -102,12 +102,12 @@ const Profile: React.FC = () => {
     if (!file) return;
 
     if (file.size > 25 * 1024 * 1024) {
-      toast.error('Arquivo muito grande. O tamanho máximo permitido é 25MB');
+      showToast.warn('Arquivo muito grande. O tamanho máximo permitido é 25MB', 'Arquivo Inválido');
       return;
     }
 
     if (!file.type.startsWith('image/')) {
-      toast.error('Formato inválido. Selecione um arquivo de imagem (JPG, PNG, etc)');
+      showToast.warn('Formato inválido. Selecione um arquivo de imagem (JPG, PNG, etc)', 'Formato Inválido');
       return;
     }
 
@@ -117,10 +117,10 @@ const Profile: React.FC = () => {
 
       updateUser(updatedUser);
 
-      toast.success('Foto de perfil atualizada com sucesso');
+      showToast.success('Foto de perfil atualizada com sucesso');
     } catch (error: any) {
       const message = error.response?.data?.message || 'Erro ao fazer upload da foto';
-      toast.error(message || 'Erro ao atualizar foto de perfil');
+      showToast.error(message || 'Erro ao atualizar foto de perfil', 'Erro ao Atualizar Foto');
     } finally {
       setIsUploadingPhoto(false);
     }
@@ -132,11 +132,11 @@ const Profile: React.FC = () => {
       await ProfileService.deleteAccount();
 
       clearAuth();
-      toast.success('Conta deletada com sucesso');
+      showToast.success('Conta deletada com sucesso');
       navigate('/login');
     } catch (error: any) {
       const message = error.response?.data?.message || 'Erro ao deletar conta';
-      toast.error(message || 'Erro ao deletar conta');
+      showToast.error(message || 'Erro ao deletar conta', 'Erro ao Deletar Conta');
     } finally {
       setIsLoading(false);
     }
@@ -171,7 +171,7 @@ const Profile: React.FC = () => {
           <div className="px-6 py-6 border-b border-gray-200">
             <div className="flex items-center space-x-6">
               <div className="relative">
-                <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
+                <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
                   {getProfilePictureUrl() ? (
                     <img
                       src={getProfilePictureUrl()!}
@@ -179,7 +179,7 @@ const Profile: React.FC = () => {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="text-2xl font-bold text-gray-500">
+                    <div className="text-3xl font-bold text-white">
                       {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                     </div>
                   )}

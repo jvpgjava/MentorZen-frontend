@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { User } from '@/types';
 import { AuthService, LoginRequest, RegisterRequest, ForgotPasswordRequest } from '@/services/authService';
-import toast from 'react-hot-toast';
+import { showToast } from '@/utils/toast';
 
 interface AuthState {
   user: User | null;
@@ -66,11 +66,9 @@ export const useAuthStore = create<AuthState>()(
             isAuthenticated: true,
             isLoading: false,
           });
-          toast.success('Login realizado com sucesso!');
+          showToast.success('Login realizado com sucesso!');
         } catch (error: any) {
           set({ isLoading: false });
-          const message = error.response?.data?.message || 'Erro ao fazer login';
-          toast.error(message);
           throw error;
         }
       },
@@ -85,11 +83,9 @@ export const useAuthStore = create<AuthState>()(
             isAuthenticated: true,
             isLoading: false,
           });
-          toast.success('Cadastro realizado com sucesso!');
+          showToast.success('Cadastro realizado com sucesso!');
         } catch (error: any) {
           set({ isLoading: false });
-          const message = error.response?.data?.message || 'Erro ao fazer cadastro';
-          toast.error(message);
           throw error;
         }
       },
@@ -99,11 +95,9 @@ export const useAuthStore = create<AuthState>()(
           set({ isLoading: true });
           const response = await AuthService.forgotPassword(data);
           set({ isLoading: false });
-          toast.success(response.message);
+          showToast.success(response.message || 'Email de recuperação enviado com sucesso!', 'Email Enviado');
         } catch (error: any) {
           set({ isLoading: false });
-          const message = error.response?.data?.message || 'Erro ao solicitar recuperação de senha';
-          toast.error(message);
           throw error;
         }
       },
@@ -119,7 +113,7 @@ export const useAuthStore = create<AuthState>()(
             isAuthenticated: false,
             isLoading: false,
           });
-          toast.success('Logout realizado com sucesso!');
+          showToast.success('Logout realizado com sucesso!');
         }
       },
 

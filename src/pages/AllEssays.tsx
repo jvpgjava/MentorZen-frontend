@@ -9,7 +9,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { useNavigate } from 'react-router-dom';
 import { EssayService } from '@/services/essayService';
 import { Essay, EssayStatus } from '@/types';
-import toast from 'react-hot-toast';
+import { showToast } from '@/utils/toast';
 
 const AllEssays: React.FC = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const AllEssays: React.FC = () => {
       const allEssays = response.content || [];
       setEssays(allEssays);
     } catch (error: any) {
-      toast.error(error.message || 'Erro ao carregar redações. Tente novamente.');
+      showToast.error(error.message || 'Erro ao carregar redações. Tente novamente.', 'Erro ao Carregar');
     } finally {
       setIsLoading(false);
     }
@@ -129,8 +129,12 @@ const AllEssays: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-xl flex items-center justify-center">
-            <i className="pi pi-file-edit text-orange-600 text-4xl"></i>
+          <div className="flex items-center justify-center">
+            <img 
+              src="/essay-icons/TodasRedacoesIcon.png" 
+              alt="Todas Redações" 
+              className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
+            />
           </div>
           <div>
             <h1 className="text-4xl font-bold text-orange-600 mb-2">Minhas Redações</h1>

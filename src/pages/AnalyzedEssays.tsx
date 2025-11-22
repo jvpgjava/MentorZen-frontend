@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Card } from 'primereact/card';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
 import { Badge } from 'primereact/badge';
 import { InputText } from 'primereact/inputtext';
 import { Skeleton } from 'primereact/skeleton';
@@ -12,7 +11,7 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { EssayService } from '@/services/essayService';
 import { FeedbackService } from '@/services/feedbackService';
-import toast from 'react-hot-toast';
+import { showToast } from '@/utils/toast';
 
 interface EssayWithScore extends Essay {
   score?: number;
@@ -50,7 +49,7 @@ const AnalyzedEssays: React.FC = () => {
 
       setAnalyzedEssays(essaysWithScores);
     } catch (error: any) {
-      toast.error(error.message || 'Erro ao carregar redações analisadas. Tente novamente.');
+      showToast.error(error.message || 'Erro ao carregar redações analisadas. Tente novamente.', 'Erro ao Carregar');
     } finally {
       setIsLoading(false);
     }
@@ -134,12 +133,6 @@ const AnalyzedEssays: React.FC = () => {
           className="w-full"
         />
       </span>
-      <Button
-        label="Nova Redação"
-        icon="pi pi-plus"
-        className="p-button-primary gradient-button w-full md:w-auto"
-        onClick={() => navigate('/essays/new')}
-      />
     </div>
   );
 
@@ -156,8 +149,12 @@ const AnalyzedEssays: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-xl flex items-center justify-center">
-            <i className="pi pi-check-circle text-green-600 text-4xl"></i>
+          <div className="flex items-center justify-center">
+            <img 
+              src="/essay-icons/RedacoesAnalisadasIcon.png" 
+              alt="Redações Analisadas" 
+              className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
+            />
           </div>
           <div>
             <h1 className="text-4xl font-bold text-green-600 mb-2">Redações Analisadas</h1>
@@ -166,12 +163,6 @@ const AnalyzedEssays: React.FC = () => {
             </p>
           </div>
         </div>
-        <Button
-          label="Nova Redação"
-          icon="pi pi-plus"
-          className="bg-gradient-to-r from-orange-500 to-orange-600 border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium px-6 py-3 text-lg rounded-lg"
-          onClick={() => navigate('/essays/new')}
-        />
       </div>
 
       <Card className="shadow-lg border-0">
@@ -236,9 +227,15 @@ const AnalyzedEssays: React.FC = () => {
             </DataTable>
           ) : (
             <div className="text-center py-8 text-gray-500">
-              <i className="pi pi-check-circle text-4xl mb-4"></i>
+              <div className="flex justify-center mb-4">
+                <img 
+                  src="/essay-icons/RedacoesAnalisadasIcon.png" 
+                  alt="Redações Analisadas" 
+                  className="w-24 h-24 lg:w-28 lg:h-28 object-contain opacity-50"
+                />
+              </div>
               <p className="text-lg">Nenhuma redação analisada ainda.</p>
-              <p className="text-sm mt-2">Envie suas redações para análise usando o botão "Nova Redação" no topo da página!</p>
+              <p className="text-sm mt-2">Envie suas redações para análise e receba feedbacks personalizados!</p>
             </div>
           )}
         </div>

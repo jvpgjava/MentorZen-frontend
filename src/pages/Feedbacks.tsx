@@ -12,7 +12,7 @@ import { Skeleton } from 'primereact/skeleton';
 import { Feedback, FeedbackType } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import toast from 'react-hot-toast';
+import { showToast } from '@/utils/toast';
 import { FeedbackService } from '@/services/feedbackService';
 import { EssayService } from '@/services/essayService';
 
@@ -52,7 +52,7 @@ const Feedbacks: React.FC = () => {
 
       setFeedbacks(feedbacksWithTitles);
     } catch (error: any) {
-      toast.error(error.message || 'Erro ao carregar feedbacks. Tente novamente.');
+      showToast.error(error.message || 'Erro ao carregar feedbacks. Tente novamente.', 'Erro ao Carregar');
     } finally {
       setIsLoading(false);
     }
@@ -237,12 +237,6 @@ const Feedbacks: React.FC = () => {
               <i className="pi pi-comment text-4xl mb-4"></i>
               <p className="text-lg">Nenhum feedback encontrado.</p>
               <p className="text-sm mt-2">Envie suas redações para análise e receba feedbacks personalizados!</p>
-              <Button
-                label="Nova Redação"
-                icon="pi pi-plus"
-                className="mt-6 bg-gradient-to-r from-orange-500 to-orange-600 border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium px-6 py-3 text-lg rounded-lg"
-                onClick={() => navigate('/essays/new')}
-              />
             </div>
           )}
         </div>
