@@ -37,9 +37,20 @@ interface AppConfig {
   };
 }
 
+const getApiBaseUrl = () => {
+  const envUrl = import.meta.env.VITE_API_BASE_URL;
+  if (envUrl) return envUrl;
+
+  if (import.meta.env.DEV) {
+    return '/api';
+  }
+
+  return 'http://localhost:8080/api';
+};
+
 const config: AppConfig = {
   api: {
-    baseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api',
+    baseUrl: getApiBaseUrl(),
     timeout: parseInt(import.meta.env.VITE_API_TIMEOUT || '10000'),
   },
   app: {

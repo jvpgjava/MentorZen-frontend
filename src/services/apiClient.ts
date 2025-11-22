@@ -45,8 +45,23 @@ class ApiClient {
           toast.error('Acesso negado.');
         } else if (error.response?.status >= 500) {
           toast.error('Erro interno do servidor. Tente novamente.');
-        } else if (error.message === 'Network Error') {
-          toast.error('Erro de conexão. Verifique sua internet.');
+        } else if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
+          logger.error('Network Error:', error);
+          toast.error('Erro de conexão. Verifique se o backend está rodando em http://localhost:8080');
+        } else if (error.response) {
+          const message = error.response.data?.message || error.response.statusText || 'Erro na requisição';
+          logger.error('API Error:', {
+            status: error.response.status,
+            message,
+            url: error.config?.url,
+            baseURL: error.config?.baseURL
+          });
+          if (error.response.status !== 401 && error.response.status !== 403) {
+            toast.error(message);
+          }
+        } else {
+          logger.error('Unknown Error:', error);
+          toast.error('Erro desconhecido. Verifique o console para mais detalhes.');
         }
 
         return Promise.reject(error);
