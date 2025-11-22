@@ -51,8 +51,16 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center zen-gradient">
-      <div className="bg-white p-8 rounded-lg zen-shadow-lg max-w-md w-full">
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={{
+        backgroundImage: 'url(/wallpaper-login/FundoLogin.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      <div className="bg-white p-8 rounded-lg shadow-2xl max-w-md w-full backdrop-blur-sm bg-opacity-95">
         <div className="text-center mb-6">
           <div className="flex items-center justify-center mb-4">
             <img
@@ -138,9 +146,8 @@ const Login: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-6 text-center text-sm text-gray-500">
-          <p>Hackathon Gemini for Education 2024</p>
-          <p>Equipe FloWrite</p>
+        <div className="mt-6 text-center text-sm">
+          <p className="text-orange-500">Equipe FloWrite</p>
         </div>
       </div>
     </div>

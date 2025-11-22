@@ -5,38 +5,59 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { Badge } from 'primereact/badge';
-import { Tag } from 'primereact/tag';
 import { InputText } from 'primereact/inputtext';
 import { Skeleton } from 'primereact/skeleton';
-import { useEssayStore } from '@/store/essayStore';
 import { Essay, EssayStatus } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { EssayService } from '@/services/essayService';
+import { FeedbackService } from '@/services/feedbackService';
+import toast from 'react-hot-toast';
+
+interface EssayWithScore extends Essay {
+  score?: number;
+}
 
 const AnalyzedEssays: React.FC = () => {
   const navigate = useNavigate();
-  const { essays } = useEssayStore();
   const [globalFilter, setGlobalFilter] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
-
-  const analyzedEssays = essays.filter(essay => essay.status === EssayStatus.ANALYZED);
+  const [analyzedEssays, setAnalyzedEssays] = useState<EssayWithScore[]>([]);
 
   useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 500);
+    loadAnalyzedEssays();
   }, []);
 
-  const getStatusTag = (status: EssayStatus) => {
-    switch (status) {
-      case EssayStatus.ANALYZED:
-        return <Tag value="Analisada" severity="success" className="bg-green-100 text-green-700" />;
-      default:
-        return <Tag value="Desconhecido" severity="contrast" />;
+  const loadAnalyzedEssays = async () => {
+    try {
+      setIsLoading(true);
+      const essays = await EssayService.getEssaysByStatus(EssayStatus.ANALYZED);
+
+      const essaysWithScores = await Promise.all(
+        essays.map(async (essay) => {
+          try {
+            const feedbacks = await FeedbackService.getEssayFeedbacks(essay.id);
+            const latestFeedback = feedbacks[0];
+            return {
+              ...essay,
+              score: latestFeedback?.overallScore
+            };
+          } catch (error) {
+            return { ...essay, score: undefined };
+          }
+        })
+      );
+
+      setAnalyzedEssays(essaysWithScores);
+    } catch (error: any) {
+      toast.error(error.message || 'Erro ao carregar redações analisadas. Tente novamente.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const getScoreBadge = (score?: number) => {
-    if (!score) return <Badge value="N/A" severity="secondary" />;
+    if (!score) return <Badge value="N/A" severity="info" />;
 
     let severity: "success" | "warning" | "info" | "danger" = "info";
     if (score >= 800) severity = "success";
@@ -45,6 +66,52 @@ const AnalyzedEssays: React.FC = () => {
     else severity = "danger";
 
     return <Badge value={score} severity={severity} className="text-sm font-medium" />;
+  };
+
+  const dateBodyTemplate = (essay: EssayWithScore) => {
+    return (
+      <div className="text-center">
+        <div className="font-medium">
+          {format(new Date(essay.updatedAt), 'dd/MM/yyyy', { locale: ptBR })}
+        </div>
+        <div className="text-sm text-gray-500">
+          {format(new Date(essay.updatedAt), 'HH:mm', { locale: ptBR })}
+        </div>
+      </div>
+    );
+  };
+
+  const wordCountBodyTemplate = (essay: EssayWithScore) => {
+    const getWordCountColor = (count: number) => {
+      if (count < 150) return 'text-red-500';
+      if (count <= 400) return 'text-green-500';
+      return 'text-orange-500';
+    };
+
+    return (
+      <div className="text-center">
+        <span className={`font-medium ${getWordCountColor(essay.wordCount || 0)}`}>
+          {essay.wordCount || 0}
+        </span>
+      </div>
+    );
+  };
+
+  const actionBodyTemplate = (essay: EssayWithScore) => {
+    return (
+      <div className="flex items-center justify-center gap-3">
+        <i
+          className="pi pi-eye text-orange-500 text-xl cursor-pointer hover:text-orange-600 transition-colors"
+          title="Ver Detalhes"
+          onClick={() => navigate(`/essays/${essay.id}`)}
+        />
+        <i
+          className="pi pi-comment text-orange-500 text-xl cursor-pointer hover:text-orange-600 transition-colors"
+          title="Ver Feedback"
+          onClick={() => navigate(`/essays/${essay.id}/feedback`)}
+        />
+      </div>
+    );
   };
 
   const filteredEssays = analyzedEssays.filter(essay => {
@@ -150,7 +217,7 @@ const AnalyzedEssays: React.FC = () => {
                 sortable
                 style={{ textAlign: 'center' }}
                 headerStyle={{ textAlign: 'center' }}
-                body={(essay) => getScoreBadge((essay as any).score)} // Mock score
+                body={(essay) => getScoreBadge(essay.score)}
               />
               <Column
                 field="updatedAt"

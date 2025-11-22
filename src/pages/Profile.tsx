@@ -59,10 +59,10 @@ const Profile: React.FC = () => {
 
       updateUser(updatedUser);
 
-      toast.success('Perfil atualizado com sucesso!');
+      toast.success('Perfil atualizado com sucesso');
     } catch (error: any) {
       const message = error.response?.data?.message || 'Erro ao atualizar perfil';
-      toast.error(message);
+      toast.error(message || 'Erro ao atualizar perfil');
     } finally {
       setIsLoading(false);
     }
@@ -72,12 +72,12 @@ const Profile: React.FC = () => {
     e.preventDefault();
 
     if (passwordData.newPassword !== confirmPassword) {
-      toast.error('Nova senha e confirmação não coincidem');
+      toast.error('A nova senha e a confirmação devem ser iguais');
       return;
     }
 
     if (passwordData.newPassword.length < 6) {
-      toast.error('Nova senha deve ter pelo menos 6 caracteres');
+      toast.error('A senha deve ter pelo menos 6 caracteres');
       return;
     }
 
@@ -88,10 +88,10 @@ const Profile: React.FC = () => {
       setPasswordData({ currentPassword: '', newPassword: '' });
       setConfirmPassword('');
 
-      toast.success('Senha alterada com sucesso!');
+      toast.success('Senha alterada com sucesso');
     } catch (error: any) {
       const message = error.response?.data?.message || 'Erro ao alterar senha';
-      toast.error(message);
+      toast.error(message || 'Erro ao alterar senha');
     } finally {
       setIsLoading(false);
     }
@@ -101,13 +101,13 @@ const Profile: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 25 * 1024 * 1024) { // 25MB
-      toast.error('Arquivo muito grande. Tamanho máximo: 25MB');
+    if (file.size > 25 * 1024 * 1024) {
+      toast.error('Arquivo muito grande. O tamanho máximo permitido é 25MB');
       return;
     }
 
     if (!file.type.startsWith('image/')) {
-      toast.error('Arquivo deve ser uma imagem');
+      toast.error('Formato inválido. Selecione um arquivo de imagem (JPG, PNG, etc)');
       return;
     }
 
@@ -117,10 +117,10 @@ const Profile: React.FC = () => {
 
       updateUser(updatedUser);
 
-      toast.success('Foto de perfil atualizada!');
+      toast.success('Foto de perfil atualizada com sucesso');
     } catch (error: any) {
       const message = error.response?.data?.message || 'Erro ao fazer upload da foto';
-      toast.error(message);
+      toast.error(message || 'Erro ao atualizar foto de perfil');
     } finally {
       setIsUploadingPhoto(false);
     }
@@ -136,7 +136,7 @@ const Profile: React.FC = () => {
       navigate('/login');
     } catch (error: any) {
       const message = error.response?.data?.message || 'Erro ao deletar conta';
-      toast.error(message);
+      toast.error(message || 'Erro ao deletar conta');
     } finally {
       setIsLoading(false);
     }

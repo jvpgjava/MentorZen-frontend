@@ -7,14 +7,33 @@ import { Badge } from 'primereact/badge';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { useNavigate } from 'react-router-dom';
-import { useEssayStore } from '@/store/essayStore';
-import { EssayStatus } from '@/types';
+import { EssayService } from '@/services/essayService';
+import { Essay, EssayStatus } from '@/types';
+import toast from 'react-hot-toast';
 
 const AllEssays: React.FC = () => {
   const navigate = useNavigate();
-  const { essays, isLoading } = useEssayStore();
   const [globalFilter, setGlobalFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState<EssayStatus | null>(null);
+  const [essays, setEssays] = useState<Essay[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadEssays();
+  }, []);
+
+  const loadEssays = async () => {
+    try {
+      setIsLoading(true);
+      const response = await EssayService.getUserEssays(0, 1000);
+      const allEssays = response.content || [];
+      setEssays(allEssays);
+    } catch (error: any) {
+      toast.error(error.message || 'Erro ao carregar redações. Tente novamente.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const statusOptions = [
     { label: 'Todos os Status', value: null },

@@ -1,5 +1,3 @@
-// Environment configuration for Mentor de Redação Zen
-
 interface AppConfig {
   api: {
     baseUrl: string;
@@ -12,7 +10,6 @@ interface AppConfig {
   };
   development: {
     devMode: boolean;
-    enableMockData: boolean;
     showDebugInfo: boolean;
   };
   googleAI: {
@@ -52,7 +49,6 @@ const config: AppConfig = {
   },
   development: {
     devMode: import.meta.env.VITE_DEV_MODE === 'true',
-    enableMockData: import.meta.env.VITE_ENABLE_MOCK_DATA === 'true',
     showDebugInfo: import.meta.env.VITE_SHOW_DEBUG_INFO === 'true',
   },
   googleAI: {
@@ -80,11 +76,9 @@ const config: AppConfig = {
   },
 };
 
-// Development helpers
 export const isDevelopment = config.development.devMode;
 export const isProduction = !isDevelopment;
 
-// Logging helper
 export const logger = {
   debug: (...args: any[]) => {
     if (config.development.showDebugInfo) {

@@ -9,90 +9,54 @@ import { Tag } from 'primereact/tag';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { Skeleton } from 'primereact/skeleton';
-import { Essay, EssayStatus, Feedback, FeedbackType } from '@/types';
+import { Feedback, FeedbackType } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import toast from 'react-hot-toast';
+import { FeedbackService } from '@/services/feedbackService';
+import { EssayService } from '@/services/essayService';
+
+interface FeedbackWithEssayTitle extends Feedback {
+  essayTitle?: string;
+}
 
 const Feedbacks: React.FC = () => {
   const navigate = useNavigate();
   const [globalFilter, setGlobalFilter] = useState<string>('');
   const [selectedType, setSelectedType] = useState<FeedbackType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  const mockFeedbacks: (Feedback & { essayTitle: string })[] = [
-    {
-      id: '1',
-      essayId: '1',
-      essayTitle: 'A importância da educação no Brasil',
-      type: FeedbackType.AI_GENERATED,
-      overallScore: 850,
-      competencyScores: {
-        competency1: 180,
-        competency2: 160,
-        competency3: 170,
-        competency4: 180,
-        competency5: 160
-      },
-      generalFeedback: 'Excelente redação! Você demonstrou domínio da norma culta e apresentou uma tese clara e bem fundamentada.',
-      detailedFeedback: {
-        strengths: [
-          'Excelente domínio da norma padrão da língua portuguesa',
-          'Tese clara e bem posicionada na introdução',
-          'Argumentos consistentes e bem desenvolvidos',
-          'Boa articulação entre os parágrafos'
-        ],
-        improvements: [
-          'Poderia explorar mais dados estatísticos para fortalecer a argumentação',
-          'A conclusão poderia apresentar uma proposta de intervenção mais detalhada'
-        ],
-        suggestions: [
-          'Inclua citações de especialistas na área educacional',
-          'Desenvolva melhor a proposta de solução na conclusão'
-        ]
-      },
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    },
-    {
-      id: '2',
-      essayId: '2',
-      essayTitle: 'Desafios da mobilidade urbana',
-      type: FeedbackType.AI_GENERATED,
-      overallScore: 720,
-      competencyScores: {
-        competency1: 140,
-        competency2: 150,
-        competency3: 130,
-        competency4: 160,
-        competency5: 140
-      },
-      generalFeedback: 'Boa redação com argumentos válidos, mas pode melhorar na articulação e no desenvolvimento de algumas ideias.',
-      detailedFeedback: {
-        strengths: [
-          'Tema bem compreendido e desenvolvido',
-          'Boa estrutura dissertativa',
-          'Argumentos pertinentes ao tema'
-        ],
-        improvements: [
-          'Melhorar a articulação entre parágrafos',
-          'Desenvolver melhor alguns argumentos',
-          'Atenção a alguns desvios gramaticais'
-        ],
-        suggestions: [
-          'Use mais conectivos para melhorar a coesão',
-          'Revise a concordância verbal em alguns trechos'
-        ]
-      },
-      createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 dia atrás
-      updatedAt: new Date(Date.now() - 86400000).toISOString()
-    }
-  ];
+  const [feedbacks, setFeedbacks] = useState<FeedbackWithEssayTitle[]>([]);
 
   useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 500);
+    loadFeedbacks();
   }, []);
+
+  const loadFeedbacks = async () => {
+    try {
+      setIsLoading(true);
+      const feedbacksData = await FeedbackService.getUserFeedbacks();
+
+      const feedbacksWithTitles = await Promise.all(
+        feedbacksData.map(async (feedback) => {
+          if (feedback.essayId) {
+            try {
+              const essay = await EssayService.getEssay(feedback.essayId);
+              return { ...feedback, essayTitle: essay.title };
+            } catch (error) {
+              return { ...feedback, essayTitle: 'Redação não encontrada' };
+            }
+          }
+          return { ...feedback, essayTitle: 'Sem redação associada' };
+        })
+      );
+
+      setFeedbacks(feedbacksWithTitles);
+    } catch (error: any) {
+      toast.error(error.message || 'Erro ao carregar feedbacks. Tente novamente.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const getScoreColor = (score: number) => {
     if (score >= 800) return 'success';
@@ -111,7 +75,7 @@ const Feedbacks: React.FC = () => {
     );
   };
 
-  const getFeedbackTypeTag = (type: FeedbackType) => {
+  const getFeedbackTypeBadge = (type: FeedbackType) => {
     switch (type) {
       case FeedbackType.AI_GENERATED:
         return <Tag value="IA Zen" severity="info" className="bg-blue-100 text-blue-700" icon="pi pi-android" />;
@@ -120,7 +84,7 @@ const Feedbacks: React.FC = () => {
       case FeedbackType.PEER_REVIEW:
         return <Tag value="Pares" severity="warning" className="bg-yellow-100 text-yellow-700" icon="pi pi-users" />;
       default:
-        return <Tag value="Desconhecido" severity="secondary" />;
+        return <Tag value="Desconhecido" severity="info" />;
     }
   };
 
@@ -131,10 +95,35 @@ const Feedbacks: React.FC = () => {
     { label: 'Revisão de Pares', value: FeedbackType.PEER_REVIEW },
   ];
 
-  const filteredFeedbacks = mockFeedbacks.filter(feedback => {
+  const dateBodyTemplate = (feedback: FeedbackWithEssayTitle) => {
+    return (
+      <div className="text-center">
+        <div className="font-medium">
+          {format(new Date(feedback.createdAt), 'dd/MM/yyyy', { locale: ptBR })}
+        </div>
+        <div className="text-sm text-gray-500">
+          {format(new Date(feedback.createdAt), 'HH:mm', { locale: ptBR })}
+        </div>
+      </div>
+    );
+  };
+
+  const actionBodyTemplate = (feedback: FeedbackWithEssayTitle) => {
+    return (
+      <div className="flex items-center justify-center gap-3">
+        <i
+          className="pi pi-eye text-orange-500 text-xl cursor-pointer hover:text-orange-600 transition-colors"
+          title="Ver Detalhes"
+          onClick={() => navigate(`/essays/${feedback.essayId}/feedback`)}
+        />
+      </div>
+    );
+  };
+
+  const filteredFeedbacks = feedbacks.filter(feedback => {
     const matchesFilter = globalFilter
-      ? feedback.essayTitle.toLowerCase().includes(globalFilter.toLowerCase()) ||
-      feedback.generalFeedback.toLowerCase().includes(globalFilter.toLowerCase())
+      ? (feedback.essayTitle?.toLowerCase().includes(globalFilter.toLowerCase()) || false) ||
+      feedback.generalComment.toLowerCase().includes(globalFilter.toLowerCase())
       : true;
     const matchesType = selectedType ? feedback.type === selectedType : true;
     return matchesFilter && matchesType;
@@ -215,7 +204,7 @@ const Feedbacks: React.FC = () => {
                 sortable
                 style={{ minWidth: '100px', textAlign: 'center' }}
                 headerStyle={{ textAlign: 'center' }}
-                body={(feedback) => getScoreBadge(feedback.overallScore)}
+                body={(feedback) => getScoreBadge(feedback.overallScore || 0)}
               />
               <Column
                 field="generalComment"
@@ -224,7 +213,7 @@ const Feedbacks: React.FC = () => {
                 headerStyle={{ textAlign: 'center' }}
                 body={(feedback) => (
                   <div className="text-sm text-gray-700 truncate max-w-xs mx-auto">
-                    {feedback.generalComment}
+                    {feedback.generalComment || 'Sem comentário'}
                   </div>
                 )}
               />

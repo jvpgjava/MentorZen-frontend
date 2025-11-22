@@ -35,20 +35,36 @@ const App: React.FC = () => {
             duration: 4000,
             style: {
               background: '#fff',
-              color: '#333',
+              color: '#1f2937',
               border: '1px solid #e5e7eb',
-              borderRadius: '8px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              borderRadius: '12px',
+              boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
+              padding: '16px',
+              fontSize: '14px',
+              fontWeight: '500',
+              minWidth: '320px',
             },
             success: {
               iconTheme: {
                 primary: '#10B981',
                 secondary: '#fff',
               },
+              style: {
+                borderLeft: '4px solid #10B981',
+              },
             },
             error: {
               iconTheme: {
                 primary: '#EF4444',
+                secondary: '#fff',
+              },
+              style: {
+                borderLeft: '4px solid #EF4444',
+              },
+            },
+            loading: {
+              iconTheme: {
+                primary: '#f97316',
                 secondary: '#fff',
               },
             },

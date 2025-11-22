@@ -48,9 +48,9 @@ const Dashboard: React.FC = () => {
         });
       }
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error loading dashboard data:', error);
-      toast.error('Erro ao carregar dados do dashboard');
+      toast.error(error.message || 'Erro ao carregar dados do dashboard. Tente novamente.');
 
       setEssays([]);
       setRecentEssays([]);

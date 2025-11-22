@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from 'primereact/card';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -8,15 +8,34 @@ import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
 import { useNavigate } from 'react-router-dom';
 import { useEssayStore } from '@/store/essayStore';
-import { EssayStatus } from '@/types';
+import { EssayService } from '@/services/essayService';
+import { Essay, EssayStatus } from '@/types';
+import toast from 'react-hot-toast';
 
 const Drafts: React.FC = () => {
   const navigate = useNavigate();
-  const { essays, deleteEssay, isLoading } = useEssayStore();
+  const { setEssays, removeEssay } = useEssayStore();
   const [globalFilter, setGlobalFilter] = useState('');
-  const toast = React.useRef<Toast>(null);
+  const [drafts, setDrafts] = useState<Essay[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const toastRef = React.useRef<Toast>(null);
 
-  const drafts = essays.filter(essay => essay.status === EssayStatus.DRAFT);
+  useEffect(() => {
+    loadDrafts();
+  }, []);
+
+  const loadDrafts = async () => {
+    try {
+      setIsLoading(true);
+      const essays = await EssayService.getEssaysByStatus(EssayStatus.DRAFT);
+      setDrafts(essays);
+      setEssays(essays);
+    } catch (error: any) {
+      toast.error(error.message || 'Erro ao carregar rascunhos. Tente novamente.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const filteredDrafts = drafts.filter(essay => {
     return !globalFilter ||
@@ -80,12 +99,7 @@ const Drafts: React.FC = () => {
 
   const handleSubmitDraft = (essay: any) => {
     if (essay.wordCount < 10) {
-      toast.current?.show({
-        severity: 'warn',
-        summary: 'Atenção',
-        detail: 'A redação deve ter pelo menos 10 palavras para ser enviada para análise.',
-        life: 3000
-      });
+      toast.error('A redação deve ter pelo menos 10 palavras para ser enviada para análise.');
       return;
     }
 
@@ -104,22 +118,14 @@ const Drafts: React.FC = () => {
     });
   };
 
-  const handleDelete = async (essayId: string) => {
+  const handleDelete = async (essayId: number) => {
     try {
-      await deleteEssay(essayId);
-      toast.current?.show({
-        severity: 'success',
-        summary: 'Sucesso',
-        detail: 'Rascunho excluído com sucesso',
-        life: 3000
-      });
-    } catch (error) {
-      toast.current?.show({
-        severity: 'error',
-        summary: 'Erro',
-        detail: 'Erro ao excluir rascunho',
-        life: 3000
-      });
+      await EssayService.deleteEssay(essayId);
+      removeEssay(essayId);
+      setDrafts(drafts.filter(d => d.id !== essayId));
+      toast.success('Rascunho excluído com sucesso');
+    } catch (error: any) {
+      toast.error('Erro ao excluir rascunho: ' + (error.message || 'Erro desconhecido'));
     }
   };
 
@@ -134,7 +140,7 @@ const Drafts: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <Toast ref={toast} />
+      <Toast ref={toastRef} />
       <ConfirmDialog />
 
       <div className="flex items-center justify-between mb-8">
@@ -235,7 +241,7 @@ const Drafts: React.FC = () => {
                     <div className="w-full bg-gray-200 rounded-full h-1 mt-1 max-w-24 mx-auto">
                       <div
                         className={`h-1 rounded-full transition-all ${essay.wordCount < 150 ? 'bg-red-400' :
-                            essay.wordCount <= 400 ? 'bg-green-400' : 'bg-orange-400'
+                          essay.wordCount <= 400 ? 'bg-green-400' : 'bg-orange-400'
                           }`}
                         style={{ width: `${Math.min((essay.wordCount / 400) * 100, 100)}%` }}
                       ></div>

@@ -7,11 +7,14 @@ import { Dropdown } from 'primereact/dropdown';
 import { Message } from 'primereact/message';
 import { useNavigate } from 'react-router-dom';
 import { useEssayStore } from '@/store/essayStore';
+import { EssayService } from '@/services/essayService';
 import { EssayCreateRequest } from '@/types';
+import toast from 'react-hot-toast';
 
 const NewEssay: React.FC = () => {
   const navigate = useNavigate();
-  const { createEssay, isLoading } = useEssayStore();
+  const { addEssay } = useEssayStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState<Partial<EssayCreateRequest>>({
     title: '',
@@ -92,6 +95,7 @@ const NewEssay: React.FC = () => {
     }
 
     try {
+      setIsLoading(true);
       const essayData: EssayCreateRequest = {
         title: formData.title,
         theme: formData.theme || 'Sem tema definido',
@@ -99,10 +103,14 @@ const NewEssay: React.FC = () => {
         essayType: formData.essayType || 'ARGUMENTATIVE'
       };
 
-      await createEssay(essayData);
+      const essay = await EssayService.createEssay(essayData);
+      addEssay(essay);
+      toast.success('Rascunho salvo com sucesso');
       navigate('/essays/drafts');
-    } catch (error) {
-      console.error('Erro ao salvar rascunho:', error);
+    } catch (error: any) {
+      toast.error('Erro ao salvar rascunho: ' + (error.message || 'Erro desconhecido'));
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -110,17 +118,22 @@ const NewEssay: React.FC = () => {
     if (!validateForm()) return;
 
     try {
+      setIsLoading(true);
       const essayData: EssayCreateRequest = {
         title: formData.title!,
         theme: formData.theme!,
         content: formData.content!,
-        essayType: formData.essayType!
+        essayType: formData.essayType || 'ARGUMENTATIVE'
       };
 
-      const essay = await createEssay(essayData);
+      const essay = await EssayService.createEssay(essayData);
+      addEssay(essay);
+      toast.success('Redação enviada para análise');
       navigate(`/essays/${essay.id}/feedback`);
-    } catch (error) {
-      console.error('Erro ao enviar redação:', error);
+    } catch (error: any) {
+      toast.error('Erro ao enviar redação: ' + (error.message || 'Erro desconhecido'));
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -238,7 +251,7 @@ const NewEssay: React.FC = () => {
               <div className="w-full bg-gray-200 rounded-full h-3">
                 <div
                   className={`h-3 rounded-full transition-all duration-300 ${wordCount < 150 ? 'bg-red-400' :
-                      wordCount <= 400 ? 'bg-green-400' : 'bg-orange-400'
+                    wordCount <= 400 ? 'bg-green-400' : 'bg-orange-400'
                     }`}
                   style={{ width: `${Math.min((wordCount / 400) * 100, 100)}%` }}
                 ></div>

@@ -218,8 +218,7 @@ const Register: React.FC = () => {
         </div>
 
         <div className="mt-6 text-center text-sm text-gray-500">
-          <p>Hackathon Gemini for Education 2024</p>
-          <p>Equipe FloWrite</p>
+          <p className="text-orange-500">Equipe FloWrite</p>
         </div>
       </div>
     </div>

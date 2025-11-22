@@ -70,6 +70,7 @@ export interface EssayCreateRequest {
   title: string;
   theme: string;
   content: string;
+  essayType?: string;
 }
 
 export interface UserRegistrationRequest {
