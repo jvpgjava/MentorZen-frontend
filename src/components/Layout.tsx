@@ -237,16 +237,16 @@ const Layout: React.FC = () => {
         }}
       >
         <div className="flex flex-col h-full">
-          <div className="flex items-center gap-3 px-4 pt-6 pb-4 border-b border-gray-200">
-            <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0">
+          <div className="flex items-center gap-2 px-4 pt-6 pb-4 border-b border-gray-200">
+            <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-lg flex items-center justify-center flex-shrink-0">
               <img
-                src="/assets/zen-logo.png"
-                alt="Zen Logo"
-                className="w-16 h-16 object-contain"
+                src="/assets/robot2Icon.png"
+                alt="Zen Robot Icon"
+                className="w-20 h-20 lg:w-24 lg:h-24 object-contain"
               />
             </div>
             <div>
-              <div className="font-bold text-3xl bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+              <div className="font-bold text-3xl text-orange-500">
                 Zen
               </div>
             </div>

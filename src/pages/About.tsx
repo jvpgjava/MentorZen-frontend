@@ -24,11 +24,11 @@ const About: React.FC = () => {
   return (
     <div className="space-y-8">
       <div className="flex items-center gap-4 mb-8">
-        <div className="w-16 h-16 rounded-xl flex items-center justify-center">
+        <div className="w-24 h-24 lg:w-28 lg:h-28 rounded-xl flex items-center justify-center">
           <img
-            src="/assets/zen-logo.png"
-            alt="Zen Logo"
-            className="w-16 h-16 object-contain"
+            src="/assets/robotIcon.png"
+            alt="Zen Robot Icon"
+            className="w-24 h-24 lg:w-28 lg:h-28 object-contain"
           />
         </div>
         <div>
