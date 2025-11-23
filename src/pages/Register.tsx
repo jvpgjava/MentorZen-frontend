@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Dropdown } from 'primereact/dropdown';
 import { useAuthStore } from '@/store/authStore';
 import { RegisterRequest } from '@/services/authService';
 
@@ -15,20 +16,28 @@ const Register: React.FC = () => {
   const [errors, setErrors] = useState<Partial<RegisterRequest>>({});
 
   const schoolGrades = [
-    '1º Ano',
-    '2º Ano',
-    '3º Ano',
-    'Cursinho',
-    'Formado',
-    'Outro'
+    { label: 'Selecione sua série', value: '' },
+    { label: '1º Ano', value: '1º Ano' },
+    { label: '2º Ano', value: '2º Ano' },
+    { label: '3º Ano', value: '3º Ano' },
+    { label: 'Cursinho', value: 'Cursinho' },
+    { label: 'Formado', value: 'Formado' },
+    { label: 'Outro', value: 'Outro' }
   ];
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
 
     if (errors[name as keyof RegisterRequest]) {
       setErrors(prev => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const handleSchoolGradeChange = (value: string) => {
+    setFormData(prev => ({ ...prev, schoolGrade: value }));
+    if (errors.schoolGrade) {
+      setErrors(prev => ({ ...prev, schoolGrade: undefined }));
     }
   };
 
@@ -75,20 +84,31 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center zen-gradient py-8">
-      <div className="bg-white p-8 rounded-lg zen-shadow-lg max-w-md w-full">
+    <div
+      className="min-h-screen flex items-center justify-center py-8"
+      style={{
+        backgroundImage: 'url(/wallpaper-login/FundoLogin.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      <div className="bg-white p-8 rounded-lg shadow-2xl max-w-md w-full">
         <div className="text-center mb-6">
           <div className="flex items-center justify-center mb-4">
             <img
               src="/assets/zen-logo.png"
               alt="Zen Logo"
-              className="w-16 h-16 object-contain"
+              className="w-20 h-20 lg:w-24 lg:h-24 object-contain"
             />
           </div>
-          <h1 className="text-3xl font-bold zen-gradient-text mb-2">
-            Criar Conta
+          <h1 className="text-4xl lg:text-5xl font-bold zen-gradient-text mb-2">
+            Zen
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-lg">
+            Criar Conta
+          </p>
+          <p className="text-gray-500 text-sm mt-1">
             Junte-se ao Zen e melhore sua escrita
           </p>
         </div>
@@ -104,10 +124,11 @@ const Register: React.FC = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 ${errors.name ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-base ${errors.name ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="Seu nome completo"
               disabled={isLoading}
+              style={{ fontSize: '16px' }}
             />
             {errors.name && (
               <p className="text-red-500 text-sm mt-1">{errors.name}</p>
@@ -124,10 +145,11 @@ const Register: React.FC = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 ${errors.email ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-base ${errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="seu@email.com"
               disabled={isLoading}
+              style={{ fontSize: '16px' }}
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -144,10 +166,11 @@ const Register: React.FC = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 ${errors.password ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-base ${errors.password ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="Mínimo 6 caracteres"
               disabled={isLoading}
+              style={{ fontSize: '16px' }}
             />
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">{errors.password}</p>
@@ -158,19 +181,16 @@ const Register: React.FC = () => {
             <label htmlFor="schoolGrade" className="block text-sm font-medium text-gray-700 mb-1">
               Série/Ano (Opcional)
             </label>
-            <select
-              id="schoolGrade"
-              name="schoolGrade"
+            <Dropdown
               value={formData.schoolGrade}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+              options={schoolGrades}
+              onChange={(e) => handleSchoolGradeChange(e.value)}
+              placeholder="Selecione sua série"
+              className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg custom-dropdown"
+              panelClassName="text-base"
+              inputStyle={{ fontSize: '16px' }}
               disabled={isLoading}
-            >
-              <option value="">Selecione sua série</option>
-              {schoolGrades.map(grade => (
-                <option key={grade} value={grade}>{grade}</option>
-              ))}
-            </select>
+            />
           </div>
 
           <div>
@@ -183,10 +203,11 @@ const Register: React.FC = () => {
               value={formData.studyGoals}
               onChange={handleChange}
               rows={3}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none ${errors.studyGoals ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none text-base ${errors.studyGoals ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="Ex: Passar no ENEM, melhorar redação..."
               disabled={isLoading}
+              style={{ fontSize: '16px' }}
             />
             {errors.studyGoals && (
               <p className="text-red-500 text-sm mt-1">{errors.studyGoals}</p>

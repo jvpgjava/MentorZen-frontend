@@ -60,7 +60,7 @@ const Login: React.FC = () => {
         backgroundRepeat: 'no-repeat'
       }}
     >
-      <div className="bg-white p-8 rounded-lg shadow-2xl max-w-md w-full backdrop-blur-sm bg-opacity-95">
+      <div className="bg-white p-8 rounded-lg shadow-2xl max-w-md w-full">
         <div className="text-center mb-6">
           <div className="flex items-center justify-center mb-4">
             <img
@@ -88,10 +88,11 @@ const Login: React.FC = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 ${errors.email ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-base ${errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="seu@email.com"
               disabled={isLoading}
+              style={{ fontSize: '16px' }}
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -108,10 +109,11 @@ const Login: React.FC = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 ${errors.password ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-base ${errors.password ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="Sua senha"
               disabled={isLoading}
+              style={{ fontSize: '16px' }}
             />
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">{errors.password}</p>

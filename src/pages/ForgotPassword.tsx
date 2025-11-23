@@ -49,13 +49,21 @@ const ForgotPassword: React.FC = () => {
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center zen-gradient">
-        <div className="bg-white p-8 rounded-lg zen-shadow-lg max-w-md w-full text-center">
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{
+          backgroundImage: 'url(/wallpaper-login/FundoLogin.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="bg-white p-8 rounded-lg shadow-2xl max-w-md w-full text-center">
           <div className="flex items-center justify-center mb-4">
             <img
               src="/assets/zen-logo.png"
               alt="Zen Logo"
-              className="w-16 h-16 object-contain"
+              className="w-20 h-20 lg:w-24 lg:h-24 object-contain"
             />
           </div>
 
@@ -106,20 +114,31 @@ const ForgotPassword: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center zen-gradient">
-      <div className="bg-white p-8 rounded-lg zen-shadow-lg max-w-md w-full">
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={{
+        backgroundImage: 'url(/wallpaper-login/FundoLogin.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      <div className="bg-white p-8 rounded-lg shadow-2xl max-w-md w-full">
         <div className="text-center mb-6">
           <div className="flex items-center justify-center mb-4">
             <img
               src="/assets/zen-logo.png"
               alt="Zen Logo"
-              className="w-16 h-16 object-contain"
+              className="w-20 h-20 lg:w-24 lg:h-24 object-contain"
             />
           </div>
-          <h1 className="text-3xl font-bold zen-gradient-text mb-2">
-            Recuperar Senha
+          <h1 className="text-4xl lg:text-5xl font-bold zen-gradient-text mb-2">
+            Zen
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-lg">
+            Recuperar Senha
+          </p>
+          <p className="text-gray-500 text-sm mt-1">
             Digite seu email para receber o link de recuperação
           </p>
         </div>
@@ -135,10 +154,11 @@ const ForgotPassword: React.FC = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 ${errors.email ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-base ${errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="seu@email.com"
               disabled={isLoading}
+              style={{ fontSize: '16px' }}
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">{errors.email}</p>

@@ -4,7 +4,6 @@ import { Button } from 'primereact/button';
 import { Chart } from 'primereact/chart';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Badge } from 'primereact/badge';
 import { Avatar } from 'primereact/avatar';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
@@ -139,6 +138,7 @@ const Dashboard: React.FC = () => {
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
             <Avatar
+              key={user?.profilePictureUrl || 'avatar-dashboard'}
               image={user?.profilePictureUrl ? `http://localhost:8080${user.profilePictureUrl}` : undefined}
               label={!user?.profilePictureUrl ? user?.name?.charAt(0).toUpperCase() : undefined}
               className={!user?.profilePictureUrl ? "bg-white text-orange-500 shadow-lg border-2 border-white" : "bg-white shadow-lg border-2 border-white"}
@@ -349,10 +349,9 @@ const Dashboard: React.FC = () => {
                 field="wordCount"
                 header="Palavras"
                 body={(essay) => (
-                  <Badge
-                    value={essay.wordCount}
-                    className="bg-gray-100 text-gray-700"
-                  />
+                  <span className="text-gray-700 font-semibold">
+                    {essay.wordCount || 0}
+                  </span>
                 )}
               />
               <Column

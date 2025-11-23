@@ -161,6 +161,7 @@ const Layout: React.FC = () => {
           }}
         >
           <Avatar
+            key={user?.profilePictureUrl || 'avatar-header'}
             image={user?.profilePictureUrl ? `http://localhost:8080${user.profilePictureUrl}` : undefined}
             label={!user?.profilePictureUrl ? user?.name?.charAt(0).toUpperCase() : undefined}
             className="bg-gradient-to-br from-orange-500 to-orange-600 text-white shadow-sm"

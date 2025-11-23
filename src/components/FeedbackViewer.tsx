@@ -89,17 +89,6 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
           </h3>
         </div>
       </div>
-
-      {feedback.overallScore && (
-        <div className="text-center">
-          <div className="text-3xl font-bold text-white">
-            {feedback.overallScore}
-          </div>
-          <div className="text-white text-opacity-80 text-sm">
-            / 1000
-          </div>
-        </div>
-      )}
     </div>
   );
 

@@ -4,8 +4,6 @@ import { Card } from 'primereact/card';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
-import { Badge } from 'primereact/badge';
-import { Tag } from 'primereact/tag';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { Skeleton } from 'primereact/skeleton';
@@ -61,32 +59,35 @@ const Feedbacks: React.FC = () => {
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 800) return 'success';
-    if (score >= 600) return 'warning';
-    if (score >= 400) return 'info';
-    return 'danger';
+    if (score >= 800) return 'text-green-600';
+    if (score >= 600) return 'text-orange-600';
+    if (score >= 400) return 'text-yellow-600';
+    return 'text-red-600';
   };
 
-  const getScoreBadge = (score: number) => {
-    return (
-      <Badge
-        value={score}
-        severity={getScoreColor(score)}
-        className="text-sm font-medium"
-      />
-    );
-  };
-
-  const getFeedbackTypeBadge = (type: FeedbackType) => {
+  const getFeedbackTypeText = (type: FeedbackType) => {
     switch (type) {
       case FeedbackType.AI_GENERATED:
-        return <Tag value="IA Zen" severity="info" className="bg-blue-100 text-blue-700" icon="pi pi-android" />;
+        return 'IA Zen';
       case FeedbackType.HUMAN_REVIEW:
-        return <Tag value="Humano" severity="success" className="bg-green-100 text-green-700" icon="pi pi-user" />;
+        return 'Humano';
       case FeedbackType.PEER_REVIEW:
-        return <Tag value="Pares" severity="warning" className="bg-yellow-100 text-yellow-700" icon="pi pi-users" />;
+        return 'Pares';
       default:
-        return <Tag value="Desconhecido" severity="info" />;
+        return 'Desconhecido';
+    }
+  };
+
+  const getFeedbackTypeColor = (type: FeedbackType) => {
+    switch (type) {
+      case FeedbackType.AI_GENERATED:
+        return 'text-blue-600';
+      case FeedbackType.HUMAN_REVIEW:
+        return 'text-green-600';
+      case FeedbackType.PEER_REVIEW:
+        return 'text-yellow-600';
+      default:
+        return 'text-gray-600';
     }
   };
 
@@ -99,8 +100,8 @@ const Feedbacks: React.FC = () => {
 
   const dateBodyTemplate = (feedback: FeedbackWithEssayTitle) => {
     return (
-      <div className="text-center">
-        <div className="font-medium">
+      <div>
+        <div className="font-medium text-gray-700">
           {format(new Date(feedback.createdAt), 'dd/MM/yyyy', { locale: ptBR })}
         </div>
         <div className="text-sm text-gray-500">
@@ -112,12 +113,12 @@ const Feedbacks: React.FC = () => {
 
   const actionBodyTemplate = (feedback: FeedbackWithEssayTitle) => {
     return (
-      <div className="flex items-center justify-center gap-3">
+      <div className="flex gap-3 justify-center">
         <i
-          className="pi pi-eye text-orange-500 text-xl cursor-pointer hover:text-orange-600 transition-colors"
-          title="Ver Detalhes"
+          className="pi pi-eye text-xl text-orange-500 hover:text-orange-600 cursor-pointer transition-colors"
           onClick={() => navigate(`/essays/${feedback.essayId}/feedback`)}
-        />
+          title="Visualizar"
+        ></i>
       </div>
     );
   };
@@ -132,24 +133,29 @@ const Feedbacks: React.FC = () => {
   });
 
   const header = (
-    <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-      <span className="p-input-icon-left w-full md:w-auto">
-        <i className="pi pi-search" />
-        <InputText
-          type="search"
-          value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          placeholder="Buscar feedback..."
-          className="w-full"
+    <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex-1">
+        <span className="p-input-icon-left w-full">
+          <i className="pi pi-search text-gray-400" />
+          <InputText
+            type="search"
+            value={globalFilter}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+            placeholder="Buscar feedback..."
+            className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg"
+          />
+        </span>
+      </div>
+      <div className="w-full md:w-48">
+        <Dropdown
+          value={selectedType}
+          options={typeOptions}
+          onChange={(e) => setSelectedType(e.value)}
+          placeholder="Filtrar por tipo"
+          className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg custom-dropdown"
+          panelClassName="text-base"
         />
-      </span>
-      <Dropdown
-        value={selectedType}
-        options={typeOptions}
-        onChange={(e) => setSelectedType(e.value)}
-        placeholder="Filtrar por tipo"
-        className="w-full md:w-auto"
-      />
+      </div>
     </div>
   );
 
@@ -158,14 +164,25 @@ const Feedbacks: React.FC = () => {
   }
 
   return (
-    <div className="p-fluid">
-      <Card className="shadow-lg border-0">
-        <div className="p-6">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <i className="pi pi-comments text-orange-500"></i>
-            Meus Feedbacks
-          </h2>
+    <div className="space-y-6">
+      <div className="flex items-center gap-4 mb-4">
+        <div className="flex items-center justify-center">
+          <img
+            src="/essay-icons/RedacoesAnalisadasIcon.png"
+            alt="Feedbacks"
+            className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
+          />
+        </div>
+        <div>
+          <h1 className="text-4xl font-bold text-green-600 mb-2">Meus Feedbacks</h1>
+          <p className="text-gray-600 text-lg">
+            Visualize todos os feedbacks das suas redações
+          </p>
+        </div>
+      </div>
 
+      <Card className="shadow-lg border-0 bg-white">
+        <div className="p-6">
           {filteredFeedbacks.length > 0 ? (
             <DataTable
               value={filteredFeedbacks}
@@ -181,8 +198,7 @@ const Feedbacks: React.FC = () => {
                 field="essayTitle"
                 header="Redação"
                 sortable
-                style={{ minWidth: '200px', textAlign: 'center' }}
-                headerStyle={{ textAlign: 'center' }}
+                style={{ minWidth: '200px' }}
                 body={(feedback) => (
                   <div className="font-medium text-gray-900">{feedback.essayTitle}</div>
                 )}
@@ -191,25 +207,30 @@ const Feedbacks: React.FC = () => {
                 field="type"
                 header="Tipo"
                 sortable
-                style={{ minWidth: '120px', textAlign: 'center' }}
-                headerStyle={{ textAlign: 'center' }}
-                body={(feedback) => getFeedbackTypeBadge(feedback.type)}
+                style={{ minWidth: '120px' }}
+                body={(feedback) => (
+                  <span className={`font-medium ${getFeedbackTypeColor(feedback.type)}`}>
+                    {getFeedbackTypeText(feedback.type)}
+                  </span>
+                )}
               />
               <Column
                 field="overallScore"
                 header="Nota"
                 sortable
-                style={{ minWidth: '100px', textAlign: 'center' }}
-                headerStyle={{ textAlign: 'center' }}
-                body={(feedback) => getScoreBadge(feedback.overallScore || 0)}
+                style={{ minWidth: '100px' }}
+                body={(feedback) => (
+                  <span className={`font-semibold ${getScoreColor(feedback.overallScore || 0)}`}>
+                    {feedback.overallScore || 0}
+                  </span>
+                )}
               />
               <Column
                 field="generalComment"
                 header="Comentário Geral"
-                style={{ minWidth: '250px', textAlign: 'center' }}
-                headerStyle={{ textAlign: 'center' }}
+                style={{ minWidth: '250px' }}
                 body={(feedback) => (
-                  <div className="text-sm text-gray-700 truncate max-w-xs mx-auto">
+                  <div className="text-sm text-gray-700">
                     {feedback.generalComment || 'Sem comentário'}
                   </div>
                 )}
@@ -218,22 +239,24 @@ const Feedbacks: React.FC = () => {
                 field="createdAt"
                 header="Data"
                 sortable
-                style={{ minWidth: '120px', textAlign: 'center' }}
-                headerStyle={{ textAlign: 'center' }}
+                style={{ minWidth: '120px' }}
                 body={dateBodyTemplate}
               />
               <Column
                 header="Ações"
-                style={{ minWidth: '120px', textAlign: 'center' }}
-                headerStyle={{ textAlign: 'center' }}
+                style={{ minWidth: '100px' }}
                 body={actionBodyTemplate}
               />
             </DataTable>
           ) : (
-            <div className="text-center py-8 text-gray-500">
-              <i className="pi pi-comment text-4xl mb-4"></i>
-              <p className="text-lg">Nenhum feedback encontrado.</p>
-              <p className="text-sm mt-2">Envie suas redações para análise e receba feedbacks personalizados!</p>
+            <div className="text-center py-12">
+              <img
+                src="/essay-icons/RedacoesAnalisadasIcon.png"
+                alt="Nenhum feedback"
+                className="w-24 h-24 mx-auto mb-4 opacity-50"
+              />
+              <p className="text-lg font-normal text-gray-500 opacity-50">Nenhum feedback encontrado.</p>
+              <p className="text-sm mt-2 text-gray-400">Envie suas redações para análise e receba feedbacks personalizados!</p>
             </div>
           )}
         </div>

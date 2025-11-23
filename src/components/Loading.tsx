@@ -50,7 +50,7 @@ const Loading: React.FC<LoadingProps> = ({ onComplete }) => {
   const pencilY = 167;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] py-12">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
       <div className="relative w-80 h-96">
         <svg
           className="w-full h-full"
