@@ -146,10 +146,10 @@ const Dashboard: React.FC = () => {
               shape="circle"
             />
             <div>
-              <h1 className="text-3xl font-bold">
+              <h1 className="text-3xl font-bold text-white">
                 Olá, {user?.name?.split(' ')[0]}!
               </h1>
-              <p className="text-orange-100 text-lg">
+              <p className="text-white text-opacity-90 text-lg">
                 Bem-vindo de volta ao Zen
               </p>
             </div>

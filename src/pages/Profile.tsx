@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Dropdown } from 'primereact/dropdown';
 import { useAuthStore } from '@/store/authStore';
@@ -13,6 +13,7 @@ const Profile: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'profile' | 'password' | 'danger'>('profile');
   const [isLoading, setIsLoading] = useState(false);
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const [profileData, setProfileData] = useState<UpdateProfileRequest>({
     name: user?.name || '',
@@ -113,9 +114,17 @@ const Profile: React.FC = () => {
 
     try {
       setIsUploadingPhoto(true);
+      setImageError(false);
       const updatedUser = await ProfileService.uploadProfilePicture(file);
 
-      updateUser(updatedUser);
+      // Atualizar o usuário completo, não apenas parcial
+      updateUser({
+        ...updatedUser,
+        profilePictureUrl: updatedUser.profilePictureUrl
+      });
+
+      // Forçar re-render da imagem
+      setImageError(false);
 
       showToast.success('Foto de perfil atualizada com sucesso');
     } catch (error: any) {
@@ -123,6 +132,9 @@ const Profile: React.FC = () => {
       showToast.error(message || 'Erro ao atualizar foto de perfil', 'Erro ao Atualizar Foto');
     } finally {
       setIsUploadingPhoto(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
@@ -142,12 +154,23 @@ const Profile: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    // Resetar erro de imagem quando a URL mudar
+    setImageError(false);
+  }, [user?.profilePictureUrl]);
+
   const getProfilePictureUrl = () => {
     if (user?.profilePictureUrl) {
       if (user.profilePictureUrl.startsWith('http')) {
         return user.profilePictureUrl;
       }
-      return `http://localhost:8080${user.profilePictureUrl}`;
+      // Garantir que a URL está completa e adicionar timestamp para evitar cache
+      const url = user.profilePictureUrl.startsWith('/')
+        ? user.profilePictureUrl
+        : `/${user.profilePictureUrl}`;
+      // Adicionar timestamp para forçar reload da imagem após upload
+      const separator = url.includes('?') ? '&' : '?';
+      return `http://localhost:8080${url}${separator}t=${Date.now()}`;
     }
     return null;
   };
@@ -171,22 +194,31 @@ const Profile: React.FC = () => {
           <div className="px-6 py-6 border-b border-gray-200">
             <div className="flex items-center space-x-6">
               <div className="relative">
-                <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
-                  {getProfilePictureUrl() ? (
+                {getProfilePictureUrl() && !imageError ? (
+                  <div className="relative">
                     <img
+                      key={user?.profilePictureUrl || 'avatar'}
                       src={getProfilePictureUrl()!}
                       alt="Foto de perfil"
-                      className="w-full h-full object-cover"
+                      className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
+                      onError={() => {
+                        console.error('Erro ao carregar imagem:', getProfilePictureUrl());
+                        setImageError(true);
+                      }}
+                      onLoad={() => {
+                        console.log('Imagem carregada com sucesso:', getProfilePictureUrl());
+                        setImageError(false);
+                      }}
                     />
-                  ) : (
-                    <div className="text-3xl font-bold text-white">
-                      {user?.name?.charAt(0)?.toUpperCase() || 'U'}
-                    </div>
-                  )}
-                </div>
-                {isUploadingPhoto && (
-                  <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                    {isUploadingPhoto && (
+                      <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center z-10">
+                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-3xl font-bold text-white border-4 border-white shadow-lg">
+                    {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                   </div>
                 )}
               </div>
