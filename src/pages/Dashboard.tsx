@@ -15,6 +15,7 @@ import { Essay, EssayStatus, UserStats } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { showToast } from '@/utils/toast';
+import Loading from '@/components/Loading';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const Dashboard: React.FC = () => {
   const [userStats, setUserStats] = useState<UserStats | null>(null);
   const [recentEssays, setRecentEssays] = useState<Essay[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
     loadDashboardData();
@@ -127,21 +129,8 @@ const Dashboard: React.FC = () => {
     cutout: '60%'
   };
 
-  if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <div className="bg-gray-200 animate-pulse rounded-2xl h-48"></div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map(i => (
-            <div key={i} className="bg-gray-200 animate-pulse rounded-xl h-32"></div>
-          ))}
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="bg-gray-200 animate-pulse rounded-xl h-96"></div>
-          <div className="lg:col-span-2 bg-gray-200 animate-pulse rounded-xl h-96"></div>
-        </div>
-      </div>
-    );
+  if (isLoading || !showContent) {
+    return <Loading onComplete={() => setShowContent(true)} />;
   }
 
   return (
@@ -182,9 +171,9 @@ const Dashboard: React.FC = () => {
               <p className="text-2xl lg:text-3xl font-bold text-orange-600">{essayStats.total}</p>
             </div>
             <div className="stats-card-icon flex items-center justify-center">
-              <img 
-                src="/essay-icons/TodasRedacoesIcon.png" 
-                alt="Total de Redações" 
+              <img
+                src="/essay-icons/TodasRedacoesIcon.png"
+                alt="Total de Redações"
                 className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
               />
             </div>
@@ -198,9 +187,9 @@ const Dashboard: React.FC = () => {
               <p className="text-2xl lg:text-3xl font-bold text-green-600">{essayStats.analyzed}</p>
             </div>
             <div className="stats-card-icon flex items-center justify-center">
-              <img 
-                src="/essay-icons/RedacoesAnalisadasIcon.png" 
-                alt="Redações Analisadas" 
+              <img
+                src="/essay-icons/RedacoesAnalisadasIcon.png"
+                alt="Redações Analisadas"
                 className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
               />
             </div>
@@ -216,9 +205,9 @@ const Dashboard: React.FC = () => {
               </p>
             </div>
             <div className="stats-card-icon flex items-center justify-center">
-              <img 
-                src="/essay-icons/NotaMediaIcon.png" 
-                alt="Nota Média" 
+              <img
+                src="/essay-icons/NotaMediaIcon.png"
+                alt="Nota Média"
                 className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
               />
             </div>
@@ -232,9 +221,9 @@ const Dashboard: React.FC = () => {
               <p className="text-2xl lg:text-3xl font-bold text-blue-600">{essayStats.drafts}</p>
             </div>
             <div className="stats-card-icon flex items-center justify-center">
-              <img 
-                src="/essay-icons/RascunhosIcon.png" 
-                alt="Rascunhos" 
+              <img
+                src="/essay-icons/RascunhosIcon.png"
+                alt="Rascunhos"
                 className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
               />
             </div>
@@ -410,9 +399,9 @@ const Dashboard: React.FC = () => {
           ) : (
             <div className="text-center py-12">
               <div className="flex items-center justify-center mx-auto mb-6">
-                <img 
-                  src="/essay-icons/TodasRedacoesIcon.png" 
-                  alt="Redações" 
+                <img
+                  src="/essay-icons/TodasRedacoesIcon.png"
+                  alt="Redações"
                   className="w-24 h-24 lg:w-28 lg:h-28 object-contain opacity-50"
                 />
               </div>

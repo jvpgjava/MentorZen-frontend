@@ -15,6 +15,7 @@ import { ptBR } from 'date-fns/locale';
 import { showToast } from '@/utils/toast';
 import { FeedbackService } from '@/services/feedbackService';
 import { EssayService } from '@/services/essayService';
+import Loading from '@/components/Loading';
 
 interface FeedbackWithEssayTitle extends Feedback {
   essayTitle?: string;
@@ -24,7 +25,8 @@ const Feedbacks: React.FC = () => {
   const navigate = useNavigate();
   const [globalFilter, setGlobalFilter] = useState<string>('');
   const [selectedType, setSelectedType] = useState<FeedbackType | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showContent, setShowContent] = useState(false);
   const [feedbacks, setFeedbacks] = useState<FeedbackWithEssayTitle[]>([]);
 
   useEffect(() => {
@@ -151,13 +153,8 @@ const Feedbacks: React.FC = () => {
     </div>
   );
 
-  if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <Skeleton height="3rem" className="mb-4" />
-        <Skeleton height="20rem" />
-      </div>
-    );
+  if (isLoading || !showContent) {
+    return <Loading onComplete={() => setShowContent(true)} />;
   }
 
   return (

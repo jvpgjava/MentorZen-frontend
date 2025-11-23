@@ -9,6 +9,7 @@ import { useEssayStore } from '@/store/essayStore';
 import { EssayService } from '@/services/essayService';
 import { Essay, EssayStatus } from '@/types';
 import { showToast } from '@/utils/toast';
+import Loading from '@/components/Loading';
 
 const Drafts: React.FC = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Drafts: React.FC = () => {
   const [globalFilter, setGlobalFilter] = useState('');
   const [drafts, setDrafts] = useState<Essay[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
     loadDrafts();
@@ -126,13 +128,8 @@ const Drafts: React.FC = () => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <div className="bg-gray-200 animate-pulse rounded-2xl h-24"></div>
-        <div className="bg-gray-200 animate-pulse rounded-xl h-96"></div>
-      </div>
-    );
+  if (isLoading || !showContent) {
+    return <Loading onComplete={() => setShowContent(true)} />;
   }
 
   return (

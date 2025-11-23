@@ -12,6 +12,7 @@ import { ptBR } from 'date-fns/locale';
 import { EssayService } from '@/services/essayService';
 import { FeedbackService } from '@/services/feedbackService';
 import { showToast } from '@/utils/toast';
+import Loading from '@/components/Loading';
 
 interface EssayWithScore extends Essay {
   score?: number;
@@ -20,7 +21,8 @@ interface EssayWithScore extends Essay {
 const AnalyzedEssays: React.FC = () => {
   const navigate = useNavigate();
   const [globalFilter, setGlobalFilter] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showContent, setShowContent] = useState(false);
   const [analyzedEssays, setAnalyzedEssays] = useState<EssayWithScore[]>([]);
 
   useEffect(() => {
@@ -136,13 +138,8 @@ const AnalyzedEssays: React.FC = () => {
     </div>
   );
 
-  if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <Skeleton height="3rem" className="mb-4" />
-        <Skeleton height="20rem" />
-      </div>
-    );
+  if (isLoading || !showContent) {
+    return <Loading onComplete={() => setShowContent(true)} />;
   }
 
   return (

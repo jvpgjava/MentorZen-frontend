@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { EssayService } from '@/services/essayService';
 import { Essay, EssayStatus } from '@/types';
 import { showToast } from '@/utils/toast';
+import Loading from '@/components/Loading';
 
 const AllEssays: React.FC = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const AllEssays: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<EssayStatus | null>(null);
   const [essays, setEssays] = useState<Essay[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
     loadEssays();
@@ -116,13 +118,8 @@ const AllEssays: React.FC = () => {
     );
   };
 
-  if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <div className="bg-gray-200 animate-pulse rounded-2xl h-24"></div>
-        <div className="bg-gray-200 animate-pulse rounded-xl h-96"></div>
-      </div>
-    );
+  if (isLoading || !showContent) {
+    return <Loading onComplete={() => setShowContent(true)} />;
   }
 
   return (
