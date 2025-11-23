@@ -27,11 +27,32 @@ export class EssayService {
     page = 0,
     size = 10,
     sortBy = 'updatedAt',
-    sortDir = 'desc'
+    sortDir = 'desc',
+    status?: EssayStatus,
+    keyword?: string,
+    date?: Date
   ): Promise<PageResponse<Essay>> {
-    return apiClient.get<PageResponse<Essay>>(
-      `/essays?page=${page}&size=${size}&sortBy=${sortBy}&sortDir=${sortDir}`
-    );
+    const params = new URLSearchParams({
+      page: page.toString(),
+      size: size.toString(),
+      sortBy,
+      sortDir,
+    });
+    
+    if (status) {
+      params.append('status', status);
+    }
+    
+    if (keyword && keyword.trim()) {
+      params.append('keyword', keyword.trim());
+    }
+    
+    if (date) {
+      const dateStr = date.toISOString().split('T')[0];
+      params.append('date', dateStr);
+    }
+    
+    return apiClient.get<PageResponse<Essay>>(`/essays?${params.toString()}`);
   }
 
   static async getEssaysByStatus(status: EssayStatus): Promise<Essay[]> {

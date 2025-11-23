@@ -15,8 +15,8 @@ import NewEssay from '@/pages/NewEssay';
 import Drafts from '@/pages/Drafts';
 import Feedbacks from '@/pages/Feedbacks';
 import AnalyzedEssays from '@/pages/AnalyzedEssays';
-import EssayEditor from '@/components/EssayEditor';
-import FeedbackViewer from '@/components/FeedbackViewer';
+import EditEssay from '@/pages/EditEssay';
+import EssayFeedback from '@/pages/EssayFeedback';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuthStore();
@@ -77,9 +77,8 @@ const App: React.FC = () => {
             <Route path="essays/new" element={<NewEssay />} />
             <Route path="essays/drafts" element={<Drafts />} />
             <Route path="essays/analyzed" element={<AnalyzedEssays />} />
-            <Route path="essays/:id" element={<EssayEditor />} />
-            <Route path="essays/:id/edit" element={<EssayEditor />} />
-            <Route path="essays/:id/feedback" element={<FeedbackViewer />} />
+            <Route path="essays/:id/edit" element={<EditEssay />} />
+            <Route path="essays/:id/feedback" element={<EssayFeedback />} />
             <Route path="feedbacks" element={<Feedbacks />} />
           </Route>
 

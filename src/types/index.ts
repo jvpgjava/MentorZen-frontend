@@ -23,6 +23,7 @@ export interface Essay {
   theme: string;
   content: string;
   status: EssayStatus;
+  essayType?: string;
   wordCount?: number;
   createdAt: string;
   updatedAt: string;
@@ -52,6 +53,13 @@ export interface Feedback {
   competence3Comment?: string;
   competence4Comment?: string;
   competence5Comment?: string;
+  competence1Detailed?: string;
+  competence2Detailed?: string;
+  competence3Detailed?: string;
+  competence4Detailed?: string;
+  competence5Detailed?: string;
+  lineErrors?: string;
+  webResearchContext?: string;
   suggestions?: string;
   positivePoints?: string;
   type: FeedbackType;

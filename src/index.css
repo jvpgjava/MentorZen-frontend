@@ -461,8 +461,8 @@ h6 {
 }
 
 .custom-datatable .p-datatable-thead>tr>th {
-  background: #f8fafc !important;
-  border-bottom: 2px solid #e2e8f0 !important;
+  background: #ffffff !important;
+  border-bottom: 2px solid #e5e7eb !important;
   color: #374151 !important;
   font-weight: 600;
   font-size: 0.875rem;
@@ -474,9 +474,9 @@ h6 {
 }
 
 .custom-datatable .p-datatable-tbody>tr:hover {
-  background: #fef7ed !important;
+  background: #fff7ed !important;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.08);
 }
 
 .custom-datatable .p-datatable-tbody>tr>td {
@@ -1017,4 +1017,31 @@ h6 {
 
 .p-button.bg-gradient-to-r.from-orange-500.to-orange-600 .p-button-icon {
   color: white !important;
+}
+
+.p-calendar {
+  width: 100% !important;
+}
+
+.p-calendar .p-inputtext {
+  border: 2px solid #d1d5db !important;
+  border-radius: 0.75rem !important;
+  padding: 0.75rem 1rem 0.75rem 2.5rem !important;
+  font-size: 1rem !important;
+  height: 48px !important;
+  transition: all 0.2s ease !important;
+}
+
+.p-calendar .p-inputtext:focus {
+  border-color: #f97316 !important;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1) !important;
+  outline: none !important;
+}
+
+.p-calendar .p-inputtext:hover {
+  border-color: #f97316 !important;
+}
+
+.p-calendar .p-datepicker-trigger {
+  display: none !important;
 }

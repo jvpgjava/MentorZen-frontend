@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card } from 'primereact/card';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
+import { Calendar } from 'primereact/calendar';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { useNavigate } from 'react-router-dom';
 import { useEssayStore } from '@/store/essayStore';
@@ -14,33 +15,66 @@ import Loading from '@/components/Loading';
 const Drafts: React.FC = () => {
   const navigate = useNavigate();
   const { setEssays, removeEssay } = useEssayStore();
-  const [globalFilter, setGlobalFilter] = useState('');
+  const [searchFilter, setSearchFilter] = useState('');
+  const [dateFilter, setDateFilter] = useState<Date | null>(null);
   const [drafts, setDrafts] = useState<Essay[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showContent, setShowContent] = useState(false);
+  const [totalElements, setTotalElements] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const [sortField, setSortField] = useState('updatedAt');
+  const [sortOrder, setSortOrder] = useState<-1 | 0 | 1>(-1);
 
-  useEffect(() => {
-    loadDrafts();
-  }, []);
-
-  const loadDrafts = async () => {
+  const loadDrafts = useCallback(async (page = 0, size = 10, sortBy = 'updatedAt', sortDir = 'desc', keyword?: string, date?: Date | null) => {
     try {
       setIsLoading(true);
-      const essays = await EssayService.getEssaysByStatus(EssayStatus.DRAFT);
-      setDrafts(essays);
-      setEssays(essays);
+      const response = await EssayService.getUserEssays(
+        page,
+        size,
+        sortBy,
+        sortDir,
+        EssayStatus.DRAFT,
+        keyword || undefined,
+        date || undefined
+      );
+      setDrafts(response.content || []);
+      setTotalElements(response.totalElements || 0);
+      setCurrentPage(page);
+      setEssays(response.content || []);
     } catch (error: any) {
       showToast.error(error.message || 'Erro ao carregar rascunhos. Tente novamente.', 'Erro ao Carregar');
     } finally {
       setIsLoading(false);
     }
+  }, [setEssays]);
+
+  useEffect(() => {
+    loadDrafts(0, pageSize, sortField, sortOrder === -1 ? 'desc' : 'asc', searchFilter, dateFilter);
+  }, [dateFilter, pageSize, sortField, sortOrder, loadDrafts]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      loadDrafts(0, pageSize, sortField, sortOrder === -1 ? 'desc' : 'asc', searchFilter, dateFilter);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchFilter, loadDrafts, pageSize, sortField, sortOrder, dateFilter]);
+
+  const handlePageChange = (event: any) => {
+    const newPage = event.page;
+    const newSize = event.rows;
+    setPageSize(newSize);
+    loadDrafts(newPage, newSize, sortField, sortOrder === -1 ? 'desc' : 'asc', searchFilter, dateFilter);
   };
 
-  const filteredDrafts = drafts.filter(essay => {
-    return !globalFilter ||
-      essay.title.toLowerCase().includes(globalFilter.toLowerCase()) ||
-      essay.theme.toLowerCase().includes(globalFilter.toLowerCase());
-  });
+  const handleSort = (event: any) => {
+    const newSortField = event.sortField;
+    const newSortOrder = event.sortOrder;
+    setSortField(newSortField);
+    setSortOrder(newSortOrder);
+    loadDrafts(currentPage, pageSize, newSortField, newSortOrder === -1 ? 'desc' : 'asc', searchFilter, dateFilter);
+  };
 
   const actionBodyTemplate = (essay: any) => {
     return (
@@ -80,20 +114,10 @@ const Drafts: React.FC = () => {
     );
   };
 
-  const wordCountBodyTemplate = (essay: any) => {
-    const getWordCountColor = (count: number) => {
-      if (count < 150) return 'text-red-500';
-      if (count <= 400) return 'text-green-500';
-      return 'text-orange-500';
-    };
-
-    return (
-      <div className="text-center">
-        <span className={`font-medium ${getWordCountColor(essay.wordCount)}`}>
-          {essay.wordCount} palavras
-        </span>
-      </div>
-    );
+  const getWordCountColor = (count: number) => {
+    if (count < 150) return 'text-red-500';
+    if (count <= 400) return 'text-green-500';
+    return 'text-orange-500';
   };
 
   const handleSubmitDraft = (essay: any) => {
@@ -148,34 +172,43 @@ const Drafts: React.FC = () => {
           <div>
             <h1 className="text-4xl font-bold text-blue-600 mb-2">Meus Rascunhos</h1>
             <p className="text-blue-500 text-lg font-medium">
-              Continue trabalhando em suas redações salvas ({drafts.length} rascunhos)
+              Continue trabalhando em suas redações salvas
             </p>
           </div>
         </div>
       </div>
 
-      {drafts.length > 0 && (
-        <Card className="shadow-lg border-0">
-          <div className="p-4">
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-              <div className="flex-1">
-                <span className="p-input-icon-left w-full">
-                  <i className="pi pi-search" />
-                  <InputText
-                    placeholder="Buscar rascunhos por título ou tema..."
-                    value={globalFilter}
-                    onChange={(e) => setGlobalFilter(e.target.value)}
-                    className="w-full"
-                  />
-                </span>
-              </div>
-              <div className="text-sm text-gray-600">
-                {filteredDrafts.length} de {drafts.length} rascunhos
-              </div>
+      <Card className="shadow-lg border-0 bg-white">
+        <div className="p-6">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1">
+              <span className="p-input-icon-left w-full">
+                <i className="pi pi-search text-gray-400" />
+                <InputText
+                  placeholder="Buscar por título ou tema..."
+                  value={searchFilter}
+                  onChange={(e) => setSearchFilter(e.target.value)}
+                  className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg"
+                />
+              </span>
+            </div>
+            <div className="w-full md:w-48">
+              <span className="p-input-icon-left w-full">
+                <i className="pi pi-calendar text-gray-400" />
+                <Calendar
+                  value={dateFilter}
+                  onChange={(e) => setDateFilter(e.value as Date | null)}
+                  placeholder="Filtrar por data"
+                  dateFormat="dd/mm/yy"
+                  className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg"
+                  inputClassName="w-full h-12 text-base pl-10"
+                  panelClassName="text-base"
+                />
+              </span>
             </div>
           </div>
-        </Card>
-      )}
+        </div>
+      </Card>
 
       {drafts.length === 0 ? (
         <Card className="shadow-lg border-0">
@@ -199,26 +232,32 @@ const Drafts: React.FC = () => {
         <Card className="shadow-lg border-0">
           <div className="p-0">
             <DataTable
-              value={filteredDrafts}
+              value={drafts}
               paginator
-              rows={10}
-              rowsPerPageOptions={[5, 10, 25]}
+              rows={pageSize}
+              rowsPerPageOptions={[5, 10, 25, 50]}
+              totalRecords={totalElements}
+              first={currentPage * pageSize}
+              onPage={handlePageChange}
+              onSort={handleSort}
+              sortField={sortField}
+              sortOrder={sortOrder}
               responsiveLayout="scroll"
               emptyMessage="Nenhum rascunho encontrado"
               className="custom-datatable"
-              sortField="updatedAt"
-              sortOrder={-1}
+              loading={isLoading}
+              paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+              currentPageReportTemplate="{first} a {last} de {totalRecords}"
             >
               <Column
                 field="title"
                 header="Título"
                 sortable
-                style={{ minWidth: '200px', textAlign: 'center' }}
-                headerStyle={{ textAlign: 'center' }}
+                style={{ minWidth: '250px' }}
                 body={(essay) => (
-                  <div className="text-center">
-                    <div className="font-medium text-gray-900 mb-1">{essay.title}</div>
-                    <div className="text-sm text-gray-500 truncate max-w-xs mx-auto">
+                  <div className="py-2">
+                    <div className="font-semibold text-gray-900 mb-1 text-base">{essay.title}</div>
+                    <div className="text-sm text-gray-500 line-clamp-2">
                       {essay.theme}
                     </div>
                   </div>
@@ -228,18 +267,21 @@ const Drafts: React.FC = () => {
                 field="wordCount"
                 header="Progresso"
                 sortable
-                style={{ minWidth: '140px', textAlign: 'center' }}
-                headerStyle={{ textAlign: 'center' }}
+                style={{ minWidth: '140px', width: '140px' }}
                 body={(essay) => (
-                  <div className="text-center">
-                    {wordCountBodyTemplate(essay)}
-                    <div className="w-full bg-gray-200 rounded-full h-1 mt-1 max-w-24 mx-auto">
-                      <div
-                        className={`h-1 rounded-full transition-all ${essay.wordCount < 150 ? 'bg-red-400' :
-                          essay.wordCount <= 400 ? 'bg-green-400' : 'bg-orange-400'
-                          }`}
-                        style={{ width: `${Math.min((essay.wordCount / 400) * 100, 100)}%` }}
-                      ></div>
+                  <div className="flex items-center justify-center py-2">
+                    <div className="text-center">
+                      <span className={`font-semibold ${getWordCountColor(essay.wordCount)}`}>
+                        {essay.wordCount || 0} palavras
+                      </span>
+                      <div className="w-full bg-gray-200 rounded-full h-1 mt-1 max-w-24 mx-auto">
+                        <div
+                          className={`h-1 rounded-full transition-all ${essay.wordCount < 150 ? 'bg-red-400' :
+                            essay.wordCount <= 400 ? 'bg-green-400' : 'bg-orange-400'
+                            }`}
+                          style={{ width: `${Math.min((essay.wordCount / 400) * 100, 100)}%` }}
+                        ></div>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -248,39 +290,41 @@ const Drafts: React.FC = () => {
                 field="updatedAt"
                 header="Última Modificação"
                 sortable
-                style={{ minWidth: '160px', textAlign: 'center' }}
-                headerStyle={{ textAlign: 'center' }}
-                body={dateBodyTemplate}
+                style={{ minWidth: '160px', width: '160px' }}
+                body={(essay) => (
+                  <div className="flex items-center justify-center py-2">
+                    <div className="text-center">
+                      <div className="font-medium text-gray-700">
+                        {new Date(essay.updatedAt).toLocaleDateString('pt-BR', {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: 'numeric'
+                        })}
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {new Date(essay.updatedAt).toLocaleTimeString('pt-BR', {
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
               />
               <Column
                 header="Ações"
-                style={{ minWidth: '140px', textAlign: 'center' }}
-                headerStyle={{ textAlign: 'center' }}
-                body={actionBodyTemplate}
+                style={{ minWidth: '140px', width: '140px' }}
+                body={(essay) => (
+                  <div className="flex items-center justify-center gap-3 py-2">
+                    {actionBodyTemplate(essay)}
+                  </div>
+                )}
               />
             </DataTable>
           </div>
         </Card>
       )}
 
-      {drafts.length > 0 && (
-        <Card className="shadow-lg border-0 bg-blue-50">
-          <div className="p-4">
-            <div className="flex items-start gap-3">
-              <i className="pi pi-lightbulb text-blue-500 text-xl mt-1"></i>
-              <div>
-                <h3 className="font-semibold text-blue-900 mb-2">💡 Dicas para seus rascunhos</h3>
-                <ul className="text-sm text-blue-800 space-y-1">
-                  <li>• Rascunhos são salvos automaticamente enquanto você escreve</li>
-                  <li>• Redações com menos de 150 palavras precisam ser expandidas</li>
-                  <li>• Você pode enviar rascunhos diretamente para análise quando estiverem prontos</li>
-                  <li>• Use rascunhos para experimentar diferentes abordagens do mesmo tema</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </Card>
-      )}
     </div>
   );
 };

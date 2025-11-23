@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card } from 'primereact/card';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -6,6 +6,7 @@ import { Button } from 'primereact/button';
 import { Badge } from 'primereact/badge';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
+import { Calendar } from 'primereact/calendar';
 import { useNavigate } from 'react-router-dom';
 import { EssayService } from '@/services/essayService';
 import { Essay, EssayStatus } from '@/types';
@@ -14,28 +15,51 @@ import Loading from '@/components/Loading';
 
 const AllEssays: React.FC = () => {
   const navigate = useNavigate();
-  const [globalFilter, setGlobalFilter] = useState('');
+  const [searchFilter, setSearchFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState<EssayStatus | null>(null);
+  const [dateFilter, setDateFilter] = useState<Date | null>(null);
   const [essays, setEssays] = useState<Essay[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showContent, setShowContent] = useState(false);
+  const [totalElements, setTotalElements] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const [sortField, setSortField] = useState('updatedAt');
+  const [sortOrder, setSortOrder] = useState<-1 | 0 | 1>(-1);
 
-  useEffect(() => {
-    loadEssays();
-  }, []);
-
-  const loadEssays = async () => {
+  const loadEssays = useCallback(async (page = 0, size = 10, sortBy = 'updatedAt', sortDir = 'desc', status?: EssayStatus | null, keyword?: string, date?: Date | null) => {
     try {
       setIsLoading(true);
-      const response = await EssayService.getUserEssays(0, 1000);
-      const allEssays = response.content || [];
-      setEssays(allEssays);
+      const response = await EssayService.getUserEssays(
+        page,
+        size,
+        sortBy,
+        sortDir,
+        status || undefined,
+        keyword || undefined,
+        date || undefined
+      );
+      setEssays(response.content || []);
+      setTotalElements(response.totalElements || 0);
+      setCurrentPage(page);
     } catch (error: any) {
       showToast.error(error.message || 'Erro ao carregar redações. Tente novamente.', 'Erro ao Carregar');
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadEssays(0, pageSize, sortField, sortOrder === -1 ? 'desc' : 'asc', statusFilter, searchFilter, dateFilter);
+  }, [statusFilter, dateFilter, pageSize, sortField, sortOrder, loadEssays]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      loadEssays(0, pageSize, sortField, sortOrder === -1 ? 'desc' : 'asc', statusFilter, searchFilter, dateFilter);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchFilter, loadEssays, pageSize, sortField, sortOrder, statusFilter, dateFilter]);
 
   const statusOptions = [
     { label: 'Todos os Status', value: null },
@@ -45,31 +69,34 @@ const AllEssays: React.FC = () => {
     { label: 'Arquivada', value: EssayStatus.ARCHIVED },
   ];
 
-  const filteredEssays = essays.filter(essay => {
-    const matchesStatus = !statusFilter || essay.status === statusFilter;
-    const matchesSearch = !globalFilter ||
-      essay.title.toLowerCase().includes(globalFilter.toLowerCase()) ||
-      essay.theme.toLowerCase().includes(globalFilter.toLowerCase());
+  const handlePageChange = (event: any) => {
+    const newPage = event.page;
+    const newSize = event.rows;
+    setPageSize(newSize);
+    loadEssays(newPage, newSize, sortField, sortOrder === -1 ? 'desc' : 'asc', statusFilter, searchFilter, dateFilter);
+  };
 
-    return matchesStatus && matchesSearch;
-  });
+  const handleSort = (event: any) => {
+    const newSortField = event.sortField;
+    const newSortOrder = event.sortOrder;
+    setSortField(newSortField);
+    setSortOrder(newSortOrder);
+    loadEssays(currentPage, pageSize, newSortField, newSortOrder === -1 ? 'desc' : 'asc', statusFilter, searchFilter, dateFilter);
+  };
 
-  const getStatusBadge = (status: EssayStatus) => {
+  const getStatusText = (status: EssayStatus) => {
     const statusConfig = {
-      [EssayStatus.DRAFT]: { label: 'Rascunho', className: 'bg-blue-100 text-blue-700', icon: 'pi-file-edit' },
-      [EssayStatus.SUBMITTED]: { label: 'Enviada', className: 'bg-yellow-100 text-yellow-700', icon: 'pi-clock' },
-      [EssayStatus.ANALYZED]: { label: 'Analisada', className: 'bg-green-100 text-green-700', icon: 'pi-check-circle' },
-      [EssayStatus.ARCHIVED]: { label: 'Arquivada', className: 'bg-gray-100 text-gray-700', icon: 'pi-archive' },
+      [EssayStatus.DRAFT]: { label: 'Rascunho', className: 'text-blue-600 font-semibold' },
+      [EssayStatus.SUBMITTED]: { label: 'Enviada', className: 'text-yellow-600 font-semibold' },
+      [EssayStatus.ANALYZED]: { label: 'Analisada', className: 'text-green-600 font-semibold' },
+      [EssayStatus.ARCHIVED]: { label: 'Arquivada', className: 'text-gray-600 font-semibold' },
     };
 
     const config = statusConfig[status];
     return (
-      <div className="flex items-center justify-center">
-        <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${config.className}`}>
-          <i className={`pi ${config.icon} text-xs`}></i>
-          {config.label}
-        </span>
-      </div>
+      <span className={config.className}>
+        {config.label}
+      </span>
     );
   };
 
@@ -97,26 +124,6 @@ const AllEssays: React.FC = () => {
     );
   };
 
-  const dateBodyTemplate = (essay: any) => {
-    return (
-      <div className="text-center">
-        <span className="text-sm text-gray-600">
-          {new Date(essay.createdAt).toLocaleDateString('pt-BR')}
-        </span>
-      </div>
-    );
-  };
-
-  const wordCountBodyTemplate = (essay: any) => {
-    return (
-      <div className="text-center">
-        <Badge
-          value={essay.wordCount}
-          className="bg-gray-100 text-gray-700 font-medium"
-        />
-      </div>
-    );
-  };
 
   if (isLoading || !showContent) {
     return <Loading onComplete={() => setShowContent(true)} />;
@@ -148,34 +155,43 @@ const AllEssays: React.FC = () => {
         />
       </div>
 
-      <Card className="shadow-lg border-0">
+      <Card className="shadow-lg border-0 bg-white">
         <div className="p-6">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            <div className="flex flex-col md:flex-row gap-4 flex-1">
-              <div className="flex-1">
-                <span className="p-input-icon-left w-full">
-                  <i className="pi pi-search text-gray-400" />
-                  <InputText
-                    placeholder="Buscar por título ou tema..."
-                    value={globalFilter}
-                    onChange={(e) => setGlobalFilter(e.target.value)}
-                    className="w-full h-12 text-lg border-2 border-gray-200 focus:border-orange-500 rounded-lg"
-                  />
-                </span>
-              </div>
-              <div className="w-full md:w-64">
-                <Dropdown
-                  value={statusFilter}
-                  options={statusOptions}
-                  onChange={(e) => setStatusFilter(e.value)}
-                  placeholder="Filtrar por status"
-                  className="w-full h-12 text-lg border-2 border-gray-200 focus:border-orange-500 rounded-lg"
-                  panelClassName="text-lg"
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1">
+              <span className="p-input-icon-left w-full">
+                <i className="pi pi-search text-gray-400" />
+                <InputText
+                  placeholder="Buscar por título ou tema..."
+                  value={searchFilter}
+                  onChange={(e) => setSearchFilter(e.target.value)}
+                  className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg"
                 />
-              </div>
+              </span>
             </div>
-            <div className="text-lg text-gray-600 font-medium">
-              {filteredEssays.length} de {essays.length} redações
+            <div className="w-full md:w-48">
+              <Dropdown
+                value={statusFilter}
+                options={statusOptions}
+                onChange={(e) => setStatusFilter(e.value)}
+                placeholder="Filtrar por status"
+                className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg custom-dropdown"
+                panelClassName="text-base"
+              />
+            </div>
+            <div className="w-full md:w-48">
+              <span className="p-input-icon-left w-full">
+                <i className="pi pi-calendar text-gray-400" />
+                <Calendar
+                  value={dateFilter}
+                  onChange={(e) => setDateFilter(e.value as Date | null)}
+                  placeholder="Filtrar por data"
+                  dateFormat="dd/mm/yy"
+                  className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg"
+                  inputClassName="w-full h-12 text-base pl-10"
+                  panelClassName="text-base"
+                />
+              </span>
             </div>
           </div>
         </div>
@@ -184,26 +200,32 @@ const AllEssays: React.FC = () => {
       <Card className="shadow-lg border-0">
         <div className="p-0">
           <DataTable
-            value={filteredEssays}
+            value={essays}
             paginator
-            rows={10}
-            rowsPerPageOptions={[5, 10, 25]}
+            rows={pageSize}
+            rowsPerPageOptions={[5, 10, 25, 50]}
+            totalRecords={totalElements}
+            first={currentPage * pageSize}
+            onPage={handlePageChange}
+            onSort={handleSort}
+            sortField={sortField}
+            sortOrder={sortOrder}
             responsiveLayout="scroll"
             emptyMessage="Nenhuma redação encontrada"
             className="custom-datatable"
-            sortField="createdAt"
-            sortOrder={-1}
+            loading={isLoading}
+            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+            currentPageReportTemplate="{first} a {last} de {totalRecords}"
           >
             <Column
               field="title"
               header="Título"
               sortable
-              style={{ minWidth: '200px', textAlign: 'center' }}
-              headerStyle={{ textAlign: 'center' }}
+              style={{ minWidth: '250px' }}
               body={(essay) => (
-                <div className="text-center">
-                  <div className="font-medium text-gray-900 mb-1">{essay.title}</div>
-                  <div className="text-sm text-gray-500 truncate max-w-xs mx-auto">
+                <div className="py-2">
+                  <div className="font-semibold text-gray-900 mb-1 text-base">{essay.title}</div>
+                  <div className="text-sm text-gray-500 line-clamp-2">
                     {essay.theme}
                   </div>
                 </div>
@@ -213,31 +235,51 @@ const AllEssays: React.FC = () => {
               field="status"
               header="Status"
               sortable
-              style={{ minWidth: '140px', textAlign: 'center' }}
-              headerStyle={{ textAlign: 'center' }}
-              body={(essay) => getStatusBadge(essay.status)}
+              style={{ minWidth: '140px', width: '140px' }}
+              body={(essay) => (
+                <div className="flex items-center justify-center py-2">
+                  {getStatusText(essay.status)}
+                </div>
+              )}
             />
             <Column
               field="wordCount"
               header="Palavras"
               sortable
-              style={{ minWidth: '120px', textAlign: 'center' }}
-              headerStyle={{ textAlign: 'center' }}
-              body={wordCountBodyTemplate}
+              style={{ minWidth: '100px', width: '100px' }}
+              body={(essay) => (
+                <div className="flex items-center justify-center py-2">
+                  <span className="text-gray-700 font-semibold">
+                    {essay.wordCount || 0}
+                  </span>
+                </div>
+              )}
             />
             <Column
               field="createdAt"
               header="Data de Criação"
               sortable
-              style={{ minWidth: '140px', textAlign: 'center' }}
-              headerStyle={{ textAlign: 'center' }}
-              body={dateBodyTemplate}
+              style={{ minWidth: '150px', width: '150px' }}
+              body={(essay) => (
+                <div className="flex items-center justify-center py-2">
+                  <span className="text-sm text-gray-600">
+                    {new Date(essay.createdAt).toLocaleDateString('pt-BR', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric'
+                    })}
+                  </span>
+                </div>
+              )}
             />
             <Column
               header="Ações"
-              style={{ minWidth: '120px', textAlign: 'center' }}
-              headerStyle={{ textAlign: 'center' }}
-              body={actionBodyTemplate}
+              style={{ minWidth: '140px', width: '140px' }}
+              body={(essay) => (
+                <div className="flex items-center justify-center gap-3 py-2">
+                  {actionBodyTemplate(essay)}
+                </div>
+              )}
             />
           </DataTable>
         </div>

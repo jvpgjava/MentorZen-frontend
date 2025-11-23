@@ -23,6 +23,8 @@ const NewEssay: React.FC = () => {
     essayType: 'ARGUMENTATIVE'
   });
 
+  const [selectedTheme, setSelectedTheme] = useState<string>('');
+  const [customTheme, setCustomTheme] = useState<string>('');
   const [wordCount, setWordCount] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -60,10 +62,23 @@ const NewEssay: React.FC = () => {
   };
 
   const handleThemeChange = (value: string) => {
+    setSelectedTheme(value);
     if (value === 'custom') {
-      setFormData({ ...formData, theme: '' });
+      setFormData({ ...formData, theme: customTheme });
     } else {
       setFormData({ ...formData, theme: value });
+      setCustomTheme('');
+    }
+    if (errors.theme) {
+      setErrors({ ...errors, theme: '' });
+    }
+  };
+
+  const handleCustomThemeChange = (value: string) => {
+    setCustomTheme(value);
+    setFormData({ ...formData, theme: value });
+    if (errors.theme) {
+      setErrors({ ...errors, theme: '' });
     }
   };
 
@@ -74,7 +89,9 @@ const NewEssay: React.FC = () => {
       newErrors.title = 'Título é obrigatório';
     }
 
-    if (!formData.theme?.trim()) {
+    if (selectedTheme === 'custom' && !customTheme?.trim()) {
+      newErrors.theme = 'Tema personalizado é obrigatório';
+    } else if (!selectedTheme || (selectedTheme !== 'custom' && !formData.theme?.trim())) {
       newErrors.theme = 'Tema é obrigatório';
     }
 
@@ -137,7 +154,10 @@ const NewEssay: React.FC = () => {
 
       const essay = await EssayService.createEssay(essayData);
       addEssay(essay);
-      showToast.success('Redação enviada para análise', 'Redação Enviada');
+
+      // Envia para análise
+      await EssayService.submitForAnalysis(essay.id);
+      showToast.success('Redação enviada para análise. Aguarde enquanto nossa IA analisa sua redação...', 'Redação Enviada');
       navigate(`/essays/${essay.id}/feedback`);
     } catch (error: any) {
       showToast.error('Erro ao enviar redação: ' + (error.message || 'Erro desconhecido'), 'Erro ao Enviar');
@@ -157,9 +177,9 @@ const NewEssay: React.FC = () => {
     <div className="space-y-4">
       <div className="flex items-center gap-4 mb-4">
         <div className="flex items-center justify-center">
-          <img 
-            src="/essay-icons/TodasRedacoesIcon.png" 
-            alt="Nova Redação" 
+          <img
+            src="/essay-icons/TodasRedacoesIcon.png"
+            alt="Nova Redação"
             className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
           />
         </div>
@@ -204,12 +224,12 @@ const NewEssay: React.FC = () => {
               />
             </div>
 
-            <div>
+            <div className={selectedTheme === 'custom' ? 'md:col-span-1' : ''}>
               <label className="block text-base font-medium text-gray-700 mb-3">
                 Tema *
               </label>
               <Dropdown
-                value={themes.find(t => t.value === formData.theme)?.value || ''}
+                value={selectedTheme}
                 options={themes}
                 onChange={(e) => handleThemeChange(e.value)}
                 className={`w-full custom-dropdown ${errors.theme ? 'p-invalid' : ''}`}
@@ -218,21 +238,24 @@ const NewEssay: React.FC = () => {
                 <small className="text-red-500 mt-2 block text-sm">{errors.theme}</small>
               )}
             </div>
-          </div>
 
-          {themes.find(t => t.value === formData.theme)?.value === '' && formData.theme !== '' && (
-            <div className="px-2">
-              <label className="block text-base font-medium text-gray-700 mb-3">
-                Tema Personalizado *
-              </label>
-              <InputText
-                value={formData.theme || ''}
-                onChange={(e) => setFormData({ ...formData, theme: e.target.value })}
-                placeholder="Digite seu tema personalizado"
-                className={`w-full h-12 text-base border-2 border-gray-300 focus:border-orange-500 focus:ring-orange-500 ${errors.theme ? 'p-invalid' : ''}`}
-              />
-            </div>
-          )}
+            {selectedTheme === 'custom' && (
+              <div className="md:col-span-1">
+                <label className="block text-base font-medium text-gray-700 mb-3">
+                  Digite o Tema Personalizado *
+                </label>
+                <InputText
+                  value={customTheme}
+                  onChange={(e) => handleCustomThemeChange(e.target.value)}
+                  placeholder="Ex: A importância da inteligência artificial na educação"
+                  className={`w-full h-12 text-base border-2 border-gray-300 focus:border-orange-500 focus:ring-orange-500 ${errors.theme ? 'p-invalid' : ''}`}
+                />
+                {errors.theme && selectedTheme === 'custom' && (
+                  <small className="text-red-500 mt-2 block text-sm">{errors.theme}</small>
+                )}
+              </div>
+            )}
+          </div>
 
           <div className="px-2">
             <div className="flex justify-between items-center mb-3">
@@ -276,11 +299,10 @@ const NewEssay: React.FC = () => {
             <Button
               label="Salvar Rascunho"
               icon="pi pi-save"
-              className={`flex-1 border-0 shadow-lg hover:shadow-xl transition-all duration-300 font-medium px-6 py-3 text-lg rounded-lg ${
-                canSaveDraft()
-                  ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white !text-white'
-                  : 'bg-gray-200 text-gray-400 opacity-50 cursor-not-allowed'
-              }`}
+              className={`flex-1 border-0 shadow-lg hover:shadow-xl transition-all duration-300 font-medium px-6 py-3 text-lg rounded-lg ${canSaveDraft()
+                ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white !text-white'
+                : 'bg-gray-200 text-gray-400 opacity-50 cursor-not-allowed'
+                }`}
               onClick={handleSaveDraft}
               disabled={isLoading || !canSaveDraft()}
             />
