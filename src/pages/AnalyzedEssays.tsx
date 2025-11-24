@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Card } from 'primereact/card';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Badge } from 'primereact/badge';
 import { InputText } from 'primereact/inputtext';
 import { Skeleton } from 'primereact/skeleton';
 import { Essay, EssayStatus } from '@/types';
@@ -58,15 +57,15 @@ const AnalyzedEssays: React.FC = () => {
   };
 
   const getScoreBadge = (score?: number) => {
-    if (!score) return <Badge value="N/A" severity="info" />;
+    if (!score) return <span className="text-gray-400 font-medium">N/A</span>;
 
-    let severity: "success" | "warning" | "info" | "danger" = "info";
-    if (score >= 800) severity = "success";
-    else if (score >= 600) severity = "warning";
-    else if (score >= 400) severity = "info";
-    else severity = "danger";
+    let colorClass = "text-gray-600";
+    if (score >= 800) colorClass = "text-green-600";
+    else if (score >= 600) colorClass = "text-orange-500";
+    else if (score >= 400) colorClass = "text-blue-500";
+    else colorClass = "text-red-500";
 
-    return <Badge value={score} severity={severity} className="text-sm font-medium" />;
+    return <span className={`${colorClass} font-bold text-lg`}>{score}</span>;
   };
 
   const dateBodyTemplate = (essay: EssayWithScore) => {
@@ -154,8 +153,8 @@ const AnalyzedEssays: React.FC = () => {
             />
           </div>
           <div>
-            <h1 className="text-4xl font-bold text-green-600 mb-2">Redações Analisadas</h1>
-            <p className="text-green-500 text-lg font-medium">
+            <h1 className="text-4xl font-bold text-[#162A41] mb-2">Redações Analisadas</h1>
+            <p className="text-gray-600 text-lg font-medium">
               Visualize suas redações já corrigidas e seus feedbacks
             </p>
           </div>

@@ -141,8 +141,8 @@ const AllEssays: React.FC = () => {
             />
           </div>
           <div>
-            <h1 className="text-4xl font-bold text-primary-600 mb-2">Minhas Redações</h1>
-            <p className="text-primary-500 text-lg font-medium">
+            <h1 className="text-4xl font-bold text-[#162A41] mb-2">Minhas Redações</h1>
+            <p className="text-gray-600 text-lg font-medium">
               Gerencie todas as suas redações em um só lugar
             </p>
           </div>

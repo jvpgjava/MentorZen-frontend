@@ -85,12 +85,12 @@ const Drafts: React.FC = () => {
           onClick={() => navigate(`/essays/${essay.id}/edit`)}
         />
         <i
-          className="pi pi-send text-primary-500 text-xl cursor-pointer hover:text-primary-600 transition-colors"
+          className="pi pi-send text-[#162A41] text-xl cursor-pointer hover:text-[#162A41] hover:opacity-80 transition-colors"
           title="Enviar para Análise"
           onClick={() => handleSubmitDraft(essay)}
         />
         <i
-          className="pi pi-trash text-primary-500 text-xl cursor-pointer hover:text-primary-600 transition-colors"
+          className="pi pi-trash text-[#162A41] text-xl cursor-pointer hover:text-[#162A41] hover:opacity-80 transition-colors"
           title="Excluir Rascunho"
           onClick={() => confirmDelete(essay)}
         />
@@ -170,8 +170,8 @@ const Drafts: React.FC = () => {
             />
           </div>
           <div>
-            <h1 className="text-4xl font-bold text-blue-600 mb-2">Meus Rascunhos</h1>
-            <p className="text-blue-500 text-lg font-medium">
+            <h1 className="text-4xl font-bold text-[#162A41] mb-2">Meus Rascunhos</h1>
+            <p className="text-gray-600 text-lg font-medium">
               Continue trabalhando em suas redações salvas
             </p>
           </div>
