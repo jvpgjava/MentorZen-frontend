@@ -98,7 +98,11 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
         {feedback.overallScore && (
           <div className="text-center p-6 bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl border-2 border-primary-200">
             <h4 className="text-xl font-bold text-gray-800 mb-3">Nota Geral</h4>
-            <div className="text-5xl font-bold text-primary-600 mb-3">
+            <div className={`text-5xl font-bold mb-3 ${feedback.overallScore >= 800 ? 'text-green-600' :
+              feedback.overallScore >= 600 ? 'text-[#C7D882]' :
+                feedback.overallScore >= 400 ? 'text-yellow-600' :
+                  'text-red-600'
+              }`}>
               {feedback.overallScore}
               <span className="text-2xl text-gray-500 font-normal">/1000</span>
             </div>
@@ -125,8 +129,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
         )}
 
         <div>
-          <h4 className="text-lg font-semibold mb-3 flex items-center gap-2 text-gray-800">
-            <i className="pi pi-comment text-primary-500 text-xl"></i>
+          <h4 className="text-lg font-semibold mb-3 text-gray-800">
             Comentário Geral
           </h4>
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-5 rounded-xl border-2 border-blue-200 shadow-sm">
@@ -137,8 +140,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
         </div>
 
         <div>
-          <h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <i className="pi pi-list text-primary-500"></i>
+          <h4 className="text-lg font-semibold mb-4">
             Análise por Competências
           </h4>
 
@@ -210,8 +212,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
 
         {feedback.positivePoints && (
           <div>
-            <h4 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800">
-              <i className="pi pi-thumbs-up text-green-600 text-xl"></i>
+            <h4 className="text-lg font-semibold mb-4 text-gray-800">
               Pontos Positivos
             </h4>
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200 shadow-sm">

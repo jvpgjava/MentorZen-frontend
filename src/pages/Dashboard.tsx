@@ -234,13 +234,13 @@ const Dashboard: React.FC = () => {
       <div className="dashboard-large-cards">
         <div>
           <Card className="h-full shadow-lg border-0">
-            <div className="p-6 h-full flex flex-col">
+            <div className="p-4 h-full flex flex-col">
               <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <i className="pi pi-chart-pie text-primary-500"></i>
+                <i className="pi pi-chart-pie text-[#9ea04f]"></i>
                 Distribuição das Redações
               </h3>
-              <div className="flex-1 flex flex-col items-center justify-start pt-2">
-                <div className="w-full max-w-xs mb-3">
+              <div className="flex-1 flex flex-col items-center justify-center gap-3">
+                <div className="w-full max-w-xs">
                   <Chart
                     type="doughnut"
                     data={chartData}
@@ -248,20 +248,20 @@ const Dashboard: React.FC = () => {
                     style={{ height: '200px', width: '100%' }}
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm w-full max-w-sm">
-                  <div className="flex items-center gap-3">
+                <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm w-full max-w-sm mx-auto">
+                  <div className="flex items-center gap-3 justify-center">
                     <div className="w-5 h-5 bg-yellow-500 rounded-full flex-shrink-0 shadow-sm border border-yellow-400"></div>
                     <span className="text-yellow-600 font-medium">Rascunhos</span>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 justify-center">
                     <div className="w-5 h-5 bg-primary-500 rounded-full flex-shrink-0 shadow-sm border border-primary-400"></div>
                     <span className="text-primary-600 font-medium">Enviadas</span>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 justify-center">
                     <div className="w-5 h-5 bg-green-500 rounded-full flex-shrink-0 shadow-sm border border-green-400"></div>
                     <span className="text-green-600 font-medium">Analisadas</span>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 justify-center">
                     <div className="w-5 h-5 bg-gray-500 rounded-full flex-shrink-0 shadow-sm border border-gray-400"></div>
                     <span className="text-gray-600 font-medium">Arquivadas</span>
                   </div>
@@ -275,7 +275,7 @@ const Dashboard: React.FC = () => {
           <Card className="h-full shadow-lg border-0">
             <div className="p-6 h-full flex flex-col">
               <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-                <i className="pi pi-bolt text-primary-500"></i>
+                <i className="pi pi-bolt text-[#9ea04f]"></i>
                 Ações Rápidas
               </h3>
               <div className="flex-1 flex items-center justify-center">
@@ -311,7 +311,7 @@ const Dashboard: React.FC = () => {
       <Card className="shadow-lg border-0">
         <div className="p-6">
           <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-            <i className="pi pi-clock text-primary-500"></i>
+            <i className="pi pi-clock text-[#9ea04f]"></i>
             Redações Recentes
           </h3>
 
