@@ -301,6 +301,13 @@ const Dashboard: React.FC = () => {
                     onClick={() => navigate('/essays/analyzed')}
                   />
 
+                  <Button
+                    label="Todas as Redações"
+                    icon="pi pi-list"
+                    className="action-button bg-[#9ea04f] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
+                    onClick={() => navigate('/essays')}
+                  />
+
                 </div>
               </div>
             </div>

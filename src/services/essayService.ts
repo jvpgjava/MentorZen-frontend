@@ -72,5 +72,9 @@ export class EssayService {
       `/essays/search?keyword=${encodeURIComponent(keyword)}&page=${page}&size=${size}`
     );
   }
+
+  static async resendForAnalysis(id: number): Promise<Essay> {
+    return apiClient.post<Essay>(`/essays/${id}/resend`);
+  }
 }
 
