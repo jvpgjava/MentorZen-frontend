@@ -174,7 +174,7 @@ const Feedbacks: React.FC = () => {
           />
         </div>
         <div>
-          <h1 className="text-4xl font-bold text-green-600 mb-2">Meus Feedbacks</h1>
+          <h1 className="text-4xl font-bold text-[#162A41] mb-2">Meus Feedbacks</h1>
           <p className="text-gray-600 text-lg">
             Visualize todos os feedbacks das suas redações
           </p>
