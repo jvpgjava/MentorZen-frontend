@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { User } from '@/types';
-import { AuthService, LoginRequest, RegisterRequest, ForgotPasswordRequest } from '@/services/authService';
+import { AuthService, LoginRequest, RegisterRequest, ForgotPasswordRequest, ResetPasswordRequest } from '@/services/authService';
 import { showToast } from '@/utils/toast';
 
 interface AuthState {
@@ -16,6 +16,7 @@ interface AuthState {
   login: (data: LoginRequest) => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
   forgotPassword: (data: ForgotPasswordRequest) => Promise<void>;
+  resetPassword: (data: ResetPasswordRequest) => Promise<void>;
   logout: () => Promise<void>;
   getCurrentUser: () => Promise<void>;
 }
@@ -96,6 +97,18 @@ export const useAuthStore = create<AuthState>()(
           const response = await AuthService.forgotPassword(data);
           set({ isLoading: false });
           showToast.success(response.message || 'Email de recuperação enviado com sucesso!', 'Email Enviado');
+        } catch (error: any) {
+          set({ isLoading: false });
+          throw error;
+        }
+      },
+
+      resetPassword: async (data: ResetPasswordRequest) => {
+        try {
+          set({ isLoading: true });
+          const response = await AuthService.resetPassword(data);
+          set({ isLoading: false });
+          showToast.success(response.message || 'Senha alterada com sucesso!', 'Sucesso');
         } catch (error: any) {
           set({ isLoading: false });
           throw error;

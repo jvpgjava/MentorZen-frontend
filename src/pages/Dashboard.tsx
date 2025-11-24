@@ -248,8 +248,8 @@ const Dashboard: React.FC = () => {
                     style={{ height: '200px', width: '100%' }}
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm w-full max-w-sm mx-auto">
-                  <div className="flex items-center gap-3 justify-center">
+                <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm w-full max-w-sm justify-center">
+                  <div className="flex items-center gap-4 justify-center">
                     <div className="w-5 h-5 bg-yellow-500 rounded-full flex-shrink-0 shadow-sm border border-yellow-400"></div>
                     <span className="text-yellow-600 font-medium">Rascunhos</span>
                   </div>

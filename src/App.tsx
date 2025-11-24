@@ -7,6 +7,7 @@ import Layout from '@/components/Layout';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import ForgotPassword from '@/pages/ForgotPassword';
+import ResetPassword from '@/pages/ResetPassword';
 import Dashboard from '@/pages/Dashboard';
 import Profile from '@/pages/Profile';
 import About from '@/pages/About';
@@ -58,6 +59,12 @@ const App: React.FC = () => {
             path="/forgot-password"
             element={
               isAuthenticated ? <Navigate to="/dashboard" replace /> : <ForgotPassword />
+            }
+          />
+          <Route
+            path="/reset-password"
+            element={
+              isAuthenticated ? <Navigate to="/dashboard" replace /> : <ResetPassword />
             }
           />
 
