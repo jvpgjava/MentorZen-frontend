@@ -26,6 +26,7 @@ const AllEssays: React.FC = () => {
   const [pageSize, setPageSize] = useState(10);
   const [sortField, setSortField] = useState('updatedAt');
   const [sortOrder, setSortOrder] = useState<-1 | 0 | 1>(-1);
+  const [resendingId, setResendingId] = useState<number | null>(null);
 
   const loadEssays = useCallback(async (page = 0, size = 10, sortBy = 'updatedAt', sortDir = 'desc', status?: EssayStatus | null, keyword?: string, date?: Date | null) => {
     try {
@@ -84,6 +85,19 @@ const AllEssays: React.FC = () => {
     loadEssays(currentPage, pageSize, newSortField, newSortOrder === -1 ? 'desc' : 'asc', statusFilter, searchFilter, dateFilter);
   };
 
+  const handleResend = async (essay: Essay) => {
+    setResendingId(essay.id);
+    try {
+      await EssayService.resendForAnalysis(essay.id);
+      showToast.success('Redação reenviada para análise com sucesso!', 'Sucesso');
+      loadEssays(currentPage, pageSize, sortField, sortOrder === -1 ? 'desc' : 'asc', statusFilter, searchFilter, dateFilter);
+    } catch (error: any) {
+      showToast.error(error.message || 'Erro ao reenviar redação para análise.', 'Erro');
+    } finally {
+      setResendingId(null);
+    }
+  };
+
   const getStatusText = (status: EssayStatus) => {
     const statusConfig = {
       [EssayStatus.DRAFT]: { label: 'Rascunho', className: 'text-blue-600 font-semibold' },
@@ -100,7 +114,10 @@ const AllEssays: React.FC = () => {
     );
   };
 
-  const actionBodyTemplate = (essay: any) => {
+  const actionBodyTemplate = (essay: Essay) => {
+    const canResend = essay.status === EssayStatus.SUBMITTED || essay.status === EssayStatus.ANALYZED;
+    const isResending = resendingId === essay.id;
+
     return (
       <div className="flex items-center justify-center gap-3">
         <i
@@ -118,6 +135,13 @@ const AllEssays: React.FC = () => {
             className="pi pi-comments text-[#162A41] text-xl cursor-pointer hover:text-[#162A41] hover:opacity-80 transition-colors"
             title="Ver Feedback"
             onClick={() => navigate(`/essays/${essay.id}/feedback`)}
+          />
+        )}
+        {canResend && (
+          <i
+            className={`pi ${isResending ? 'pi-spin pi-spinner' : 'pi-refresh'} text-[#162A41] text-xl cursor-pointer hover:text-[#162A41] hover:opacity-80 transition-colors ${isResending ? 'pointer-events-none opacity-50' : ''}`}
+            title={essay.status === EssayStatus.SUBMITTED ? 'Reenviar para Análise' : 'Solicitar Nova Análise'}
+            onClick={() => !isResending && handleResend(essay)}
           />
         )}
       </div>

@@ -15,9 +15,10 @@ const EssayFeedback: React.FC = () => {
   const [feedback, setFeedback] = useState<Feedback | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [pollingAttempts, setPollingAttempts] = useState(0);
-  const maxPollingAttempts = 30; // 30 tentativas = ~1 minuto (2s cada)
+  const maxPollingAttempts = 30;
 
   useEffect(() => {
     if (id) {
@@ -119,7 +120,25 @@ const EssayFeedback: React.FC = () => {
           setShowContent(true);
         }
       }
-    }, 2000); // Polling a cada 2 segundos
+    }, 2000);
+  };
+
+  const handleResend = async () => {
+    if (!id) return;
+
+    setIsResending(true);
+    try {
+      await EssayService.resendForAnalysis(Number(id));
+      showToast.success('Redação reenviada para análise com sucesso!', 'Sucesso');
+      setFeedback(null);
+      setPollingAttempts(0);
+      setIsAnalyzing(true);
+      startPollingForFeedback();
+    } catch (error: any) {
+      showToast.error(error.message || 'Erro ao reenviar redação para análise.', 'Erro');
+    } finally {
+      setIsResending(false);
+    }
   };
 
   if (isLoading || !showContent) {
@@ -207,20 +226,30 @@ const EssayFeedback: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4 mb-4">
-        <div className="flex items-center justify-center">
-          <img
-            src="/essay-icons/RedacoesAnalisadasIcon.png"
-            alt="Feedback"
-            className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
-          />
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center justify-center">
+            <img
+              src="/essay-icons/RedacoesAnalisadasIcon.png"
+              alt="Feedback"
+              className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
+            />
+          </div>
+          <div>
+            <h1 className="text-4xl font-bold text-[#162A41] mb-2">Feedback da Redação</h1>
+            <p className="text-gray-600 text-lg">
+              {essay?.title}
+            </p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-4xl font-bold text-[#162A41] mb-2">Feedback da Redação</h1>
-          <p className="text-gray-600 text-lg">
-            {essay?.title}
-          </p>
-        </div>
+        <button
+          onClick={handleResend}
+          disabled={isResending}
+          className="flex items-center gap-2 bg-[#C7D882] text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <i className={`pi ${isResending ? 'pi-spin pi-spinner' : 'pi-refresh'}`} />
+          {isResending ? 'Reenviando...' : 'Solicitar Nova Análise'}
+        </button>
       </div>
 
       <FeedbackViewer feedback={feedback} showEssayInfo={true} />
