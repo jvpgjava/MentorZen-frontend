@@ -59,8 +59,8 @@ const Loading: React.FC<LoadingProps> = ({ onComplete }) => {
         >
           <defs>
             <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#f97316" />
-              <stop offset="100%" stopColor="#ea580c" />
+              <stop offset="0%" stopColor="#C7D882" />
+              <stop offset="100%" stopColor="#C7D882" />
             </linearGradient>
           </defs>
 
@@ -71,7 +71,7 @@ const Loading: React.FC<LoadingProps> = ({ onComplete }) => {
               width="240"
               height="320"
               rx="2"
-              fill="#fef3f2"
+              fill="#F5EFE9"
               stroke="url(#orangeGradient)"
               strokeWidth="2.5"
               opacity="0.9"
@@ -84,7 +84,7 @@ const Loading: React.FC<LoadingProps> = ({ onComplete }) => {
                 y1={y}
                 x2="250"
                 y2={y}
-                stroke="#f97316"
+                stroke="#C7D882"
                 strokeWidth="1"
                 opacity="0.15"
               />
@@ -119,7 +119,7 @@ const Loading: React.FC<LoadingProps> = ({ onComplete }) => {
                   />
                   <path
                     d="M -5 -30 L 5 -30 L 0 -38 Z"
-                    fill="#ea580c"
+                    fill="#C7D882"
                     className="pencil-top"
                   />
                 </g>

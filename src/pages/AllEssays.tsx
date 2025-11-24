@@ -104,18 +104,18 @@ const AllEssays: React.FC = () => {
     return (
       <div className="flex items-center justify-center gap-3">
         <i
-          className="pi pi-eye text-orange-500 text-xl cursor-pointer hover:text-orange-600 transition-colors"
+          className="pi pi-eye text-[#162A41] text-xl cursor-pointer hover:text-[#162A41] hover:opacity-80 transition-colors"
           title="Visualizar"
           onClick={() => navigate(`/essays/${essay.id}`)}
         />
         <i
-          className="pi pi-pencil text-orange-500 text-xl cursor-pointer hover:text-orange-600 transition-colors"
+          className="pi pi-pencil text-[#162A41] text-xl cursor-pointer hover:text-[#162A41] hover:opacity-80 transition-colors"
           title="Editar"
           onClick={() => navigate(`/essays/${essay.id}/edit`)}
         />
         {essay.status === EssayStatus.ANALYZED && (
           <i
-            className="pi pi-comments text-orange-500 text-xl cursor-pointer hover:text-orange-600 transition-colors"
+            className="pi pi-comments text-[#162A41] text-xl cursor-pointer hover:text-[#162A41] hover:opacity-80 transition-colors"
             title="Ver Feedback"
             onClick={() => navigate(`/essays/${essay.id}/feedback`)}
           />
@@ -141,8 +141,8 @@ const AllEssays: React.FC = () => {
             />
           </div>
           <div>
-            <h1 className="text-4xl font-bold text-orange-600 mb-2">Minhas Redações</h1>
-            <p className="text-orange-500 text-lg font-medium">
+            <h1 className="text-4xl font-bold text-primary-600 mb-2">Minhas Redações</h1>
+            <p className="text-primary-500 text-lg font-medium">
               Gerencie todas as suas redações em um só lugar
             </p>
           </div>
@@ -150,7 +150,7 @@ const AllEssays: React.FC = () => {
         <Button
           label="Nova Redação"
           icon="pi pi-plus"
-          className="bg-gradient-to-r from-orange-500 to-orange-600 border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium px-6 py-3 text-lg rounded-lg"
+          className="bg-[#C7D882] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium px-6 py-3 text-lg rounded-lg"
           onClick={() => navigate('/essays/new')}
         />
       </div>
@@ -165,7 +165,7 @@ const AllEssays: React.FC = () => {
                   placeholder="Buscar por título ou tema..."
                   value={searchFilter}
                   onChange={(e) => setSearchFilter(e.target.value)}
-                  className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg"
+                  className="w-full h-12 text-base border-2 border-gray-200 focus:border-primary-500 rounded-lg"
                 />
               </span>
             </div>
@@ -175,7 +175,7 @@ const AllEssays: React.FC = () => {
                 options={statusOptions}
                 onChange={(e) => setStatusFilter(e.value)}
                 placeholder="Filtrar por status"
-                className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg custom-dropdown"
+                className="w-full h-12 text-base border-2 border-gray-200 focus:border-primary-500 rounded-lg custom-dropdown"
                 panelClassName="text-base"
               />
             </div>
@@ -187,7 +187,7 @@ const AllEssays: React.FC = () => {
                   onChange={(e) => setDateFilter(e.value as Date | null)}
                   placeholder="Filtrar por data"
                   dateFormat="dd/mm/yy"
-                  className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg"
+                  className="w-full h-12 text-base border-2 border-gray-200 focus:border-primary-500 rounded-lg"
                   inputClassName="w-full h-12 text-base pl-10"
                   panelClassName="text-base"
                 />

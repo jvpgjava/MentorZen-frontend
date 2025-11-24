@@ -8,26 +8,27 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#fb923c',
-          500: '#f97316',
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
-          950: '#431407'
+          50: '#F5EFE9',
+          100: '#E8E0D8',
+          200: '#D4C4B4',
+          300: '#C7D882',
+          400: '#A8B96F',
+          500: '#C7D882',
+          600: '#A8B96F',
+          700: '#90A7B0',
+          800: '#7A8F97',
+          900: '#162A41',
+          950: '#0F1A2A'
         },
         zen: {
-          orange: '#f97316',
-          'orange-light': '#fdba74',
-          'orange-dark': '#ea580c',
+          primary: '#C7D882',
+          secondary: '#90A7B0',
+          accent: '#F5EFE9',
+          dark: '#162A41',
           black: '#1a1a1a',
           'gray-dark': '#2d2d2d',
           white: '#ffffff',
-          'gray-light': '#f5f5f5'
+          'gray-light': '#F5EFE9'
         }
       },
       fontFamily: {
@@ -35,8 +36,8 @@ export default {
         display: ['Poppins', 'system-ui', 'sans-serif']
       },
       boxShadow: {
-        'zen': '0 4px 20px rgba(249, 115, 22, 0.1)',
-        'zen-lg': '0 8px 40px rgba(249, 115, 22, 0.15)'
+        'zen': '0 4px 20px rgba(16, 185, 129, 0.1)',
+        'zen-lg': '0 8px 40px rgba(16, 185, 129, 0.15)'
       }
     },
   },

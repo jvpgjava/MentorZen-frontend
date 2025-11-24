@@ -52,7 +52,7 @@ const ForgotPassword: React.FC = () => {
       <div
         className="min-h-screen flex items-center justify-center"
         style={{
-          backgroundImage: 'url(/wallpaper-login/FundoLogin.jpg)',
+          backgroundImage: 'url(/wallpaper-login/FundoLogin.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
@@ -83,8 +83,8 @@ const ForgotPassword: React.FC = () => {
               Verifique sua caixa de entrada e spam.
             </p>
 
-            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
-              <p className="text-orange-800 text-sm">
+            <div className="bg-[#F5EFE9] border border-[#C7D882] rounded-lg p-4 mb-6">
+              <p className="text-[#162A41] text-sm">
                 <strong>Nota:</strong> O link expira em 1 hora por segurança.
               </p>
             </div>
@@ -93,7 +93,7 @@ const ForgotPassword: React.FC = () => {
           <div className="space-y-3">
             <Link
               to="/login"
-              className="block w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+              className="block w-full bg-[#C7D882] hover:bg-[#B5C870] text-white font-medium py-3 px-4 rounded-lg transition-colors"
             >
               Voltar ao Login
             </Link>
@@ -103,7 +103,7 @@ const ForgotPassword: React.FC = () => {
                 setIsSuccess(false);
                 setFormData({ email: '' });
               }}
-              className="block w-full text-orange-500 hover:text-orange-600 font-medium py-2"
+              className="block w-full text-[#8FA86B] hover:text-[#7A9555] font-medium py-2"
             >
               Enviar novamente
             </button>
@@ -117,7 +117,7 @@ const ForgotPassword: React.FC = () => {
     <div
       className="min-h-screen flex items-center justify-center"
       style={{
-        backgroundImage: 'url(/wallpaper-login/FundoLogin.jpg)',
+        backgroundImage: 'url(/wallpaper-login/FundoLogin.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
@@ -154,7 +154,7 @@ const ForgotPassword: React.FC = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-base ${errors.email ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C7D882] text-base ${errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="seu@email.com"
               disabled={isLoading}
@@ -168,7 +168,7 @@ const ForgotPassword: React.FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+            className="w-full bg-[#C7D882] hover:bg-[#B5C870] disabled:bg-[#D4E49A] text-white font-medium py-3 px-4 rounded-lg transition-colors"
           >
             {isLoading ? 'Enviando...' : 'Enviar Link de Recuperação'}
           </button>
@@ -177,14 +177,14 @@ const ForgotPassword: React.FC = () => {
         <div className="mt-6 text-center">
           <Link
             to="/login"
-            className="text-orange-500 hover:text-orange-600 text-sm"
+            className="text-[#8FA86B] hover:text-[#7A9555] text-sm"
           >
             ← Voltar ao login
           </Link>
         </div>
 
         <div className="mt-6 text-center text-sm text-gray-500">
-          <p className="text-orange-500">Equipe FloWrite</p>
+          <p className="text-[#8FA86B]">Equipe FloWrite</p>
         </div>
       </div>
     </div>

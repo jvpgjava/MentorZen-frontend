@@ -31,10 +31,12 @@ const Layout: React.FC = () => {
     };
   }, [userMenuVisible]);
 
-  const menuItems: MenuItem[] = [
+  const menuItems: (MenuItem & { path?: string })[] = [
     {
       label: 'Dashboard',
       icon: 'pi pi-home',
+      to: '/dashboard',
+      path: '/dashboard',
       command: () => {
         navigate('/dashboard');
         setSidebarVisible(false);
@@ -43,6 +45,8 @@ const Layout: React.FC = () => {
     {
       label: 'Nova Redação',
       icon: 'pi pi-plus',
+      to: '/essays/new',
+      path: '/essays/new',
       command: () => {
         navigate('/essays/new');
         setSidebarVisible(false);
@@ -55,6 +59,8 @@ const Layout: React.FC = () => {
         {
           label: 'Todas',
           icon: 'pi pi-list',
+          to: '/essays',
+          path: '/essays',
           command: () => {
             navigate('/essays');
             setSidebarVisible(false);
@@ -63,6 +69,8 @@ const Layout: React.FC = () => {
         {
           label: 'Rascunhos',
           icon: 'pi pi-file',
+          to: '/essays/drafts',
+          path: '/essays/drafts',
           command: () => {
             navigate('/essays/drafts');
             setSidebarVisible(false);
@@ -71,6 +79,8 @@ const Layout: React.FC = () => {
         {
           label: 'Analisadas',
           icon: 'pi pi-check-circle',
+          to: '/essays/analyzed',
+          path: '/essays/analyzed',
           command: () => {
             navigate('/essays/analyzed');
             setSidebarVisible(false);
@@ -81,6 +91,8 @@ const Layout: React.FC = () => {
     {
       label: 'Feedbacks',
       icon: 'pi pi-comments',
+      to: '/feedbacks',
+      path: '/feedbacks',
       command: () => {
         navigate('/feedbacks');
         setSidebarVisible(false);
@@ -89,6 +101,8 @@ const Layout: React.FC = () => {
     {
       label: 'Sobre',
       icon: 'pi pi-info-circle',
+      to: '/about',
+      path: '/about',
       command: () => {
         navigate('/about');
         setSidebarVisible(false);
@@ -126,7 +140,7 @@ const Layout: React.FC = () => {
         <i className="pi pi-bars"></i>
       </div>
 
-      <div className="flex items-center gap-4 cursor-pointer" onClick={() => navigate('/dashboard')}>
+      <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/dashboard')}>
         <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-lg flex items-center justify-center">
           <img
             src="/assets/zen-logo.png"
@@ -135,7 +149,7 @@ const Layout: React.FC = () => {
           />
         </div>
         <div className="hidden sm:block">
-          <span className="font-bold text-3xl lg:text-4xl bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+          <span className="font-bold text-3xl lg:text-4xl text-[#9ea04f]">
             Zen
           </span>
         </div>
@@ -164,7 +178,7 @@ const Layout: React.FC = () => {
             key={user?.profilePictureUrl || 'avatar-header'}
             image={user?.profilePictureUrl ? `http://localhost:8080${user.profilePictureUrl}` : undefined}
             label={!user?.profilePictureUrl ? user?.name?.charAt(0).toUpperCase() : undefined}
-            className="bg-gradient-to-br from-orange-500 to-orange-600 text-white shadow-sm"
+            className="bg-[#C7D882] text-white shadow-sm"
             size="normal"
             shape="circle"
           />
@@ -199,10 +213,10 @@ const Layout: React.FC = () => {
                 handleLogout();
                 setUserMenuVisible(false);
               }}
-              className="w-full text-left px-4 py-2 hover:bg-red-50 flex items-center gap-3 transition-colors"
+              className="w-full text-left px-4 py-2 hover:bg-[#F5EFE9] flex items-center gap-3 transition-colors"
             >
-              <i className="pi pi-sign-out text-red-500"></i>
-              <span className="text-red-600 font-medium">Sair</span>
+              <i className="pi pi-sign-out text-[#C7D882]"></i>
+              <span className="text-[#C7D882] font-medium">Sair</span>
             </button>
           </div>
         )}
@@ -227,7 +241,7 @@ const Layout: React.FC = () => {
         className="w-80"
         pt={{
           closeButton: {
-            className: 'absolute right-4 top-4 z-50 !bg-transparent !border-none !text-orange-500 hover:!text-orange-600 !shadow-none'
+            className: 'absolute right-4 top-4 z-50 !bg-transparent !border-none !text-[#C7D882] hover:!text-[#C7D882] !shadow-none'
           },
           root: {
             className: '!p-0'
@@ -247,7 +261,7 @@ const Layout: React.FC = () => {
               />
             </div>
             <div>
-              <div className="font-bold text-3xl text-orange-500">
+              <div className="font-bold text-3xl text-[#9ea04f] !text-[#9ea04f]">
                 Zen
               </div>
             </div>
@@ -263,22 +277,33 @@ const Layout: React.FC = () => {
                     <span>{item.label}</span>
                   </div>
                   <div className="ml-6 mt-2 space-y-1">
-                    {item.items.map((subItem, subIndex) => (
-                      <button
-                        key={subIndex}
-                        onClick={subItem.command}
-                        className="flex items-center gap-3 w-full p-3 text-left text-gray-600 hover:bg-orange-50 hover:text-orange-600 rounded-lg transition-colors duration-200"
-                      >
-                        <i className={subItem.icon}></i>
-                        <span>{subItem.label}</span>
-                      </button>
-                    ))}
+                    {item.items.map((subItem, subIndex) => {
+                      const isActive = location.pathname === subItem.path;
+                      return (
+                        <button
+                          key={subIndex}
+                          onClick={subItem.command}
+                          className={`flex items-center gap-3 w-full p-3 text-left rounded-lg transition-colors duration-200 ${
+                            isActive 
+                              ? 'bg-[#C7D882] text-white' 
+                              : 'text-gray-600 hover:bg-[#F5EFE9] hover:text-[#C7D882]'
+                          }`}
+                        >
+                          <i className={subItem.icon}></i>
+                          <span>{subItem.label}</span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               ) : (
                 <button
                   onClick={item.command}
-                  className="flex items-center gap-3 w-full p-3 text-left text-gray-700 hover:bg-orange-50 hover:text-orange-600 rounded-lg transition-colors duration-200 font-medium"
+                  className={`flex items-center gap-3 w-full p-3 text-left rounded-lg transition-colors duration-200 font-medium ${
+                    location.pathname === item.path
+                      ? 'bg-[#C7D882] text-white'
+                      : 'text-gray-700 hover:bg-[#F5EFE9] hover:text-[#C7D882]'
+                  }`}
                 >
                   <i className={item.icon}></i>
                   <span>{item.label}</span>
@@ -309,7 +334,7 @@ const Layout: React.FC = () => {
             </div>
             <div className="text-center">
               <p className="text-sm text-gray-600">
-                Desenvolvido pela equipe <span className="font-semibold text-orange-600">FloWrite</span> para apoiar estudantes do ENEM
+                Desenvolvido pela equipe <span className="font-semibold text-[#C7D882]">FloWrite</span> para apoiar estudantes do ENEM
               </p>
             </div>
           </div>

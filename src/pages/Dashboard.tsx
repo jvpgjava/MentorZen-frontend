@@ -107,7 +107,7 @@ const Dashboard: React.FC = () => {
         ],
         backgroundColor: [
           '#eab308',
-          '#f97316',
+          '#C7D882',
           '#22c55e',
           '#6b7280'
         ],
@@ -134,14 +134,14 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
-      <div className="relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 text-white rounded-2xl p-8 shadow-xl">
+      <div className="relative overflow-hidden bg-[#9ea04f] text-white rounded-2xl p-8 shadow-xl">
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
             <Avatar
               key={user?.profilePictureUrl || 'avatar-dashboard'}
               image={user?.profilePictureUrl ? `http://localhost:8080${user.profilePictureUrl}` : undefined}
               label={!user?.profilePictureUrl ? user?.name?.charAt(0).toUpperCase() : undefined}
-              className={!user?.profilePictureUrl ? "bg-white text-orange-500 shadow-lg border-2 border-white" : "bg-white shadow-lg border-2 border-white"}
+              className={!user?.profilePictureUrl ? "bg-white text-[#C7D882] shadow-lg border-2 border-white" : "bg-white shadow-lg border-2 border-white"}
               size="large"
               shape="circle"
             />
@@ -149,12 +149,12 @@ const Dashboard: React.FC = () => {
               <h1 className="text-3xl font-bold text-white">
                 Olá, {user?.name?.split(' ')[0]}!
               </h1>
-              <p className="text-white text-opacity-90 text-lg">
+              <p className="text-white text-lg font-medium">
                 Bem-vindo de volta ao Zen
               </p>
             </div>
           </div>
-          <p className="text-white text-opacity-90 text-lg max-w-2xl">
+          <p className="text-white text-lg max-w-2xl leading-relaxed">
             Continue sua jornada de aprendizado. Aqui você pode acompanhar seu progresso,
             criar novas redações e receber feedback personalizado para melhorar suas habilidades de escrita.
           </p>
@@ -164,43 +164,43 @@ const Dashboard: React.FC = () => {
       </div>
 
       <div className="dashboard-stats-grid">
-        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:bg-[#9ea04f] hover:shadow-xl transition-all duration-300 group overflow-visible">
           <div className="stats-card-content">
             <div className="stats-card-text">
-              <p className="text-orange-600 text-xs lg:text-sm font-medium mb-2">Total de Redações</p>
-              <p className="text-2xl lg:text-3xl font-bold text-orange-600">{essayStats.total}</p>
+              <p className="text-[#162A41] group-hover:text-white text-xs lg:text-sm font-medium mb-2 transition-colors">Total de Redações</p>
+              <p className="text-2xl lg:text-3xl font-bold text-[#162A41] group-hover:text-white transition-colors">{essayStats.total}</p>
             </div>
             <div className="stats-card-icon flex items-center justify-center">
               <img
                 src="/essay-icons/TodasRedacoesIcon.png"
                 alt="Total de Redações"
-                className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
+                className="w-16 h-16 lg:w-20 lg:h-20 object-contain transition-all duration-300 icon-hover-white"
               />
             </div>
           </div>
         </div>
 
-        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:bg-[#9ea04f] hover:shadow-xl transition-all duration-300 group overflow-visible">
           <div className="stats-card-content">
             <div className="stats-card-text">
-              <p className="text-green-600 text-xs lg:text-sm font-medium mb-2">Redações Analisadas</p>
-              <p className="text-2xl lg:text-3xl font-bold text-green-600">{essayStats.analyzed}</p>
+              <p className="text-[#162A41] group-hover:text-white text-xs lg:text-sm font-medium mb-2 transition-colors">Redações Analisadas</p>
+              <p className="text-2xl lg:text-3xl font-bold text-[#162A41] group-hover:text-white transition-colors">{essayStats.analyzed}</p>
             </div>
             <div className="stats-card-icon flex items-center justify-center">
               <img
                 src="/essay-icons/RedacoesAnalisadasIcon.png"
                 alt="Redações Analisadas"
-                className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
+                className="w-16 h-16 lg:w-20 lg:h-20 object-contain transition-all duration-300 icon-hover-white"
               />
             </div>
           </div>
         </div>
 
-        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:bg-[#9ea04f] hover:shadow-xl transition-all duration-300 group overflow-visible">
           <div className="stats-card-content">
             <div className="stats-card-text">
-              <p className="text-yellow-600 text-xs lg:text-sm font-medium mb-2">Nota Média</p>
-              <p className="text-2xl lg:text-3xl font-bold text-yellow-600">
+              <p className="text-[#162A41] group-hover:text-white text-xs lg:text-sm font-medium mb-2 transition-colors">Nota Média</p>
+              <p className="text-2xl lg:text-3xl font-bold text-[#162A41] group-hover:text-white transition-colors">
                 {userStats?.averageScore?.toFixed(0) || '0'}
               </p>
             </div>
@@ -208,23 +208,23 @@ const Dashboard: React.FC = () => {
               <img
                 src="/essay-icons/NotaMediaIcon.png"
                 alt="Nota Média"
-                className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
+                className="w-16 h-16 lg:w-20 lg:h-20 object-contain transition-all duration-300 icon-hover-white"
               />
             </div>
           </div>
         </div>
 
-        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:bg-[#9ea04f] hover:shadow-xl transition-all duration-300 group overflow-visible">
           <div className="stats-card-content">
             <div className="stats-card-text">
-              <p className="text-blue-600 text-xs lg:text-sm font-medium mb-2">Rascunhos</p>
-              <p className="text-2xl lg:text-3xl font-bold text-blue-600">{essayStats.drafts}</p>
+              <p className="text-[#162A41] group-hover:text-white text-xs lg:text-sm font-medium mb-2 transition-colors">Rascunhos</p>
+              <p className="text-2xl lg:text-3xl font-bold text-[#162A41] group-hover:text-white transition-colors">{essayStats.drafts}</p>
             </div>
             <div className="stats-card-icon flex items-center justify-center">
               <img
                 src="/essay-icons/RascunhosIcon.png"
                 alt="Rascunhos"
-                className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
+                className="w-16 h-16 lg:w-20 lg:h-20 object-contain transition-all duration-300 icon-hover-white"
               />
             </div>
           </div>
@@ -236,7 +236,7 @@ const Dashboard: React.FC = () => {
           <Card className="h-full shadow-lg border-0">
             <div className="p-6 h-full flex flex-col">
               <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <i className="pi pi-chart-pie text-orange-500"></i>
+                <i className="pi pi-chart-pie text-primary-500"></i>
                 Distribuição das Redações
               </h3>
               <div className="flex-1 flex flex-col items-center justify-start pt-2">
@@ -254,8 +254,8 @@ const Dashboard: React.FC = () => {
                     <span className="text-yellow-600 font-medium">Rascunhos</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 bg-orange-500 rounded-full flex-shrink-0 shadow-sm border border-orange-400"></div>
-                    <span className="text-orange-600 font-medium">Enviadas</span>
+                    <div className="w-5 h-5 bg-primary-500 rounded-full flex-shrink-0 shadow-sm border border-primary-400"></div>
+                    <span className="text-primary-600 font-medium">Enviadas</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-5 h-5 bg-green-500 rounded-full flex-shrink-0 shadow-sm border border-green-400"></div>
@@ -275,7 +275,7 @@ const Dashboard: React.FC = () => {
           <Card className="h-full shadow-lg border-0">
             <div className="p-6 h-full flex flex-col">
               <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-                <i className="pi pi-bolt text-orange-500"></i>
+                <i className="pi pi-bolt text-primary-500"></i>
                 Ações Rápidas
               </h3>
               <div className="flex-1 flex items-center justify-center">
@@ -283,21 +283,21 @@ const Dashboard: React.FC = () => {
                   <Button
                     label="Nova Redação"
                     icon="pi pi-plus"
-                    className="action-button bg-gradient-to-r from-orange-500 to-orange-600 border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
+                    className="action-button bg-[#9ea04f] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
                     onClick={() => navigate('/essays/new')}
                   />
 
                   <Button
                     label={`Rascunhos ${essayStats.drafts > 0 ? `(${essayStats.drafts})` : ''}`}
                     icon="pi pi-file-edit"
-                    className="action-button bg-gradient-to-r from-orange-500 to-orange-600 border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
+                    className="action-button bg-[#9ea04f] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
                     onClick={() => navigate('/essays/drafts')}
                   />
 
                   <Button
                     label="Redações Analisadas"
                     icon="pi pi-check-circle"
-                    className="action-button bg-gradient-to-r from-orange-500 to-orange-600 border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
+                    className="action-button bg-[#9ea04f] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
                     onClick={() => navigate('/essays/analyzed')}
                   />
 
@@ -311,7 +311,7 @@ const Dashboard: React.FC = () => {
       <Card className="shadow-lg border-0">
         <div className="p-6">
           <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-            <i className="pi pi-clock text-orange-500"></i>
+            <i className="pi pi-clock text-primary-500"></i>
             Redações Recentes
           </h3>
 
@@ -373,20 +373,20 @@ const Dashboard: React.FC = () => {
                 body={(essay) => (
                   <div className="flex gap-3 justify-center">
                     <i
-                      className="pi pi-eye text-xl text-orange-500 hover:text-orange-600 cursor-pointer transition-colors"
+                      className="pi pi-eye text-xl text-[#162A41] hover:text-[#162A41] hover:opacity-80 cursor-pointer transition-colors"
                       onClick={() => navigate(`/essays/${essay.id}`)}
                       title="Visualizar"
                     ></i>
                     {essay.status === EssayStatus.DRAFT && (
                       <i
-                        className="pi pi-pencil text-xl text-orange-500 hover:text-orange-600 cursor-pointer transition-colors"
+                        className="pi pi-pencil text-xl text-[#162A41] hover:text-[#162A41] hover:opacity-80 cursor-pointer transition-colors"
                         onClick={() => navigate(`/essays/${essay.id}/edit`)}
                         title="Editar"
                       ></i>
                     )}
                     {essay.status === EssayStatus.ANALYZED && (
                       <i
-                        className="pi pi-comments text-xl text-orange-500 hover:text-orange-600 cursor-pointer transition-colors"
+                        className="pi pi-comments text-xl text-[#162A41] hover:text-[#162A41] hover:opacity-80 cursor-pointer transition-colors"
                         onClick={() => navigate(`/essays/${essay.id}/feedback`)}
                         title="Ver Feedback"
                       ></i>

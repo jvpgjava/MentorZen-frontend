@@ -96,16 +96,16 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
     <Card header={cardHeader} className="w-full zen-shadow-lg mb-6">
       <div className="space-y-6">
         {feedback.overallScore && (
-          <div className="text-center p-6 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl border-2 border-orange-200">
+          <div className="text-center p-6 bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl border-2 border-primary-200">
             <h4 className="text-xl font-bold text-gray-800 mb-3">Nota Geral</h4>
-            <div className="text-5xl font-bold text-orange-600 mb-3">
+            <div className="text-5xl font-bold text-primary-600 mb-3">
               {feedback.overallScore}
               <span className="text-2xl text-gray-500 font-normal">/1000</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-4 mb-3 overflow-hidden">
               <div
                 className={`h-4 rounded-full transition-all duration-500 ${feedback.overallScore >= 800 ? 'bg-gradient-to-r from-green-500 to-green-600' :
-                  feedback.overallScore >= 600 ? 'bg-gradient-to-r from-orange-500 to-orange-600' :
+                  feedback.overallScore >= 600 ? 'bg-[#C7D882]' :
                     feedback.overallScore >= 400 ? 'bg-gradient-to-r from-yellow-500 to-yellow-600' :
                       'bg-gradient-to-r from-red-500 to-red-600'
                   }`}
@@ -113,7 +113,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
               ></div>
             </div>
             <p className={`text-base font-semibold ${feedback.overallScore >= 800 ? 'text-green-700' :
-              feedback.overallScore >= 600 ? 'text-orange-700' :
+              feedback.overallScore >= 600 ? 'text-primary-700' :
                 feedback.overallScore >= 400 ? 'text-yellow-700' :
                   'text-red-700'
               }`}>
@@ -126,7 +126,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
 
         <div>
           <h4 className="text-lg font-semibold mb-3 flex items-center gap-2 text-gray-800">
-            <i className="pi pi-comment text-orange-500 text-xl"></i>
+            <i className="pi pi-comment text-primary-500 text-xl"></i>
             Comentário Geral
           </h4>
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-5 rounded-xl border-2 border-blue-200 shadow-sm">
@@ -138,7 +138,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
 
         <div>
           <h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <i className="pi pi-list text-orange-500"></i>
+            <i className="pi pi-list text-primary-500"></i>
             Análise por Competências
           </h4>
 
@@ -150,7 +150,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
               return (
                 <div
                   key={index}
-                  className={`border-2 rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition-all duration-200 ${hasDetailed ? 'cursor-pointer hover:border-orange-400' : ''
+                  className={`border-2 rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition-all duration-200 ${hasDetailed ? 'cursor-pointer hover:border-primary-400' : ''
                     }`}
                   onClick={() => hasDetailed && openCompetenceModal(competenceNumber)}
                 >
@@ -162,7 +162,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
                     {comp.score && (
                       <div className={`ml-3 px-3 py-1 rounded-lg font-bold text-sm ${comp.score >= 160 ? 'bg-green-100 text-green-700' :
                         comp.score >= 120 ? 'bg-yellow-100 text-yellow-700' :
-                          comp.score >= 80 ? 'bg-orange-100 text-orange-700' :
+                          comp.score >= 80 ? 'bg-primary-100 text-primary-700' :
                             'bg-red-100 text-red-700'
                         }`}>
                         {comp.score}/200
@@ -176,7 +176,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
                         <div
                           className={`h-2.5 rounded-full transition-all duration-500 ${comp.score >= 160 ? 'bg-gradient-to-r from-green-500 to-green-600' :
                             comp.score >= 120 ? 'bg-gradient-to-r from-yellow-500 to-yellow-600' :
-                              comp.score >= 80 ? 'bg-gradient-to-r from-orange-500 to-orange-600' :
+                              comp.score >= 80 ? 'bg-[#C7D882]' :
                                 'bg-gradient-to-r from-red-500 to-red-600'
                             }`}
                           style={{ width: `${getScorePercentage(comp.score)}%` }}
@@ -196,7 +196,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
 
                   {hasDetailed && (
                     <div className="mt-3 pt-3 border-t border-gray-200">
-                      <span className="text-xs text-orange-600 font-medium flex items-center gap-1">
+                      <span className="text-xs text-primary-600 font-medium flex items-center gap-1">
                         <i className="pi pi-info-circle"></i>
                         Clique para ver análise detalhada
                       </span>
@@ -239,7 +239,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
         <Dialog
           header={
             <div className="flex items-center gap-3">
-              <i className="pi pi-info-circle text-orange-500 text-2xl"></i>
+              <i className="pi pi-info-circle text-primary-500 text-2xl"></i>
               <span className="text-xl font-bold text-gray-800">
                 {selectedCompetence && competences[selectedCompetence - 1]?.name}
               </span>
@@ -262,7 +262,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
                   <div className="flex items-center gap-3 mb-4">
                     <span className={`px-3 py-1 rounded-lg font-bold ${competences[selectedCompetence - 1].score! >= 160 ? 'bg-green-100 text-green-700' :
                       competences[selectedCompetence - 1].score! >= 120 ? 'bg-yellow-100 text-yellow-700' :
-                        competences[selectedCompetence - 1].score! >= 80 ? 'bg-orange-100 text-orange-700' :
+                        competences[selectedCompetence - 1].score! >= 80 ? 'bg-primary-100 text-primary-700' :
                           'bg-red-100 text-red-700'
                       }`}>
                       {competences[selectedCompetence - 1].score}/200
@@ -283,9 +283,9 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
               )}
 
               {getDetailedAnalysis(selectedCompetence) && (
-                <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-5 rounded-xl border-2 border-orange-200">
+                <div className="bg-gradient-to-br from-primary-50 to-primary-100 p-5 rounded-xl border-2 border-primary-200">
                   <h6 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
-                    <i className="pi pi-file-edit text-orange-600"></i>
+                    <i className="pi pi-file-edit text-primary-600"></i>
                     Análise Detalhada
                   </h6>
                   <div className="text-gray-800 leading-relaxed whitespace-pre-line">

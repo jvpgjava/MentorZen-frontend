@@ -32,8 +32,8 @@ const About: React.FC = () => {
           />
         </div>
         <div>
-          <h1 className="text-4xl font-bold text-orange-600 mb-2">Sobre o Zen</h1>
-          <p className="text-orange-500 text-lg font-medium">
+          <h1 className="text-4xl font-bold text-primary-600 mb-2">Sobre o Zen</h1>
+          <p className="text-primary-500 text-lg font-medium">
             Escrita Consciente com Inteligência Artificial
           </p>
         </div>
@@ -42,7 +42,7 @@ const About: React.FC = () => {
       <Card className="shadow-lg border-0">
         <div className="p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <i className="pi pi-heart text-orange-500 text-xl"></i>
+            <i className="pi pi-heart text-primary-500 text-xl"></i>
             Nossa Missão
           </h2>
 
@@ -74,7 +74,7 @@ const About: React.FC = () => {
       <Card className="shadow-lg border-0">
         <div className="p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <i className="pi pi-users text-orange-500 text-xl"></i>
+            <i className="pi pi-users text-primary-500 text-xl"></i>
             Nossa Equipe - FloWrite
           </h2>
 
@@ -85,7 +85,7 @@ const About: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {teamMembers.map((member, index) => (
               <div key={index} className="text-center p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                <div className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden shadow-lg border-4 border-orange-200">
+                <div className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden shadow-lg border-4 border-primary-200">
                   <img
                     src={member.photo}
                     alt={`Foto de ${member.name}`}
@@ -103,15 +103,15 @@ const About: React.FC = () => {
       <Card className="shadow-lg border-0">
         <div className="p-6 text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3">
-            <i className="pi pi-envelope text-orange-500 text-xl"></i>
+            <i className="pi pi-envelope text-primary-500 text-xl"></i>
             Entre em Contato
           </h2>
           <p className="text-gray-600 mb-6">
             Tem sugestões, dúvidas ou quer saber mais sobre o Zen? Adoraríamos ouvir você!
           </p>
           <div className="flex justify-center gap-4">
-            <div className="bg-orange-50 px-4 py-2 rounded-lg">
-              <span className="text-orange-600 font-medium">contato@zen.edu.br</span>
+            <div className="bg-primary-50 px-4 py-2 rounded-lg">
+              <span className="text-primary-600 font-medium">contato@zen.edu.br</span>
             </div>
           </div>
         </div>

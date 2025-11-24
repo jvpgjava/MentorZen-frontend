@@ -132,9 +132,9 @@ const EssayFeedback: React.FC = () => {
         <Card className="shadow-lg border-0 bg-white max-w-2xl w-full">
           <div className="p-12 text-center">
             <div className="mb-6">
-              <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-orange-500"></div>
+              <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary-500"></div>
             </div>
-            <h2 className="text-3xl font-bold text-orange-600 mb-4">
+            <h2 className="text-3xl font-bold text-primary-600 mb-4">
               Analisando sua redação...
             </h2>
             <p className="text-gray-600 text-lg mb-2">
@@ -146,7 +146,7 @@ const EssayFeedback: React.FC = () => {
             <div className="mt-6">
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
-                  className="bg-orange-500 h-2 rounded-full transition-all duration-300"
+                  className="bg-primary-500 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${Math.min((pollingAttempts / maxPollingAttempts) * 100, 100)}%` }}
                 ></div>
               </div>
@@ -171,7 +171,7 @@ const EssayFeedback: React.FC = () => {
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all"
+              className="bg-[#C7D882] text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all"
             >
               Atualizar Página
             </button>
@@ -195,7 +195,7 @@ const EssayFeedback: React.FC = () => {
             </p>
             <button
               onClick={() => navigate(`/essays/${id}/edit`)}
-              className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all"
+              className="bg-[#C7D882] text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all"
             >
               Editar Redação
             </button>

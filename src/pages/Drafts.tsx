@@ -80,17 +80,17 @@ const Drafts: React.FC = () => {
     return (
       <div className="flex items-center justify-center gap-3">
         <i
-          className="pi pi-pencil text-orange-500 text-xl cursor-pointer hover:text-orange-600 transition-colors"
+          className="pi pi-pencil text-[#162A41] text-xl cursor-pointer hover:text-[#162A41] hover:opacity-80 transition-colors"
           title="Continuar Editando"
           onClick={() => navigate(`/essays/${essay.id}/edit`)}
         />
         <i
-          className="pi pi-send text-orange-500 text-xl cursor-pointer hover:text-orange-600 transition-colors"
+          className="pi pi-send text-primary-500 text-xl cursor-pointer hover:text-primary-600 transition-colors"
           title="Enviar para Análise"
           onClick={() => handleSubmitDraft(essay)}
         />
         <i
-          className="pi pi-trash text-orange-500 text-xl cursor-pointer hover:text-orange-600 transition-colors"
+          className="pi pi-trash text-primary-500 text-xl cursor-pointer hover:text-primary-600 transition-colors"
           title="Excluir Rascunho"
           onClick={() => confirmDelete(essay)}
         />
@@ -117,7 +117,7 @@ const Drafts: React.FC = () => {
   const getWordCountColor = (count: number) => {
     if (count < 150) return 'text-red-500';
     if (count <= 400) return 'text-green-500';
-    return 'text-orange-500';
+    return 'text-primary-500';
   };
 
   const handleSubmitDraft = (essay: any) => {
@@ -188,7 +188,7 @@ const Drafts: React.FC = () => {
                   placeholder="Buscar por título ou tema..."
                   value={searchFilter}
                   onChange={(e) => setSearchFilter(e.target.value)}
-                  className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg"
+                  className="w-full h-12 text-base border-2 border-gray-200 focus:border-primary-500 rounded-lg"
                 />
               </span>
             </div>
@@ -200,7 +200,7 @@ const Drafts: React.FC = () => {
                   onChange={(e) => setDateFilter(e.value as Date | null)}
                   placeholder="Filtrar por data"
                   dateFormat="dd/mm/yy"
-                  className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg"
+                  className="w-full h-12 text-base border-2 border-gray-200 focus:border-primary-500 rounded-lg"
                   inputClassName="w-full h-12 text-base pl-10"
                   panelClassName="text-base"
                 />
@@ -277,7 +277,7 @@ const Drafts: React.FC = () => {
                       <div className="w-full bg-gray-200 rounded-full h-1 mt-1 max-w-24 mx-auto">
                         <div
                           className={`h-1 rounded-full transition-all ${essay.wordCount < 150 ? 'bg-red-400' :
-                            essay.wordCount <= 400 ? 'bg-green-400' : 'bg-orange-400'
+                            essay.wordCount <= 400 ? 'bg-green-400' : 'bg-primary-400'
                             }`}
                           style={{ width: `${Math.min((essay.wordCount / 400) * 100, 100)}%` }}
                         ></div>

@@ -90,7 +90,7 @@ const EssayEditor: React.FC<EssayEditorProps> = ({ essay, onSave, onCancel }) =>
 
   const getWordCountColor = () => {
     if (wordCount < 150) return 'text-red-500';
-    if (wordCount > 800) return 'text-orange-500';
+    if (wordCount > 800) return 'text-primary-500';
     return 'text-green-500';
   };
 

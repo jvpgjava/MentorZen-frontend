@@ -86,7 +86,7 @@ const AnalyzedEssays: React.FC = () => {
     const getWordCountColor = (count: number) => {
       if (count < 150) return 'text-red-500';
       if (count <= 400) return 'text-green-500';
-      return 'text-orange-500';
+      return 'text-primary-500';
     };
 
     return (
@@ -102,12 +102,12 @@ const AnalyzedEssays: React.FC = () => {
     return (
       <div className="flex items-center justify-center gap-3">
         <i
-          className="pi pi-eye text-orange-500 text-xl cursor-pointer hover:text-orange-600 transition-colors"
+          className="pi pi-eye text-[#162A41] text-xl cursor-pointer hover:text-[#162A41] hover:opacity-80 transition-colors"
           title="Ver Detalhes"
           onClick={() => navigate(`/essays/${essay.id}`)}
         />
         <i
-          className="pi pi-comment text-orange-500 text-xl cursor-pointer hover:text-orange-600 transition-colors"
+          className="pi pi-comment text-[#162A41] text-xl cursor-pointer hover:text-[#162A41] hover:opacity-80 transition-colors"
           title="Ver Feedback"
           onClick={() => navigate(`/essays/${essay.id}/feedback`)}
         />

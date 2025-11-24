@@ -60,7 +60,7 @@ const Feedbacks: React.FC = () => {
 
   const getScoreColor = (score: number) => {
     if (score >= 800) return 'text-green-600';
-    if (score >= 600) return 'text-orange-600';
+    if (score >= 600) return 'text-primary-600';
     if (score >= 400) return 'text-yellow-600';
     return 'text-red-600';
   };
@@ -115,7 +115,7 @@ const Feedbacks: React.FC = () => {
     return (
       <div className="flex gap-3 justify-center">
         <i
-          className="pi pi-eye text-xl text-orange-500 hover:text-orange-600 cursor-pointer transition-colors"
+          className="pi pi-eye text-xl text-[#162A41] hover:text-[#162A41] hover:opacity-80 cursor-pointer transition-colors"
           onClick={() => navigate(`/essays/${feedback.essayId}/feedback`)}
           title="Visualizar"
         ></i>
@@ -142,7 +142,7 @@ const Feedbacks: React.FC = () => {
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
             placeholder="Buscar feedback..."
-            className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg"
+            className="w-full h-12 text-base border-2 border-gray-200 focus:border-primary-500 rounded-lg"
           />
         </span>
       </div>
@@ -152,7 +152,7 @@ const Feedbacks: React.FC = () => {
           options={typeOptions}
           onChange={(e) => setSelectedType(e.value)}
           placeholder="Filtrar por tipo"
-          className="w-full h-12 text-base border-2 border-gray-200 focus:border-orange-500 rounded-lg custom-dropdown"
+          className="w-full h-12 text-base border-2 border-gray-200 focus:border-primary-500 rounded-lg custom-dropdown"
           panelClassName="text-base"
         />
       </div>

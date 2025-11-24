@@ -170,7 +170,7 @@ const NewEssay: React.FC = () => {
     if (wordCount < 150) return 'text-red-500';
     if (wordCount < 250) return 'text-yellow-500';
     if (wordCount <= 400) return 'text-green-500';
-    return 'text-orange-500';
+    return 'text-primary-500';
   };
 
   return (
@@ -184,7 +184,7 @@ const NewEssay: React.FC = () => {
           />
         </div>
         <div>
-          <h1 className="text-4xl font-bold zen-gradient-text mb-2">Nova Redação</h1>
+          <h1 className="text-4xl font-bold text-[#162A41] mb-2">Nova Redação</h1>
           <p className="text-gray-600 text-lg">
             Crie sua redação e receba feedback personalizado do Zen
           </p>
@@ -204,7 +204,7 @@ const NewEssay: React.FC = () => {
                 if (errors.title) setErrors({ ...errors, title: '' });
               }}
               placeholder="Ex: A importância da educação digital"
-              className={`w-full h-12 text-base border-2 border-gray-300 focus:border-orange-500 focus:ring-orange-500 ${errors.title ? 'p-invalid' : ''}`}
+              className={`w-full h-12 text-base border-2 border-gray-300 focus:border-primary-500 focus:ring-primary-500 ${errors.title ? 'p-invalid' : ''}`}
             />
             {errors.title && (
               <small className="text-red-500 mt-2 block text-sm">{errors.title}</small>
@@ -248,7 +248,7 @@ const NewEssay: React.FC = () => {
                   value={customTheme}
                   onChange={(e) => handleCustomThemeChange(e.target.value)}
                   placeholder="Ex: A importância da inteligência artificial na educação"
-                  className={`w-full h-12 text-base border-2 border-gray-300 focus:border-orange-500 focus:ring-orange-500 ${errors.theme ? 'p-invalid' : ''}`}
+                  className={`w-full h-12 text-base border-2 border-gray-300 focus:border-primary-500 focus:ring-primary-500 ${errors.theme ? 'p-invalid' : ''}`}
                 />
                 {errors.theme && selectedTheme === 'custom' && (
                   <small className="text-red-500 mt-2 block text-sm">{errors.theme}</small>
@@ -271,7 +271,7 @@ const NewEssay: React.FC = () => {
               onChange={handleContentChange}
               placeholder="Escreva sua redação aqui..."
               rows={15}
-              className={`w-full text-base border-2 border-gray-300 focus:border-orange-500 focus:ring-orange-500 ${errors.content ? 'p-invalid' : ''}`}
+              className={`w-full text-base border-2 border-gray-300 focus:border-primary-500 focus:ring-primary-500 ${errors.content ? 'p-invalid' : ''}`}
               style={{ minHeight: '300px' }}
             />
             {errors.content && (
@@ -287,7 +287,7 @@ const NewEssay: React.FC = () => {
               <div className="w-full bg-gray-200 rounded-full h-3">
                 <div
                   className={`h-3 rounded-full transition-all duration-300 ${wordCount < 150 ? 'bg-red-400' :
-                    wordCount <= 400 ? 'bg-green-400' : 'bg-orange-400'
+                    wordCount <= 400 ? 'bg-green-400' : 'bg-primary-400'
                     }`}
                   style={{ width: `${Math.min((wordCount / 400) * 100, 100)}%` }}
                 ></div>
@@ -300,7 +300,7 @@ const NewEssay: React.FC = () => {
               label="Salvar Rascunho"
               icon="pi pi-save"
               className={`flex-1 border-0 shadow-lg hover:shadow-xl transition-all duration-300 font-medium px-6 py-3 text-lg rounded-lg ${canSaveDraft()
-                ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white !text-white'
+                ? 'bg-[#C7D882] text-white !text-white'
                 : 'bg-gray-200 text-gray-400 opacity-50 cursor-not-allowed'
                 }`}
               onClick={handleSaveDraft}
@@ -309,7 +309,7 @@ const NewEssay: React.FC = () => {
             <Button
               label="Enviar para Análise"
               icon="pi pi-send"
-              className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium px-6 py-3 text-lg rounded-lg"
+              className="flex-1 bg-[#C7D882] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium px-6 py-3 text-lg rounded-lg"
               onClick={handleSubmit}
               disabled={isLoading || wordCount < 10}
               loading={isLoading}
