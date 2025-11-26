@@ -93,7 +93,7 @@ const ForgotPassword: React.FC = () => {
           <div className="space-y-3">
             <Link
               to="/login"
-              className="block w-full bg-[#88a7e8] hover:bg-[#B5C870] text-white font-medium py-3 px-4 rounded-lg transition-colors"
+              className="block w-full bg-[#88a7e8] hover:bg-[#63da8e] text-white font-medium py-3 px-4 rounded-lg transition-colors"
             >
               Voltar ao Login
             </Link>
@@ -103,7 +103,7 @@ const ForgotPassword: React.FC = () => {
                 setIsSuccess(false);
                 setFormData({ email: '' });
               }}
-              className="block w-full text-[#8FA86B] hover:text-[#7A9555] font-medium py-2"
+              className="block w-full text-[#4472d6] hover:text-[#88a7e8] font-medium py-2"
             >
               Enviar novamente
             </button>
@@ -132,8 +132,9 @@ const ForgotPassword: React.FC = () => {
               className="w-20 h-20 lg:w-24 lg:h-24 object-contain"
             />
           </div>
-          <h1 className="text-4xl lg:text-5xl font-bold zen-gradient-text mb-2">
-            Mentor Zen
+          <h1 className="text-4xl lg:text-5xl font-bold mb-2">
+            <span className="text-[#4472d6]">Mentor </span>
+            <span className="text-[#63da8e]">Zen</span>
           </h1>
           <p className="text-gray-600 text-lg">
             Recuperar Senha
@@ -168,7 +169,7 @@ const ForgotPassword: React.FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-[#88a7e8] hover:bg-[#B5C870] disabled:bg-[#D4E49A] text-white font-medium py-3 px-4 rounded-lg transition-colors"
+            className="w-full bg-[#88a7e8] hover:bg-[#63da8e] disabled:bg-[#D4E49A] text-white font-medium py-3 px-4 rounded-lg transition-colors"
           >
             {isLoading ? 'Enviando...' : 'Enviar Link de Recuperação'}
           </button>
@@ -177,14 +178,14 @@ const ForgotPassword: React.FC = () => {
         <div className="mt-6 text-center">
           <Link
             to="/login"
-            className="text-[#8FA86B] hover:text-[#7A9555] text-sm"
+            className="text-[#4472d6] hover:text-[#88a7e8] text-sm"
           >
             ← Voltar ao login
           </Link>
         </div>
 
         <div className="mt-6 text-center text-sm text-gray-500">
-          <p className="text-[#8FA86B]">Equipe FloWrite</p>
+          <p className="text-[#4472d6]">Equipe FloWrite</p>
         </div>
       </div>
     </div>
