@@ -27,6 +27,12 @@ export interface GoogleLoginRequest {
   token: string;
 }
 
+export interface GoogleRegisterRequest {
+  token: string;
+  schoolGrade?: string;
+  studyGoals?: string;
+}
+
 export interface AuthResponse {
   token: string;
   user: User;
@@ -38,7 +44,11 @@ export class AuthService {
   }
 
   static async loginWithGoogle(data: GoogleLoginRequest): Promise<AuthResponse> {
-    return apiClient.post<AuthResponse>('/auth/google', data);
+    return apiClient.post<AuthResponse>('/auth/google/login', data);
+  }
+
+  static async registerWithGoogle(data: GoogleRegisterRequest): Promise<AuthResponse> {
+    return apiClient.post<AuthResponse>('/auth/google/register', data);
   }
 
   static async register(data: RegisterRequest): Promise<AuthResponse> {

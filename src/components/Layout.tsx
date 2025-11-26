@@ -3,7 +3,6 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { Avatar } from 'primereact/avatar';
 import { Sidebar } from 'primereact/sidebar';
 import { useAuthStore } from '@/store/authStore';
-import { useEssayStore } from '@/store/essayStore';
 import { MenuItem } from '@/types';
 import '@/styles/layout.css';
 
@@ -31,7 +30,9 @@ const Layout: React.FC = () => {
     };
   }, [userMenuVisible]);
 
-  const menuItems: (MenuItem & { path?: string })[] = [
+  type ExtendedMenuItem = MenuItem & { path?: string; items?: ExtendedMenuItem[] };
+
+  const menuItems: ExtendedMenuItem[] = [
     {
       label: 'Dashboard',
       icon: 'pi pi-home',
@@ -176,7 +177,11 @@ const Layout: React.FC = () => {
         >
           <Avatar
             key={user?.profilePictureUrl || 'avatar-header'}
-            image={user?.profilePictureUrl ? `http://localhost:8080${user.profilePictureUrl}` : undefined}
+            image={user?.profilePictureUrl
+              ? (user.profilePictureUrl.startsWith('http://') || user.profilePictureUrl.startsWith('https://'))
+                ? user.profilePictureUrl
+                : `http://localhost:8080${user.profilePictureUrl}`
+              : undefined}
             label={!user?.profilePictureUrl ? user?.name?.charAt(0).toUpperCase() : undefined}
             className="bg-[#C7D882] text-white shadow-sm"
             size="normal"
@@ -266,51 +271,49 @@ const Layout: React.FC = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="flex-1 overflow-y-auto p-4 space-y-2">
-          {menuItems.map((item, index) => (
-            <div key={index}>
-              {item.items ? (
-                <div className="mb-4">
-                  <div className="flex items-center gap-3 p-3 text-gray-700 font-medium border-b border-gray-100">
-                    <i className={item.icon}></i>
-                    <span>{item.label}</span>
-                  </div>
-                  <div className="ml-6 mt-2 space-y-1">
-                    {item.items.map((subItem, subIndex) => {
-                      const isActive = location.pathname === subItem.path;
-                      return (
-                        <button
-                          key={subIndex}
-                          onClick={subItem.command}
-                          className={`flex items-center gap-3 w-full p-3 text-left rounded-lg transition-colors duration-200 ${
-                            isActive 
-                              ? 'bg-[#C7D882] text-white' 
+            {menuItems.map((item, index) => (
+              <div key={index}>
+                {item.items ? (
+                  <div className="mb-4">
+                    <div className="flex items-center gap-3 p-3 text-gray-700 font-medium border-b border-gray-100">
+                      <i className={item.icon}></i>
+                      <span>{item.label}</span>
+                    </div>
+                    <div className="ml-6 mt-2 space-y-1">
+                      {(item.items as ExtendedMenuItem[]).map((subItem, subIndex) => {
+                        const isActive = location.pathname === subItem.path;
+                        return (
+                          <button
+                            key={subIndex}
+                            onClick={subItem.command}
+                            className={`flex items-center gap-3 w-full p-3 text-left rounded-lg transition-colors duration-200 ${isActive
+                              ? 'bg-[#C7D882] text-white'
                               : 'text-gray-600 hover:bg-[#F5EFE9] hover:text-[#C7D882]'
-                          }`}
-                        >
-                          <i className={subItem.icon}></i>
-                          <span>{subItem.label}</span>
-                        </button>
-                      );
-                    })}
+                              }`}
+                          >
+                            <i className={subItem.icon}></i>
+                            <span>{subItem.label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <button
-                  onClick={item.command}
-                  className={`flex items-center gap-3 w-full p-3 text-left rounded-lg transition-colors duration-200 font-medium ${
-                    location.pathname === item.path
+                ) : (
+                  <button
+                    onClick={item.command}
+                    className={`flex items-center gap-3 w-full p-3 text-left rounded-lg transition-colors duration-200 font-medium ${location.pathname === item.path
                       ? 'bg-[#C7D882] text-white'
                       : 'text-gray-700 hover:bg-[#F5EFE9] hover:text-[#C7D882]'
-                  }`}
-                >
-                  <i className={item.icon}></i>
-                  <span>{item.label}</span>
-                </button>
-              )}
-            </div>
-          )          )}
+                      }`}
+                  >
+                    <i className={item.icon}></i>
+                    <span>{item.label}</span>
+                  </button>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </Sidebar>

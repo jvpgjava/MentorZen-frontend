@@ -1,11 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Dropdown } from 'primereact/dropdown';
+import { Dialog } from 'primereact/dialog';
+import { InputTextarea } from 'primereact/inputtextarea';
 import { useAuthStore } from '@/store/authStore';
-import { RegisterRequest } from '@/services/authService';
+import { RegisterRequest, GoogleRegisterRequest } from '@/services/authService';
+
+declare global {
+  interface Window {
+    google?: {
+      accounts: {
+        id: {
+          initialize: (config: { client_id: string; callback: (response: { credential: string }) => void }) => void;
+          renderButton: (element: HTMLElement, config: { theme?: string; size?: string; width?: number }) => void;
+        };
+      };
+    };
+  }
+}
 
 const Register: React.FC = () => {
-  const { register, isLoading } = useAuthStore();
+  const { register, registerWithGoogle, isLoading } = useAuthStore();
   const [formData, setFormData] = useState<RegisterRequest>({
     name: '',
     email: '',
@@ -14,6 +29,13 @@ const Register: React.FC = () => {
     studyGoals: '',
   });
   const [errors, setErrors] = useState<Partial<RegisterRequest>>({});
+  const googleButtonRef = useRef<HTMLDivElement>(null);
+  const [showGoogleRegisterDialog, setShowGoogleRegisterDialog] = useState(false);
+  const [googleToken, setGoogleToken] = useState<string>('');
+  const [googleRegisterData, setGoogleRegisterData] = useState<{ schoolGrade: string; studyGoals: string }>({
+    schoolGrade: '',
+    studyGoals: '',
+  });
 
   const schoolGrades = [
     { label: 'Selecione sua série', value: '' },
@@ -82,6 +104,99 @@ const Register: React.FC = () => {
     } catch (error) {
     }
   };
+
+  const handleGoogleSignIn = async (credential: string) => {
+    setGoogleToken(credential);
+    setShowGoogleRegisterDialog(true);
+  };
+
+  const handleGoogleRegisterSubmit = async () => {
+    try {
+      console.log('Iniciando registro com Google...');
+      const request: GoogleRegisterRequest = {
+        token: googleToken,
+        schoolGrade: googleRegisterData.schoolGrade || undefined,
+        studyGoals: googleRegisterData.studyGoals || undefined,
+      };
+      await registerWithGoogle(request);
+      console.log('Registro com Google concluído com sucesso');
+      setShowGoogleRegisterDialog(false);
+      setGoogleToken('');
+      setGoogleRegisterData({ schoolGrade: '', studyGoals: '' });
+    } catch (error: any) {
+      console.error('Erro no registro com Google:', error);
+      // O erro já é tratado pelo apiClient, não precisa mostrar toast aqui
+    }
+  };
+
+  useEffect(() => {
+    const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+
+    console.log('Google Client ID carregado:', googleClientId ? 'SIM' : 'NÃO');
+    console.log('Valor do Client ID:', googleClientId);
+
+    if (!googleClientId) {
+      console.warn('Google Client ID não configurado');
+      return;
+    }
+
+    if (document.querySelector('script[src="https://accounts.google.com/gsi/client"]')) {
+      if (window.google && googleButtonRef.current) {
+        console.log('Inicializando Google Sign-In com Client ID:', googleClientId);
+        window.google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: (response) => {
+            console.log('Google Sign-In callback recebido');
+            handleGoogleSignIn(response.credential);
+          },
+        });
+
+        if (googleButtonRef.current) {
+          window.google.accounts.id.renderButton(googleButtonRef.current, {
+            theme: 'outline',
+            size: 'large',
+            width: googleButtonRef.current.offsetWidth || 300,
+          });
+          console.log('Botão Google renderizado');
+        }
+      }
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      console.log('Script do Google Identity Services carregado');
+      if (window.google && googleButtonRef.current) {
+        console.log('Inicializando Google Sign-In com Client ID:', googleClientId);
+        window.google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: (response) => {
+            console.log('Google Sign-In callback recebido');
+            handleGoogleSignIn(response.credential);
+          },
+        });
+
+        if (googleButtonRef.current) {
+          window.google.accounts.id.renderButton(googleButtonRef.current, {
+            theme: 'outline',
+            size: 'large',
+            width: googleButtonRef.current.offsetWidth || 300,
+          });
+          console.log('Botão Google renderizado');
+        }
+      }
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      if (googleButtonRef.current) {
+        googleButtonRef.current.innerHTML = '';
+      }
+    };
+  }, []);
 
   return (
     <div
@@ -225,6 +340,21 @@ const Register: React.FC = () => {
           </button>
         </form>
 
+        <div className="mt-6">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">Ou</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-4 flex justify-center">
+          <div ref={googleButtonRef} className="w-full flex justify-center"></div>
+        </div>
+
         <div className="mt-6 text-center">
           <div className="text-gray-500 text-sm">
             Já tem uma conta?{' '}
@@ -241,6 +371,81 @@ const Register: React.FC = () => {
           <p className="text-[#8FA86B]">Equipe FloWrite</p>
         </div>
       </div>
+
+      <Dialog
+        header="Complete seu cadastro"
+        visible={showGoogleRegisterDialog}
+        onHide={() => {
+          setShowGoogleRegisterDialog(false);
+          setGoogleToken('');
+          setGoogleRegisterData({ schoolGrade: '', studyGoals: '' });
+        }}
+        style={{ width: '90%', maxWidth: '500px' }}
+        className="p-fluid"
+      >
+        <div className="space-y-4 mt-4">
+          <p className="text-gray-600 text-sm">
+            Preencha as informações abaixo para completar seu cadastro (campos opcionais):
+          </p>
+
+          <div>
+            <label htmlFor="googleSchoolGrade" className="block text-sm font-medium text-gray-700 mb-1">
+              Série/Ano (Opcional)
+            </label>
+            <Dropdown
+              value={googleRegisterData.schoolGrade}
+              options={schoolGrades}
+              onChange={(e) => setGoogleRegisterData(prev => ({ ...prev, schoolGrade: e.value }))}
+              placeholder="Selecione sua série"
+              className="w-full h-12 text-base border-2 border-gray-200 focus:border-[#C7D882] rounded-lg custom-dropdown"
+              panelClassName="text-base"
+              disabled={isLoading}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="googleStudyGoals" className="block text-sm font-medium text-gray-700 mb-1">
+              Objetivos de Estudo (Opcional)
+            </label>
+            <InputTextarea
+              id="googleStudyGoals"
+              value={googleRegisterData.studyGoals}
+              onChange={(e) => setGoogleRegisterData(prev => ({ ...prev, studyGoals: e.target.value }))}
+              rows={3}
+              className="w-full text-base"
+              placeholder="Ex: Passar no ENEM, melhorar redação..."
+              disabled={isLoading}
+              maxLength={500}
+            />
+            <p className="text-gray-500 text-xs mt-1">
+              {googleRegisterData.studyGoals?.length || 0}/500 caracteres
+            </p>
+          </div>
+
+          <div className="flex gap-2 justify-end mt-6">
+            <button
+              type="button"
+              onClick={() => {
+                setShowGoogleRegisterDialog(false);
+                setGoogleToken('');
+                setGoogleRegisterData({ schoolGrade: '', studyGoals: '' });
+              }}
+              className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              disabled={isLoading}
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              onClick={handleGoogleRegisterSubmit}
+              disabled={isLoading}
+              className="px-4 py-2 bg-[#9ea04f] hover:bg-[#B5C870] disabled:bg-[#D4E49A] text-white rounded-lg transition-colors"
+            >
+              {isLoading ? 'Criando conta...' : 'Criar Conta'}
+            </button>
+          </div>
+        </div>
+      </Dialog>
     </div>
   );
 };

@@ -139,7 +139,11 @@ const Dashboard: React.FC = () => {
           <div className="flex items-center gap-3 mb-4">
             <Avatar
               key={user?.profilePictureUrl || 'avatar-dashboard'}
-              image={user?.profilePictureUrl ? `http://localhost:8080${user.profilePictureUrl}` : undefined}
+              image={user?.profilePictureUrl
+                ? (user.profilePictureUrl.startsWith('http://') || user.profilePictureUrl.startsWith('https://'))
+                  ? user.profilePictureUrl
+                  : `http://localhost:8080${user.profilePictureUrl}`
+                : undefined}
               label={!user?.profilePictureUrl ? user?.name?.charAt(0).toUpperCase() : undefined}
               className={!user?.profilePictureUrl ? "bg-white text-[#C7D882] shadow-lg border-2 border-white" : "bg-white shadow-lg border-2 border-white"}
               size="large"

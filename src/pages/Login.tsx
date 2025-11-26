@@ -66,7 +66,9 @@ const Login: React.FC = () => {
 
   const handleGoogleSignIn = async (credential: string) => {
     try {
+      console.log('Iniciando login com Google...');
       await loginWithGoogle({ token: credential });
+      console.log('Login com Google concluído com sucesso');
     } catch (error: any) {
       console.error('Erro no login com Google:', error);
     }
@@ -75,16 +77,22 @@ const Login: React.FC = () => {
   useEffect(() => {
     const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
+    console.log('Google Client ID carregado:', googleClientId ? 'SIM' : 'NÃO');
+    console.log('Valor do Client ID:', googleClientId);
+
     if (!googleClientId) {
-      console.warn('Google Client ID não configurado');
+      console.error('Google Client ID não configurado!');
+      console.error('Crie um arquivo .env na raiz do projeto com:');
       return;
     }
 
     if (document.querySelector('script[src="https://accounts.google.com/gsi/client"]')) {
       if (window.google && googleButtonRef.current) {
+        console.log('Inicializando Google Sign-In com Client ID:', googleClientId);
         window.google.accounts.id.initialize({
           client_id: googleClientId,
           callback: (response) => {
+            console.log('Google Sign-In callback recebido');
             handleGoogleSignIn(response.credential);
           },
         });
@@ -95,6 +103,7 @@ const Login: React.FC = () => {
             size: 'large',
             width: googleButtonRef.current.offsetWidth || 300,
           });
+          console.log('Botão Google renderizado');
         }
       }
       return;
@@ -105,10 +114,13 @@ const Login: React.FC = () => {
     script.async = true;
     script.defer = true;
     script.onload = () => {
+      console.log('Script do Google Identity Services carregado');
       if (window.google && googleButtonRef.current) {
+        console.log('Inicializando Google Sign-In com Client ID:', googleClientId);
         window.google.accounts.id.initialize({
           client_id: googleClientId,
           callback: (response) => {
+            console.log('Google Sign-In callback recebido');
             handleGoogleSignIn(response.credential);
           },
         });
@@ -119,6 +131,7 @@ const Login: React.FC = () => {
             size: 'large',
             width: googleButtonRef.current.offsetWidth || 300,
           });
+          console.log('Botão Google renderizado');
         }
       }
     };
