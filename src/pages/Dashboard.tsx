@@ -106,8 +106,8 @@ const Dashboard: React.FC = () => {
           essays.filter(e => e.status === EssayStatus.ARCHIVED).length
         ],
         backgroundColor: [
-          '#eab308',
-          '#C7D882',
+          '#F2D066',
+          '#88a7e8',
           '#22c55e',
           '#6b7280'
         ],
@@ -134,14 +134,14 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
-      <div className="relative overflow-hidden bg-[#9ea04f] text-white rounded-2xl p-8 shadow-xl">
+      <div className="relative overflow-hidden bg-[#4472d6] text-white rounded-2xl p-8 shadow-xl">
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
             <Avatar
               key={user?.profilePictureUrl || 'avatar-dashboard'}
               image={user?.profilePictureUrl ? `http://localhost:8080${user.profilePictureUrl}` : undefined}
               label={!user?.profilePictureUrl ? user?.name?.charAt(0).toUpperCase() : undefined}
-              className={!user?.profilePictureUrl ? "bg-white text-[#C7D882] shadow-lg border-2 border-white" : "bg-white shadow-lg border-2 border-white"}
+              className={!user?.profilePictureUrl ? "bg-white text-[#88a7e8] shadow-lg border-2 border-white" : "bg-white shadow-lg border-2 border-white"}
               size="large"
               shape="circle"
             />
@@ -164,7 +164,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       <div className="dashboard-stats-grid">
-        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:bg-[#9ea04f] hover:shadow-xl transition-all duration-300 group overflow-visible">
+        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:bg-[#4472d6] hover:shadow-xl transition-all duration-300 group overflow-visible">
           <div className="stats-card-content">
             <div className="stats-card-text">
               <p className="text-[#162A41] group-hover:text-white text-xs lg:text-sm font-medium mb-2 transition-colors">Total de Redações</p>
@@ -180,7 +180,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:bg-[#9ea04f] hover:shadow-xl transition-all duration-300 group overflow-visible">
+        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:bg-[#4472d6] hover:shadow-xl transition-all duration-300 group overflow-visible">
           <div className="stats-card-content">
             <div className="stats-card-text">
               <p className="text-[#162A41] group-hover:text-white text-xs lg:text-sm font-medium mb-2 transition-colors">Redações Analisadas</p>
@@ -196,7 +196,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:bg-[#9ea04f] hover:shadow-xl transition-all duration-300 group overflow-visible">
+        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:bg-[#4472d6] hover:shadow-xl transition-all duration-300 group overflow-visible">
           <div className="stats-card-content">
             <div className="stats-card-text">
               <p className="text-[#162A41] group-hover:text-white text-xs lg:text-sm font-medium mb-2 transition-colors">Nota Média</p>
@@ -214,7 +214,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:bg-[#9ea04f] hover:shadow-xl transition-all duration-300 group overflow-visible">
+        <div className="stats-card bg-white rounded-xl p-4 lg:p-6 shadow-lg border border-gray-100 hover:bg-[#4472d6] hover:shadow-xl transition-all duration-300 group overflow-visible">
           <div className="stats-card-content">
             <div className="stats-card-text">
               <p className="text-[#162A41] group-hover:text-white text-xs lg:text-sm font-medium mb-2 transition-colors">Rascunhos</p>
@@ -236,7 +236,7 @@ const Dashboard: React.FC = () => {
           <Card className="h-full shadow-lg border-0">
             <div className="p-4 h-full flex flex-col">
               <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <i className="pi pi-chart-pie text-[#9ea04f]"></i>
+                <i className="pi pi-chart-pie text-[#4472d6]"></i>
                 Distribuição das Redações
               </h3>
               <div className="flex-1 flex flex-col items-center justify-center gap-3">
@@ -250,8 +250,8 @@ const Dashboard: React.FC = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm w-full max-w-sm justify-center">
                   <div className="flex items-center gap-4 justify-center">
-                    <div className="w-5 h-5 bg-yellow-500 rounded-full flex-shrink-0 shadow-sm border border-yellow-400"></div>
-                    <span className="text-yellow-600 font-medium">Rascunhos</span>
+                    <div className="w-5 h-5 bg-yellow-300 rounded-full flex-shrink-0 shadow-sm border border-yellow-400"></div>
+                    <span className="text-yellow-300 font-medium">Rascunhos</span>
                   </div>
                   <div className="flex items-center gap-3 justify-center">
                     <div className="w-5 h-5 bg-primary-500 rounded-full flex-shrink-0 shadow-sm border border-primary-400"></div>
@@ -275,7 +275,7 @@ const Dashboard: React.FC = () => {
           <Card className="h-full shadow-lg border-0">
             <div className="p-6 h-full flex flex-col">
               <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-                <i className="pi pi-bolt text-[#9ea04f]"></i>
+                <i className="pi pi-bolt text-[#4472d6]"></i>
                 Ações Rápidas
               </h3>
               <div className="flex-1 flex items-center justify-center">
@@ -283,28 +283,28 @@ const Dashboard: React.FC = () => {
                   <Button
                     label="Nova Redação"
                     icon="pi pi-plus"
-                    className="action-button bg-[#9ea04f] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
+                    className="action-button bg-[#4472d6] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
                     onClick={() => navigate('/essays/new')}
                   />
 
                   <Button
                     label={`Rascunhos ${essayStats.drafts > 0 ? `(${essayStats.drafts})` : ''}`}
                     icon="pi pi-file-edit"
-                    className="action-button bg-[#9ea04f] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
+                    className="action-button bg-[#4472d6] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
                     onClick={() => navigate('/essays/drafts')}
                   />
 
                   <Button
                     label="Redações Analisadas"
                     icon="pi pi-check-circle"
-                    className="action-button bg-[#9ea04f] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
+                    className="action-button bg-[#4472d6] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
                     onClick={() => navigate('/essays/analyzed')}
                   />
 
                   <Button
                     label="Todas as Redações"
                     icon="pi pi-list"
-                    className="action-button bg-[#9ea04f] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
+                    className="action-button bg-[#4472d6] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium"
                     onClick={() => navigate('/essays')}
                   />
 
@@ -318,7 +318,7 @@ const Dashboard: React.FC = () => {
       <Card className="shadow-lg border-0">
         <div className="p-6">
           <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-            <i className="pi pi-clock text-[#9ea04f]"></i>
+            <i className="pi pi-clock text-[#4472d6]"></i>
             Redações Recentes
           </h3>
 

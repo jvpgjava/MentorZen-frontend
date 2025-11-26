@@ -124,7 +124,7 @@ const Register: React.FC = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C7D882] text-base ${errors.name ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#88a7e8] text-base ${errors.name ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="Seu nome completo"
               disabled={isLoading}
@@ -145,7 +145,7 @@ const Register: React.FC = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C7D882] text-base ${errors.email ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#88a7e8] text-base ${errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="seu@email.com"
               disabled={isLoading}
@@ -166,7 +166,7 @@ const Register: React.FC = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C7D882] text-base ${errors.password ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#88a7e8] text-base ${errors.password ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="Mínimo 6 caracteres"
               disabled={isLoading}
@@ -186,7 +186,7 @@ const Register: React.FC = () => {
               options={schoolGrades}
               onChange={(e) => handleSchoolGradeChange(e.value)}
               placeholder="Selecione sua série"
-              className="w-full h-12 text-base border-2 border-gray-200 focus:border-[#C7D882] rounded-lg custom-dropdown"
+              className="w-full h-12 text-base border-2 border-gray-200 focus:border-[#88a7e8] rounded-lg custom-dropdown"
               panelClassName="text-base"
               disabled={isLoading}
             />
@@ -202,7 +202,7 @@ const Register: React.FC = () => {
               value={formData.studyGoals}
               onChange={handleChange}
               rows={3}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C7D882] resize-none text-base ${errors.studyGoals ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#88a7e8] resize-none text-base ${errors.studyGoals ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="Ex: Passar no ENEM, melhorar redação..."
               disabled={isLoading}
@@ -219,7 +219,7 @@ const Register: React.FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-[#9ea04f] hover:bg-[#B5C870] disabled:bg-[#D4E49A] text-white font-medium py-3 px-4 rounded-lg transition-colors"
+            className="w-full bg-[#4472d6] hover:bg-[#B5C870] disabled:bg-[#D4E49A] text-white font-medium py-3 px-4 rounded-lg transition-colors"
           >
             {isLoading ? 'Criando conta...' : 'Criar Conta'}
           </button>
