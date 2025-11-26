@@ -99,7 +99,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
           <div className="text-center p-6 bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl border-2 border-primary-200">
             <h4 className="text-xl font-bold text-gray-800 mb-3">Nota Geral</h4>
             <div className={`text-5xl font-bold mb-3 ${feedback.overallScore >= 800 ? 'text-green-600' :
-              feedback.overallScore >= 600 ? 'text-[#C7D882]' :
+              feedback.overallScore >= 600 ? 'text-[#88a7e8]' :
                 feedback.overallScore >= 400 ? 'text-yellow-600' :
                   'text-red-600'
               }`}>
@@ -109,8 +109,8 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
             <div className="w-full bg-gray-200 rounded-full h-4 mb-3 overflow-hidden">
               <div
                 className={`h-4 rounded-full transition-all duration-500 ${feedback.overallScore >= 800 ? 'bg-gradient-to-r from-green-500 to-green-600' :
-                  feedback.overallScore >= 600 ? 'bg-[#C7D882]' :
-                    feedback.overallScore >= 400 ? 'bg-gradient-to-r from-yellow-500 to-yellow-600' :
+                  feedback.overallScore >= 600 ? 'bg-[#88a7e8]' :
+                    feedback.overallScore >= 400 ? 'bg-gradient-to-r from-yellow-300 to-yellow-600' :
                       'bg-gradient-to-r from-red-500 to-red-600'
                   }`}
                 style={{ width: `${getScorePercentage(feedback.overallScore, 1000)}%` }}
@@ -177,8 +177,8 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
                       <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
                         <div
                           className={`h-2.5 rounded-full transition-all duration-500 ${comp.score >= 160 ? 'bg-gradient-to-r from-green-500 to-green-600' :
-                            comp.score >= 120 ? 'bg-gradient-to-r from-yellow-500 to-yellow-600' :
-                              comp.score >= 80 ? 'bg-[#C7D882]' :
+                            comp.score >= 120 ? 'bg-gradient-to-r from-yellow-300 to-yellow-600' :
+                              comp.score >= 80 ? 'bg-[#88a7e8]' :
                                 'bg-gradient-to-r from-red-500 to-red-600'
                             }`}
                           style={{ width: `${getScorePercentage(comp.score)}%` }}

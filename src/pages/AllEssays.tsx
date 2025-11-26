@@ -174,7 +174,7 @@ const AllEssays: React.FC = () => {
         <Button
           label="Nova Redação"
           icon="pi pi-plus"
-          className="bg-[#C7D882] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium px-6 py-3 text-lg rounded-lg"
+          className="bg-[#88a7e8] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium px-6 py-3 text-lg rounded-lg"
           onClick={() => navigate('/essays/new')}
         />
       </div>

@@ -78,7 +78,7 @@ const config: AppConfig = {
   },
   theme: {
     defaultTheme: import.meta.env.VITE_DEFAULT_THEME || 'light',
-    brandColor: import.meta.env.VITE_BRAND_COLOR || '#C7D882',
+    brandColor: import.meta.env.VITE_BRAND_COLOR || '#88a7e8',
   },
   validation: {
     maxEssayLength: parseInt(import.meta.env.VITE_MAX_ESSAY_LENGTH || '5000'),

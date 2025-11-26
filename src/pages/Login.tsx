@@ -169,7 +169,7 @@ const Login: React.FC = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C7D882] text-base ${errors.email ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#88a7e8] text-base ${errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="seu@email.com"
               disabled={isLoading}
@@ -190,7 +190,7 @@ const Login: React.FC = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C7D882] text-base ${errors.password ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#88a7e8] text-base ${errors.password ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="Sua senha"
               disabled={isLoading}
@@ -204,7 +204,7 @@ const Login: React.FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-[#C7D882] hover:bg-[#B5C870] disabled:bg-[#D4E49A] text-white font-medium py-3 px-4 rounded-lg transition-colors"
+            className="w-full bg-[#88a7e8] hover:bg-[#B5C870] disabled:bg-[#D4E49A] text-white font-medium py-3 px-4 rounded-lg transition-colors"
           >
             {isLoading ? 'Entrando...' : 'Entrar'}
           </button>

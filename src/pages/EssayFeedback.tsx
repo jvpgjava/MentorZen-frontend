@@ -181,7 +181,7 @@ const EssayFeedback: React.FC = () => {
       <div className="flex flex-col items-center justify-center min-h-[400px] py-12">
         <Card className="shadow-lg border-0 bg-white max-w-2xl w-full">
           <div className="p-12 text-center">
-            <i className="pi pi-exclamation-triangle text-6xl text-yellow-500 mb-4"></i>
+            <i className="pi pi-exclamation-triangle text-6xl text-yellow-300 mb-4"></i>
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
               Feedback não encontrado
             </h2>
@@ -190,7 +190,7 @@ const EssayFeedback: React.FC = () => {
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="bg-[#C7D882] text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all"
+              className="bg-[#88a7e8] text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all"
             >
               Atualizar Página
             </button>
@@ -214,7 +214,7 @@ const EssayFeedback: React.FC = () => {
             </p>
             <button
               onClick={() => navigate(`/essays/${id}/edit`)}
-              className="bg-[#C7D882] text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all"
+              className="bg-[#88a7e8] text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all"
             >
               Editar Redação
             </button>
@@ -245,7 +245,7 @@ const EssayFeedback: React.FC = () => {
         <button
           onClick={handleResend}
           disabled={isResending}
-          className="flex items-center gap-2 bg-[#C7D882] text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 bg-[#88a7e8] text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <i className={`pi ${isResending ? 'pi-spin pi-spinner' : 'pi-refresh'}`} />
           {isResending ? 'Reenviando...' : 'Solicitar Nova Análise'}
