@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { User } from '@/types';
-import { AuthService, LoginRequest, RegisterRequest, ForgotPasswordRequest, ResetPasswordRequest } from '@/services/authService';
+import { AuthService, LoginRequest, RegisterRequest, ForgotPasswordRequest, ResetPasswordRequest, GoogleLoginRequest } from '@/services/authService';
 import { showToast } from '@/utils/toast';
 
 interface AuthState {
@@ -14,6 +14,7 @@ interface AuthState {
   clearAuth: () => void;
   setLoading: (loading: boolean) => void;
   login: (data: LoginRequest) => Promise<void>;
+  loginWithGoogle: (data: GoogleLoginRequest) => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
   forgotPassword: (data: ForgotPasswordRequest) => Promise<void>;
   resetPassword: (data: ResetPasswordRequest) => Promise<void>;
@@ -68,6 +69,23 @@ export const useAuthStore = create<AuthState>()(
             isLoading: false,
           });
           showToast.success('Login realizado com sucesso!');
+        } catch (error: any) {
+          set({ isLoading: false });
+          throw error;
+        }
+      },
+
+      loginWithGoogle: async (data: GoogleLoginRequest) => {
+        try {
+          set({ isLoading: true });
+          const response = await AuthService.loginWithGoogle(data);
+          set({
+            user: response.user,
+            token: response.token,
+            isAuthenticated: true,
+            isLoading: false,
+          });
+          showToast.success('Login com Google realizado com sucesso!');
         } catch (error: any) {
           set({ isLoading: false });
           throw error;

@@ -23,6 +23,10 @@ export interface ResetPasswordRequest {
   newPassword: string;
 }
 
+export interface GoogleLoginRequest {
+  token: string;
+}
+
 export interface AuthResponse {
   token: string;
   user: User;
@@ -31,6 +35,10 @@ export interface AuthResponse {
 export class AuthService {
   static async login(data: LoginRequest): Promise<AuthResponse> {
     return apiClient.post<AuthResponse>('/auth/login', data);
+  }
+
+  static async loginWithGoogle(data: GoogleLoginRequest): Promise<AuthResponse> {
+    return apiClient.post<AuthResponse>('/auth/google', data);
   }
 
   static async register(data: RegisterRequest): Promise<AuthResponse> {

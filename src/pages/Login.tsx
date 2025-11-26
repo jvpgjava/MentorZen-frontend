@@ -1,15 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { LoginRequest } from '@/services/authService';
 
+declare global {
+  interface Window {
+    google?: {
+      accounts: {
+        id: {
+          initialize: (config: { client_id: string; callback: (response: { credential: string }) => void }) => void;
+          renderButton: (element: HTMLElement, config: { theme?: string; size?: string; width?: number }) => void;
+        };
+      };
+    };
+  }
+}
+
 const Login: React.FC = () => {
-  const { login, isLoading } = useAuthStore();
+  const { login, loginWithGoogle, isLoading } = useAuthStore();
   const [formData, setFormData] = useState<LoginRequest>({
     email: '',
     password: '',
   });
   const [errors, setErrors] = useState<Partial<LoginRequest>>({});
+  const googleButtonRef = useRef<HTMLDivElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -49,6 +63,73 @@ const Login: React.FC = () => {
     } catch (error) {
     }
   };
+
+  const handleGoogleSignIn = async (credential: string) => {
+    try {
+      await loginWithGoogle({ token: credential });
+    } catch (error: any) {
+      console.error('Erro no login com Google:', error);
+    }
+  };
+
+  useEffect(() => {
+    const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+
+    if (!googleClientId) {
+      console.warn('Google Client ID não configurado');
+      return;
+    }
+
+    if (document.querySelector('script[src="https://accounts.google.com/gsi/client"]')) {
+      if (window.google && googleButtonRef.current) {
+        window.google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: (response) => {
+            handleGoogleSignIn(response.credential);
+          },
+        });
+
+        if (googleButtonRef.current) {
+          window.google.accounts.id.renderButton(googleButtonRef.current, {
+            theme: 'outline',
+            size: 'large',
+            width: googleButtonRef.current.offsetWidth || 300,
+          });
+        }
+      }
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      if (window.google && googleButtonRef.current) {
+        window.google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: (response) => {
+            handleGoogleSignIn(response.credential);
+          },
+        });
+
+        if (googleButtonRef.current) {
+          window.google.accounts.id.renderButton(googleButtonRef.current, {
+            theme: 'outline',
+            size: 'large',
+            width: googleButtonRef.current.offsetWidth || 300,
+          });
+        }
+      }
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      if (googleButtonRef.current) {
+        googleButtonRef.current.innerHTML = '';
+      }
+    };
+  }, []);
 
   return (
     <div
@@ -128,6 +209,21 @@ const Login: React.FC = () => {
             {isLoading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
+
+        <div className="mt-6">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">Ou</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-4 flex justify-center">
+          <div ref={googleButtonRef} className="w-full flex justify-center"></div>
+        </div>
 
         <div className="mt-6 text-center space-y-2">
           <Link
