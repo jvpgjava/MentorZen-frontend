@@ -200,7 +200,7 @@ const Register: React.FC = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center py-8"
+      className="min-h-screen flex items-center justify-center py-4"
       style={{
         backgroundImage: 'url(/wallpaper-login/FundoLogin.png)',
         backgroundSize: 'cover',
@@ -208,13 +208,13 @@ const Register: React.FC = () => {
         backgroundRepeat: 'no-repeat'
       }}
     >
-      <div className="bg-white p-8 rounded-lg shadow-2xl max-w-md w-full">
-        <div className="text-center mb-6">
-          <div className="flex items-center justify-center mb-4">
+      <div className="bg-white p-6 rounded-lg shadow-2xl max-w-md w-full">
+        <div className="text-center mb-4">
+          <div className="flex items-center justify-center mb-3">
             <img
               src="/assets/zen-logo.svg"
               alt="Mentor Zen Logo"
-              className="w-20 h-20 lg:w-24 lg:h-24 object-contain"
+              className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
             />
           </div>
           <h1 className="text-4xl lg:text-5xl font-bold mb-2">
@@ -341,13 +341,13 @@ const Register: React.FC = () => {
           </button>
         </form>
 
-        <div className="mt-6">
+        <div className="mt-4">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Ou</span>
+              <span className="px-3 bg-white text-gray-500">Ou</span>
             </div>
           </div>
         </div>
@@ -356,7 +356,7 @@ const Register: React.FC = () => {
           <div ref={googleButtonRef} className="w-full flex justify-center"></div>
         </div>
 
-        <div className="mt-6 text-center">
+        <div className="mt-4 text-center">
           <div className="text-gray-500 text-sm">
             Já tem uma conta?{' '}
             <Link
@@ -368,7 +368,7 @@ const Register: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-6 text-center text-sm text-gray-500">
+        <div className="mt-4 text-center text-sm text-gray-500">
           <p className="text-[#4472d6]">Equipe FloWrite</p>
         </div>
       </div>

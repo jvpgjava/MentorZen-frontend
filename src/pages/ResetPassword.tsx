@@ -87,7 +87,7 @@ const ResetPassword: React.FC = () => {
   if (isSuccess) {
     return (
       <div
-        className="min-h-screen flex items-center justify-center px-4"
+        className="min-h-screen flex items-center justify-center py-4 px-4"
         style={{
           backgroundImage: 'url(/wallpaper-login/FundoLogin.png)',
           backgroundSize: 'cover',
@@ -95,8 +95,8 @@ const ResetPassword: React.FC = () => {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <div className="bg-white p-8 rounded-lg shadow-2xl max-w-md w-full text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="bg-white p-6 rounded-lg shadow-2xl max-w-md w-full text-center">
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
             <i className="pi pi-check-circle text-green-500 text-3xl"></i>
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
@@ -118,7 +118,7 @@ const ResetPassword: React.FC = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4"
+      className="min-h-screen flex items-center justify-center py-4 px-4"
       style={{
         backgroundImage: 'url(/wallpaper-login/FundoLogin.png)',
         backgroundSize: 'cover',
@@ -126,13 +126,13 @@ const ResetPassword: React.FC = () => {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="bg-white p-8 rounded-lg shadow-2xl max-w-md w-full">
-        <div className="text-center mb-6">
-          <div className="flex items-center justify-center mb-4">
+      <div className="bg-white p-6 rounded-lg shadow-2xl max-w-md w-full">
+        <div className="text-center mb-4">
+          <div className="flex items-center justify-center mb-3">
             <img
               src="/assets/zen-logo.svg"
               alt="Mentor Zen Logo"
-              className="w-20 h-20 lg:w-24 lg:h-24 object-contain"
+              className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
             />
           </div>
           <h1 className="text-4xl lg:text-5xl font-bold mb-2">
@@ -197,7 +197,7 @@ const ResetPassword: React.FC = () => {
           </button>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-4 text-center">
           <Link
             to="/login"
             className="text-[#4472d6] hover:text-[#88a7e8] text-sm"
@@ -206,7 +206,7 @@ const ResetPassword: React.FC = () => {
           </Link>
         </div>
 
-        <div className="mt-6 text-center text-sm text-gray-500">
+        <div className="mt-4 text-center text-sm text-gray-500">
           <p className="text-[#4472d6]">Equipe FloWrite</p>
         </div>
       </div>
