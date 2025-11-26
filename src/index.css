@@ -380,7 +380,6 @@ h6 {
   width: 48px !important;
   height: 48px !important;
   border-radius: 50% !important;
-  background-color: #4472d6 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -392,12 +391,15 @@ h6 {
 }
 
 .header-circle-button:hover {
-  background-color: #162A41 !important;
   transform: scale(1.05) !important;
 }
 
+.header-circle-button:hover i {
+  color: #2450af !important;
+}
+
 .header-circle-button i {
-  color: white !important;
+  color: #4472d6 !important;
   font-size: 18px !important;
   line-height: 1 !important;
   display: flex !important;

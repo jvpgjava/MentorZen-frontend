@@ -181,7 +181,7 @@ const EssayFeedback: React.FC = () => {
       <div className="flex flex-col items-center justify-center min-h-[400px] py-12">
         <Card className="shadow-lg border-0 bg-white max-w-2xl w-full">
           <div className="p-12 text-center">
-            <i className="pi pi-exclamation-triangle text-6xl text-yellow-300 mb-4"></i>
+            <i className="pi pi-exclamation-triangle text-6xl text-[#F2D066] mb-4"></i>
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
               Feedback não encontrado
             </h2>

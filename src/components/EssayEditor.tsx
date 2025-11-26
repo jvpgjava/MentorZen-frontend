@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { EssayService } from '@/services/essayService';
 import { useEssayStore } from '@/store/essayStore';
-import { Essay, EssayCreateRequest } from '@/types';
+import { Essay } from '@/types';
 import { showToast } from '@/utils/toast';
 
 const essaySchema = z.object({

@@ -217,7 +217,7 @@ const Profile: React.FC = () => {
                     )}
                   </div>
                 ) : (
-                  <div className="w-24 h-24 rounded-full bg-[#8FA86B] flex items-center justify-center text-3xl font-bold text-white border-4 border-white shadow-lg">
+                  <div className="w-24 h-24 rounded-full bg-[#88a7e8] flex items-center justify-center text-3xl font-bold text-white border-4 border-white shadow-lg">
                     {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                   </div>
                 )}
@@ -229,7 +229,7 @@ const Profile: React.FC = () => {
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isUploadingPhoto}
-                  className="mt-2 text-[#8FA86B] hover:text-[#7A9555] text-sm font-medium"
+                  className="mt-2 text-[#88a7e8] hover:text-[#618ae4] text-sm font-medium"
                 >
                   {isUploadingPhoto ? 'Enviando...' : 'Alterar foto'}
                 </button>
@@ -249,7 +249,7 @@ const Profile: React.FC = () => {
               <button
                 onClick={() => setActiveTab('profile')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'profile'
-                  ? 'border-[#8FA86B] text-[#8FA86B]'
+                  ? 'border-[#88a7e8] text-[#88a7e8]'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
                   }`}
               >
@@ -258,7 +258,7 @@ const Profile: React.FC = () => {
               <button
                 onClick={() => setActiveTab('password')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'password'
-                  ? 'border-[#8FA86B] text-[#8FA86B]'
+                  ? 'border-[#88a7e8] text-[#88a7e8]'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
                   }`}
               >
@@ -292,7 +292,7 @@ const Profile: React.FC = () => {
                     value={profileData.name}
                     onChange={handleProfileChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8FA86B]"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#88a7e8]"
                   />
                 </div>
 
@@ -307,7 +307,7 @@ const Profile: React.FC = () => {
                     value={profileData.email}
                     onChange={handleProfileChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8FA86B]"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#88a7e8]"
                   />
                 </div>
 
@@ -322,7 +322,7 @@ const Profile: React.FC = () => {
                     value={profileData.phone}
                     onChange={handleProfileChange}
                     placeholder="(11) 99999-9999"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8FA86B]"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#88a7e8]"
                   />
                 </div>
 
@@ -363,7 +363,7 @@ const Profile: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="bg-[#8FA86B] hover:bg-[#7A9555] disabled:bg-[#A8B87D] text-white font-medium py-2 px-6 rounded-lg transition-colors"
+                  className="bg-[#88a7e8] hover:bg-[#618ae4] disabled:bg-[#A8B87D] text-white font-medium py-2 px-6 rounded-lg transition-colors"
                 >
                   {isLoading ? 'Salvando...' : 'Salvar Alterações'}
                 </button>
@@ -385,7 +385,7 @@ const Profile: React.FC = () => {
                     value={passwordData.currentPassword}
                     onChange={handlePasswordChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8FA86B]"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#88a7e8]"
                   />
                 </div>
 
@@ -401,7 +401,7 @@ const Profile: React.FC = () => {
                     onChange={handlePasswordChange}
                     required
                     minLength={6}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8FA86B]"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#88a7e8]"
                   />
                   <p className="text-gray-500 text-xs mt-1">Mínimo 6 caracteres</p>
                 </div>
@@ -416,7 +416,7 @@ const Profile: React.FC = () => {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8FA86B]"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#88a7e8]"
                   />
                 </div>
               </div>
@@ -425,7 +425,7 @@ const Profile: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="bg-[#8FA86B] hover:bg-[#7A9555] disabled:bg-[#A8B87D] text-white font-medium py-2 px-6 rounded-lg transition-colors"
+                  className="bg-[#88a7e8] hover:bg-[#618ae4] disabled:bg-[#A8B87D] text-white font-medium py-2 px-6 rounded-lg transition-colors"
                 >
                   {isLoading ? 'Alterando...' : 'Alterar Senha'}
                 </button>

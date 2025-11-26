@@ -127,7 +127,7 @@ const Layout: React.FC = () => {
     if (path === '/essays/drafts') return 'Rascunhos';
     if (path === '/essays/analyzed') return 'Redações Analisadas';
     if (path === '/feedbacks') return 'Feedbacks';
-    return 'Zen';
+    return 'Mentor Zen';
   };
 
   const start = (
@@ -138,19 +138,22 @@ const Layout: React.FC = () => {
         role="button"
         aria-label="Menu"
       >
-        <i className="pi pi-bars"></i>
+        <i className="pi pi-chevron-circle-right text-[#4472d6]"></i>
       </div>
 
       <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/dashboard')}>
         <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-lg flex items-center justify-center">
           <img
-            src="/assets/zen-logo.png"
-            alt="Zen Logo"
+            src="/assets/zen-logo.svg"
+            alt="Mentor Zen Logo"
             className="w-14 h-14 lg:w-16 lg:h-16 object-contain"
           />
         </div>
         <div className="hidden sm:block">
           <span className="font-bold text-3xl lg:text-4xl text-[#4472d6]">
+            Mentor{' '}
+          </span>
+          <span className="font-bold text-3xl lg:text-4xl text-[#63da8e]">
             Zen
           </span>
         </div>
@@ -258,16 +261,9 @@ const Layout: React.FC = () => {
       >
         <div className="flex flex-col h-full">
           <div className="flex items-center gap-2 px-4 pt-6 pb-4 border-b border-gray-200">
-            <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-lg flex items-center justify-center flex-shrink-0">
-              <img
-                src="/assets/robot2Icon.png"
-                alt="Zen Robot Icon"
-                className="w-20 h-20 lg:w-24 lg:h-24 object-contain"
-              />
-            </div>
             <div>
-              <div className="font-bold text-3xl text-[#4472d6] !text-[#4472d6]">
-                Zen
+              <div className="font-bold text-3xl text-[#4472d6]">
+                Mentor Zen
               </div>
             </div>
           </div>
@@ -328,12 +324,12 @@ const Layout: React.FC = () => {
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 rounded-lg flex items-center justify-center">
                 <img
-                  src="/assets/zen-logo.png"
-                  alt="Zen Logo"
+                  src="/assets/zen-logo.svg"
+                  alt="Mentor Zen Logo"
                   className="w-10 h-10 object-contain"
                 />
               </div>
-              <span className="text-gray-700 font-medium text-sm whitespace-nowrap">© 2025 Zen. Todos os direitos reservados.</span>
+              <span className="text-gray-700 font-medium text-sm whitespace-nowrap">© 2025 Mentor Zen. Todos os direitos reservados.</span>
             </div>
             <div className="text-center">
               <p className="text-sm text-gray-600">

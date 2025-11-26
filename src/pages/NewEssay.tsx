@@ -168,7 +168,7 @@ const NewEssay: React.FC = () => {
 
   const getWordCountColor = () => {
     if (wordCount < 150) return 'text-red-500';
-    if (wordCount < 250) return 'text-yellow-300';
+    if (wordCount < 250) return 'text-[#F2D066]';
     if (wordCount <= 400) return 'text-green-500';
     return 'text-primary-500';
   };
@@ -178,7 +178,7 @@ const NewEssay: React.FC = () => {
       <div className="flex items-center gap-4 mb-4">
         <div className="flex items-center justify-center">
           <img
-            src="/essay-icons/TodasRedacoesIcon.png"
+            src="/essay-icons/NovaRedacaoIcon.png"
             alt="Nova Redação"
             className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
           />
@@ -186,7 +186,7 @@ const NewEssay: React.FC = () => {
         <div>
           <h1 className="text-4xl font-bold text-[#162A41] mb-2">Nova Redação</h1>
           <p className="text-gray-600 text-lg">
-            Crie sua redação e receba feedback personalizado do Zen
+            Crie sua redação e receba feedback personalizado do Mentor Zen
           </p>
         </div>
       </div>
@@ -300,7 +300,7 @@ const NewEssay: React.FC = () => {
               label="Salvar Rascunho"
               icon="pi pi-save"
               className={`flex-1 border-0 shadow-lg hover:shadow-xl transition-all duration-300 font-medium px-6 py-3 text-lg rounded-lg ${canSaveDraft()
-                ? 'bg-[#88a7e8] text-white !text-white'
+                ? 'bg-[#4472D6] text-white'
                 : 'bg-gray-200 text-gray-400 opacity-50 cursor-not-allowed'
                 }`}
               onClick={handleSaveDraft}
@@ -309,7 +309,7 @@ const NewEssay: React.FC = () => {
             <Button
               label="Enviar para Análise"
               icon="pi pi-send"
-              className="flex-1 bg-[#88a7e8] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium px-6 py-3 text-lg rounded-lg"
+              className="flex-1 bg-[#4472D6] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium px-6 py-3 text-lg rounded-lg"
               onClick={handleSubmit}
               disabled={isLoading || wordCount < 10}
               loading={isLoading}

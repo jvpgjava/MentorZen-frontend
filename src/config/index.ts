@@ -54,7 +54,7 @@ const config: AppConfig = {
     timeout: parseInt(import.meta.env.VITE_API_TIMEOUT || '10000'),
   },
   app: {
-    name: import.meta.env.VITE_APP_NAME || 'Mentor de Redação Zen',
+    name: import.meta.env.VITE_APP_NAME || 'Tutor de Redação Mentor Zen',
     version: import.meta.env.VITE_APP_VERSION || '1.0.0',
     description: import.meta.env.VITE_APP_DESCRIPTION || 'Escrita Consciente com IA',
   },

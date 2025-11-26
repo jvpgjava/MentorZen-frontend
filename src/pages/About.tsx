@@ -12,11 +12,11 @@ const About: React.FC = () => {
       photo: '/profile-icons/GabrielFoto.png'
     },
     {
-      name: 'João Gabriel Abreu Baumhardt da Silva',
+      name: 'João Gabriel Abreu',
       photo: '/profile-icons/JoaoGabrielFoto.png'
     },
     {
-      name: 'João Vitor Prestes Grando',
+      name: 'João Vitor Grando',
       photo: '/profile-icons/JoaoVitorFoto.png'
     }
   ];
@@ -24,15 +24,8 @@ const About: React.FC = () => {
   return (
     <div className="space-y-8">
       <div className="flex items-center gap-4 mb-8">
-        <div className="w-24 h-24 lg:w-28 lg:h-28 rounded-xl flex items-center justify-center">
-          <img
-            src="/assets/robotIcon.png"
-            alt="Zen Robot Icon"
-            className="w-24 h-24 lg:w-28 lg:h-28 object-contain"
-          />
-        </div>
         <div>
-          <h1 className="text-4xl font-bold text-[#4472d6] mb-2">Sobre o Zen</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Sobre o Mentor Zen</h1>
           <p className="text-gray-600 text-lg font-medium">
             Escrita Consciente com Inteligência Artificial
           </p>
@@ -50,7 +43,7 @@ const About: React.FC = () => {
             <div>
               <h3 className="text-xl font-semibold text-gray-800 mb-3">Objetivo</h3>
               <p className="text-gray-600 leading-relaxed">
-                O Zen é uma plataforma inovadora que combina inteligência artificial avançada com cuidado humano para apoiar estudantes do ensino médio em sua jornada de preparação para o ENEM. Utilizamos IA de última geração para análise de redações, oferecendo feedback personalizado e insights valiosos. Nosso foco vai além da correção técnica - priorizamos o bem-estar emocional e a confiança dos estudantes, garantindo privacidade e segurança com os mais altos padrões de proteção de dados.
+                O Mentor Zen é uma plataforma inovadora que combina inteligência artificial avançada com cuidado humano para apoiar estudantes do ensino médio em sua jornada de preparação para o ENEM. Utilizamos IA de última geração para análise de redações, oferecendo feedback personalizado e insights valiosos. Nosso foco vai além da correção técnica - priorizamos o bem-estar emocional e a confiança dos estudantes, garantindo privacidade e segurança com os mais altos padrões de proteção de dados.
               </p>
             </div>
 
@@ -82,7 +75,7 @@ const About: React.FC = () => {
             Somos uma equipe apaixonada por educação e tecnologia, unidos pelo objetivo de tornar o aprendizado mais acessível e humanizado. Cada membro traz sua expertise única para criar uma experiência verdadeiramente transformadora.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="flex flex-1 justify-center gap-8">
             {teamMembers.map((member, index) => (
               <div key={index} className="text-center">
                 <div className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden shadow-lg border-4 border-[#4472d6]">
@@ -107,11 +100,11 @@ const About: React.FC = () => {
             Entre em Contato
           </h2>
           <p className="text-gray-600 mb-6">
-            Tem sugestões, dúvidas ou quer saber mais sobre o Zen? Adoraríamos ouvir você!
+            Tem sugestões, dúvidas ou quer saber mais sobre o Mentor Zen? Adoraríamos ouvir você!
           </p>
           <div className="flex justify-center gap-4">
             <div className="bg-[#4472d6] px-4 py-2 rounded-lg">
-              <span className="text-white font-medium">zen.edu@gmail.com</span>
+              <span className="text-white font-medium">zen.edu@gmail.com.br</span>
             </div>
           </div>
         </div>

@@ -61,8 +61,8 @@ const ForgotPassword: React.FC = () => {
         <div className="bg-white p-8 rounded-lg shadow-2xl max-w-md w-full text-center">
           <div className="flex items-center justify-center mb-4">
             <img
-              src="/assets/zen-logo.png"
-              alt="Zen Logo"
+              src="/assets/zen-logo.svg"
+              alt="Mentor Zen Logo"
               className="w-20 h-20 lg:w-24 lg:h-24 object-contain"
             />
           </div>
@@ -127,13 +127,13 @@ const ForgotPassword: React.FC = () => {
         <div className="text-center mb-6">
           <div className="flex items-center justify-center mb-4">
             <img
-              src="/assets/zen-logo.png"
-              alt="Zen Logo"
+              src="/assets/zen-logo.svg"
+              alt="Mentor Zen Logo"
               className="w-20 h-20 lg:w-24 lg:h-24 object-contain"
             />
           </div>
           <h1 className="text-4xl lg:text-5xl font-bold zen-gradient-text mb-2">
-            Zen
+            Mentor Zen
           </h1>
           <p className="text-gray-600 text-lg">
             Recuperar Senha

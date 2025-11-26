@@ -3,10 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Card } from 'primereact/card';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
-import { Skeleton } from 'primereact/skeleton';
 import { Feedback, FeedbackType } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -68,7 +66,7 @@ const Feedbacks: React.FC = () => {
   const getFeedbackTypeText = (type: FeedbackType) => {
     switch (type) {
       case FeedbackType.AI_GENERATED:
-        return 'IA Zen';
+        return 'IA Mentor Zen';
       case FeedbackType.HUMAN_REVIEW:
         return 'Humano';
       case FeedbackType.PEER_REVIEW:
@@ -93,7 +91,7 @@ const Feedbacks: React.FC = () => {
 
   const typeOptions = [
     { label: 'Todos os tipos', value: null },
-    { label: 'IA Zen', value: FeedbackType.AI_GENERATED },
+    { label: 'IA Mentor Zen', value: FeedbackType.AI_GENERATED },
     { label: 'Revisão Humana', value: FeedbackType.HUMAN_REVIEW },
     { label: 'Revisão de Pares', value: FeedbackType.PEER_REVIEW },
   ];
@@ -168,7 +166,7 @@ const Feedbacks: React.FC = () => {
       <div className="flex items-center gap-4 mb-4">
         <div className="flex items-center justify-center">
           <img
-            src="/essay-icons/RedacoesAnalisadasIcon.png"
+            src="/essay-icons/FeedbacksIcon.png"
             alt="Feedbacks"
             className="w-16 h-16 lg:w-20 lg:h-20 object-contain"
           />
@@ -251,7 +249,7 @@ const Feedbacks: React.FC = () => {
           ) : (
             <div className="text-center py-12">
               <img
-                src="/essay-icons/RedacoesAnalisadasIcon.png"
+                src="/essay-icons/NaoEncontradoIcon.png"
                 alt="Nenhum feedback"
                 className="w-24 h-24 mx-auto mb-4 opacity-50"
               />

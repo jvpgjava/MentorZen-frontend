@@ -212,19 +212,19 @@ const Register: React.FC = () => {
         <div className="text-center mb-6">
           <div className="flex items-center justify-center mb-4">
             <img
-              src="/assets/zen-logo.png"
-              alt="Zen Logo"
+              src="/assets/zen-logo.svg"
+              alt="Mentor Zen Logo"
               className="w-20 h-20 lg:w-24 lg:h-24 object-contain"
             />
           </div>
           <h1 className="text-4xl lg:text-5xl font-bold zen-gradient-text mb-2">
-            Zen
+            Mentor Zen
           </h1>
           <p className="text-gray-600 text-lg">
             Criar Conta
           </p>
           <p className="text-gray-500 text-sm mt-1">
-            Junte-se ao Zen e melhore sua escrita
+            Junte-se ao Mentor Zen e melhore sua escrita
           </p>
         </div>
 

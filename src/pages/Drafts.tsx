@@ -98,22 +98,6 @@ const Drafts: React.FC = () => {
     );
   };
 
-  const dateBodyTemplate = (essay: any) => {
-    return (
-      <div className="text-center">
-        <div className="font-medium">
-          {new Date(essay.createdAt).toLocaleDateString('pt-BR')}
-        </div>
-        <div className="text-sm text-gray-500">
-          {new Date(essay.createdAt).toLocaleTimeString('pt-BR', {
-            hour: '2-digit',
-            minute: '2-digit'
-          })}
-        </div>
-      </div>
-    );
-  };
-
   const getWordCountColor = (count: number) => {
     if (count < 150) return 'text-red-500';
     if (count <= 400) return 'text-green-500';
@@ -215,7 +199,7 @@ const Drafts: React.FC = () => {
           <div className="p-12 text-center">
             <div className="flex items-center justify-center mx-auto mb-6">
               <img 
-                src="/essay-icons/RascunhosIcon.png" 
+                src="/essay-icons/NaoEncontradoIcon.png" 
                 alt="Rascunhos" 
                 className="w-24 h-24 lg:w-28 lg:h-28 object-contain opacity-50"
               />

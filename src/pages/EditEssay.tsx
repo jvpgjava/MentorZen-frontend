@@ -226,7 +226,7 @@ const EditEssay: React.FC = () => {
 
     const getWordCountColor = () => {
         if (wordCount < 150) return 'text-red-500';
-        if (wordCount < 250) return 'text-yellow-300';
+        if (wordCount < 250) return 'text-[#F2D066]';
         if (wordCount <= 400) return 'text-green-500';
         return 'text-primary-500';
     };
@@ -250,7 +250,7 @@ const EditEssay: React.FC = () => {
                 <div>
                     <h1 className="text-4xl font-bold zen-gradient-text mb-2">Editar Redação</h1>
                     <p className="text-gray-600 text-lg">
-                        Continue editando sua redação e receba feedback personalizado do Zen
+                        Continue editando sua redação e receba feedback personalizado do Mentor Zen
                     </p>
                 </div>
             </div>
@@ -378,7 +378,7 @@ const EditEssay: React.FC = () => {
                                 label="Salvar Rascunho"
                                 icon="pi pi-save"
                                 className={`flex-1 border-0 shadow-lg hover:shadow-xl transition-all duration-300 font-medium px-6 py-3 text-lg rounded-lg ${canSaveDraft()
-                                    ? 'bg-[#88a7e8] text-white !text-white'
+                                    ? 'bg-[#4472D6] text-white'
                                     : 'bg-gray-200 text-gray-400 opacity-50 cursor-not-allowed'
                                     }`}
                                 onClick={handleSaveDraft}
@@ -387,7 +387,7 @@ const EditEssay: React.FC = () => {
                             <Button
                                 label={essayStatus === EssayStatus.DRAFT ? "Enviar para Análise" : "Atualizar Redação"}
                                 icon={essayStatus === EssayStatus.DRAFT ? "pi pi-send" : "pi pi-save"}
-                                className="flex-1 bg-[#88a7e8] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium px-6 py-3 text-lg rounded-lg"
+                                className="flex-1 bg-[#4472D6] border-0 shadow-lg hover:shadow-xl transition-all duration-300 text-white font-medium px-6 py-3 text-lg rounded-lg"
                                 onClick={handleSubmit}
                                 disabled={isLoading || wordCount < 10}
                                 loading={isLoading}

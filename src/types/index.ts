@@ -126,7 +126,7 @@ export interface MenuItem {
   icon?: string;
   to?: string;
   command?: () => void;
-  items?: MenuItem[];
+  items?: Array<MenuItem & { path?: string }>;
 }
 
 export interface NotificationOptions {

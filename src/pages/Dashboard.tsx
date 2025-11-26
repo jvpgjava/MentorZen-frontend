@@ -67,11 +67,10 @@ const Dashboard: React.FC = () => {
   };
 
   const getStatusBadge = (status: EssayStatus) => {
-    const statusConfig = {
-      [EssayStatus.DRAFT]: { label: 'Rascunho', color: 'text-blue-600' },
-      [EssayStatus.SUBMITTED]: { label: 'Enviada', color: 'text-yellow-600' },
-      [EssayStatus.ANALYZED]: { label: 'Analisada', color: 'text-green-600' },
-      [EssayStatus.ARCHIVED]: { label: 'Arquivada', color: 'text-gray-600' },
+    const statusConfig: { [key: string]: { label: string; color: string } } = {
+      [EssayStatus.DRAFT]: { label: 'Rascunho', color: 'text-[#F2D066]' },
+      [EssayStatus.SUBMITTED]: { label: 'Enviada', color: 'text-[#4472d6]' },
+      [EssayStatus.ANALYZED]: { label: 'Analisada', color: 'text-[#63da8e]' },
     };
 
     const config = statusConfig[status];
@@ -96,20 +95,18 @@ const Dashboard: React.FC = () => {
   const essayStats = getEssayStats();
 
   const chartData = {
-    labels: ['Rascunhos', 'Enviadas', 'Analisadas', 'Arquivadas'],
+    labels: ['Rascunhos', 'Enviadas', 'Analisadas'],
     datasets: [
       {
         data: [
           essayStats.drafts,
           essayStats.submitted,
           essayStats.analyzed,
-          essays.filter(e => e.status === EssayStatus.ARCHIVED).length
         ],
         backgroundColor: [
           '#F2D066',
-          '#88a7e8',
-          '#22c55e',
-          '#6b7280'
+          '#4472d6',
+          '#63da8e'
         ],
         borderWidth: 0,
         borderRadius: 8
@@ -154,7 +151,7 @@ const Dashboard: React.FC = () => {
                 Olá, {user?.name?.split(' ')[0]}!
               </h1>
               <p className="text-white text-lg font-medium">
-                Bem-vindo de volta ao Zen
+                Bem-vindo de volta ao Mentor Zen
               </p>
             </div>
           </div>
@@ -254,20 +251,16 @@ const Dashboard: React.FC = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm w-full max-w-sm justify-center">
                   <div className="flex items-center gap-4 justify-center">
-                    <div className="w-5 h-5 bg-yellow-300 rounded-full flex-shrink-0 shadow-sm border border-yellow-400"></div>
-                    <span className="text-yellow-300 font-medium">Rascunhos</span>
+                    <div className="w-5 h-5 bg-[#F2D066] rounded-full flex-shrink-0 shadow-sm border border-yellow-400"></div>
+                    <span className="text-[#F2D066] font-medium">Rascunhos</span>
                   </div>
                   <div className="flex items-center gap-3 justify-center">
-                    <div className="w-5 h-5 bg-primary-500 rounded-full flex-shrink-0 shadow-sm border border-primary-400"></div>
+                    <div className="w-5 h-5 bg-[#4472d6] rounded-full flex-shrink-0 shadow-sm border border-primary-400"></div>
                     <span className="text-primary-600 font-medium">Enviadas</span>
                   </div>
                   <div className="flex items-center gap-3 justify-center">
-                    <div className="w-5 h-5 bg-green-500 rounded-full flex-shrink-0 shadow-sm border border-green-400"></div>
+                    <div className="w-5 h-5 bg-[#63da8e] rounded-full flex-shrink-0 shadow-sm border border-green-400"></div>
                     <span className="text-green-600 font-medium">Analisadas</span>
-                  </div>
-                  <div className="flex items-center gap-3 justify-center">
-                    <div className="w-5 h-5 bg-gray-500 rounded-full flex-shrink-0 shadow-sm border border-gray-400"></div>
-                    <span className="text-gray-600 font-medium">Arquivadas</span>
                   </div>
                 </div>
               </div>

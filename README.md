@@ -1,6 +1,6 @@
-# Mentor de Redação Zen - Frontend
+# Tutor de Redação Mentor Zen - Frontend
 
-Interface web moderna e responsiva desenvolvida em React com TypeScript para o sistema Mentor de Redação Zen, uma solução inovadora que utiliza Inteligência Artificial para apoiar estudantes do ensino médio no desenvolvimento de suas habilidades de escrita para o ENEM, com foco especial em saúde mental e bem-estar emocional.
+Interface web moderna e responsiva desenvolvida em React com TypeScript para o sistema Tutor de Redação Mentor Zen, uma solução inovadora que utiliza Inteligência Artificial para apoiar estudantes do ensino médio no desenvolvimento de suas habilidades de escrita para o ENEM, com foco especial em saúde mental e bem-estar emocional.
 
 ## Índice
 
@@ -19,7 +19,7 @@ Interface web moderna e responsiva desenvolvida em React com TypeScript para o s
 
 ## Sobre o Projeto
 
-O Mentor de Redação Zen é uma plataforma educacional desenvolvida para o Hackathon Gemini for Education 2025. O frontend oferece uma interface intuitiva e moderna para que estudantes possam criar redações, receber feedback automatizado e empático baseado nas 5 competências do ENEM, sempre priorizando o bem-estar mental.
+O Tutor de Redação Mentor Zen é uma plataforma educacional desenvolvida para o Hackathon Gemini for Education 2025. O frontend oferece uma interface intuitiva e moderna para que estudantes possam criar redações, receber feedback automatizado e empático baseado nas 5 competências do ENEM, sempre priorizando o bem-estar mental.
 
 ### Funcionalidades Principais
 
@@ -232,7 +232,7 @@ Crie um arquivo `.env` na raiz do projeto frontend:
 ```bash
 # .env
 VITE_API_BASE_URL=http://localhost:8080/api
-VITE_APP_NAME=Mentor de Redação Zen
+VITE_APP_NAME=Tutor de Redação Mentor Zen
 VITE_APP_VERSION=1.0.0
 ```
 
@@ -256,7 +256,7 @@ O projeto utiliza variáveis de ambiente prefixadas com `VITE_` (requisito do Vi
 
 ### Opcionais
 
-- `VITE_APP_NAME`: Nome da aplicação (padrão: "Mentor de Redação Zen")
+- `VITE_APP_NAME`: Nome da aplicação (padrão: "Tutor de Redação Mentor Zen")
 - `VITE_APP_VERSION`: Versão da aplicação (padrão: "1.0.0")
 - `VITE_APP_DESCRIPTION`: Descrição da aplicação
 - `VITE_DEV_MODE`: Modo de desenvolvimento (`true` ou `false`)
@@ -271,7 +271,7 @@ O projeto utiliza variáveis de ambiente prefixadas com `VITE_` (requisito do Vi
 
 ```bash
 VITE_API_BASE_URL=http://localhost:8080/api
-VITE_APP_NAME=Mentor de Redação Zen
+VITE_APP_NAME=Tutor de Redação Mentor Zen
 VITE_APP_VERSION=1.0.0
 VITE_DEV_MODE=true
 ```

@@ -110,7 +110,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
               <div
                 className={`h-4 rounded-full transition-all duration-500 ${feedback.overallScore >= 800 ? 'bg-gradient-to-r from-green-500 to-green-600' :
                   feedback.overallScore >= 600 ? 'bg-[#88a7e8]' :
-                    feedback.overallScore >= 400 ? 'bg-gradient-to-r from-yellow-300 to-yellow-600' :
+                    feedback.overallScore >= 400 ? 'bg-gradient-to-r from-[#F2D066] to-yellow-600' :
                       'bg-gradient-to-r from-red-500 to-red-600'
                   }`}
                 style={{ width: `${getScorePercentage(feedback.overallScore, 1000)}%` }}
@@ -177,7 +177,7 @@ const FeedbackViewer: React.FC<FeedbackViewerProps> = ({
                       <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
                         <div
                           className={`h-2.5 rounded-full transition-all duration-500 ${comp.score >= 160 ? 'bg-gradient-to-r from-green-500 to-green-600' :
-                            comp.score >= 120 ? 'bg-gradient-to-r from-yellow-300 to-yellow-600' :
+                            comp.score >= 120 ? 'bg-gradient-to-r from-[#F2D066] to-yellow-600' :
                               comp.score >= 80 ? 'bg-[#88a7e8]' :
                                 'bg-gradient-to-r from-red-500 to-red-600'
                             }`}
