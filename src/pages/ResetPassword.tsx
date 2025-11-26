@@ -107,7 +107,7 @@ const ResetPassword: React.FC = () => {
           </p>
           <Link
             to="/login"
-            className="block w-full bg-[#9ea04f] hover:bg-[#B5C870] text-white font-medium py-3 px-4 rounded-lg transition-colors"
+            className="block w-full bg-[#4472d6] hover:bg-[#B5C870] text-white font-medium py-3 px-4 rounded-lg transition-colors"
           >
             Ir para Login
           </Link>
@@ -157,7 +157,7 @@ const ResetPassword: React.FC = () => {
               name="newPassword"
               value={formData.newPassword}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9ea04f] text-base ${
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4472d6] text-base ${
                 errors.newPassword ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="Mínimo 6 caracteres"
@@ -177,7 +177,7 @@ const ResetPassword: React.FC = () => {
               name="confirmPassword"
               value={confirmPassword}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9ea04f] text-base ${
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4472d6] text-base ${
                 errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="Digite a senha novamente"
@@ -190,7 +190,7 @@ const ResetPassword: React.FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-[#9ea04f] hover:bg-[#B5C870] disabled:bg-[#D4E49A] text-white font-medium py-3 px-4 rounded-lg transition-colors"
+            className="w-full bg-[#4472d6] hover:bg-[#B5C870] disabled:bg-[#D4E49A] text-white font-medium py-3 px-4 rounded-lg transition-colors"
           >
             {isLoading ? 'Redefinindo...' : 'Redefinir Senha'}
           </button>

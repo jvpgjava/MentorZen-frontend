@@ -150,7 +150,7 @@ const Layout: React.FC = () => {
           />
         </div>
         <div className="hidden sm:block">
-          <span className="font-bold text-3xl lg:text-4xl text-[#9ea04f]">
+          <span className="font-bold text-3xl lg:text-4xl text-[#4472d6]">
             Zen
           </span>
         </div>
@@ -183,7 +183,7 @@ const Layout: React.FC = () => {
                 : `http://localhost:8080${user.profilePictureUrl}`
               : undefined}
             label={!user?.profilePictureUrl ? user?.name?.charAt(0).toUpperCase() : undefined}
-            className="bg-[#C7D882] text-white shadow-sm"
+            className="bg-[#88a7e8] text-white shadow-sm"
             size="normal"
             shape="circle"
           />
@@ -220,8 +220,8 @@ const Layout: React.FC = () => {
               }}
               className="w-full text-left px-4 py-2 hover:bg-[#F5EFE9] flex items-center gap-3 transition-colors"
             >
-              <i className="pi pi-sign-out text-[#C7D882]"></i>
-              <span className="text-[#C7D882] font-medium">Sair</span>
+              <i className="pi pi-sign-out text-[#88a7e8]"></i>
+              <span className="text-[#88a7e8] font-medium">Sair</span>
             </button>
           </div>
         )}
@@ -246,7 +246,7 @@ const Layout: React.FC = () => {
         className="w-80"
         pt={{
           closeButton: {
-            className: 'absolute right-4 top-4 z-50 !bg-transparent !border-none !text-[#C7D882] hover:!text-[#C7D882] !shadow-none'
+            className: 'absolute right-4 top-4 z-50 !bg-transparent !border-none !text-[#88a7e8] hover:!text-[#88a7e8] !shadow-none'
           },
           root: {
             className: '!p-0'
@@ -266,7 +266,7 @@ const Layout: React.FC = () => {
               />
             </div>
             <div>
-              <div className="font-bold text-3xl text-[#9ea04f] !text-[#9ea04f]">
+              <div className="font-bold text-3xl text-[#4472d6] !text-[#4472d6]">
                 Zen
               </div>
             </div>
@@ -289,8 +289,8 @@ const Layout: React.FC = () => {
                             key={subIndex}
                             onClick={subItem.command}
                             className={`flex items-center gap-3 w-full p-3 text-left rounded-lg transition-colors duration-200 ${isActive
-                              ? 'bg-[#C7D882] text-white'
-                              : 'text-gray-600 hover:bg-[#F5EFE9] hover:text-[#C7D882]'
+                              ? 'bg-[#88a7e8] text-white'
+                              : 'text-gray-600 hover:bg-[#F5EFE9] hover:text-[#88a7e8]'
                               }`}
                           >
                             <i className={subItem.icon}></i>
@@ -304,8 +304,8 @@ const Layout: React.FC = () => {
                   <button
                     onClick={item.command}
                     className={`flex items-center gap-3 w-full p-3 text-left rounded-lg transition-colors duration-200 font-medium ${location.pathname === item.path
-                      ? 'bg-[#C7D882] text-white'
-                      : 'text-gray-700 hover:bg-[#F5EFE9] hover:text-[#C7D882]'
+                      ? 'bg-[#88a7e8] text-white'
+                      : 'text-gray-700 hover:bg-[#F5EFE9] hover:text-[#88a7e8]'
                       }`}
                   >
                     <i className={item.icon}></i>
@@ -337,7 +337,7 @@ const Layout: React.FC = () => {
             </div>
             <div className="text-center">
               <p className="text-sm text-gray-600">
-                Desenvolvido pela equipe <span className="font-semibold text-[#C7D882]">FloWrite</span> para apoiar estudantes do ENEM
+                Desenvolvido pela equipe <span className="font-semibold text-[#88a7e8]">FloWrite</span> para apoiar estudantes do ENEM
               </p>
             </div>
           </div>

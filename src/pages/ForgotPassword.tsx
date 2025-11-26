@@ -83,7 +83,7 @@ const ForgotPassword: React.FC = () => {
               Verifique sua caixa de entrada e spam.
             </p>
 
-            <div className="bg-[#F5EFE9] border border-[#C7D882] rounded-lg p-4 mb-6">
+            <div className="bg-[#F5EFE9] border border-[#88a7e8] rounded-lg p-4 mb-6">
               <p className="text-[#162A41] text-sm">
                 <strong>Nota:</strong> O link expira em 1 hora por segurança.
               </p>
@@ -93,7 +93,7 @@ const ForgotPassword: React.FC = () => {
           <div className="space-y-3">
             <Link
               to="/login"
-              className="block w-full bg-[#C7D882] hover:bg-[#B5C870] text-white font-medium py-3 px-4 rounded-lg transition-colors"
+              className="block w-full bg-[#88a7e8] hover:bg-[#B5C870] text-white font-medium py-3 px-4 rounded-lg transition-colors"
             >
               Voltar ao Login
             </Link>
@@ -154,7 +154,7 @@ const ForgotPassword: React.FC = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C7D882] text-base ${errors.email ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#88a7e8] text-base ${errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
               placeholder="seu@email.com"
               disabled={isLoading}
@@ -168,7 +168,7 @@ const ForgotPassword: React.FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-[#C7D882] hover:bg-[#B5C870] disabled:bg-[#D4E49A] text-white font-medium py-3 px-4 rounded-lg transition-colors"
+            className="w-full bg-[#88a7e8] hover:bg-[#B5C870] disabled:bg-[#D4E49A] text-white font-medium py-3 px-4 rounded-lg transition-colors"
           >
             {isLoading ? 'Enviando...' : 'Enviar Link de Recuperação'}
           </button>
