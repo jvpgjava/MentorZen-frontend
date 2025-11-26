@@ -4,6 +4,7 @@ import { Card } from 'primereact/card';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
+import { Calendar } from 'primereact/calendar';
 import { Essay, EssayStatus } from '@/types';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -19,6 +20,7 @@ interface EssayWithScore extends Essay {
 const AnalyzedEssays: React.FC = () => {
   const navigate = useNavigate();
   const [globalFilter, setGlobalFilter] = useState<string>('');
+  const [dateFilter, setDateFilter] = useState<Date | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showContent, setShowContent] = useState(false);
   const [analyzedEssays, setAnalyzedEssays] = useState<EssayWithScore[]>([]);
@@ -118,30 +120,21 @@ const AnalyzedEssays: React.FC = () => {
       ? essay.title.toLowerCase().includes(globalFilter.toLowerCase()) ||
       essay.theme.toLowerCase().includes(globalFilter.toLowerCase())
       : true;
-    return matchesFilter;
+    
+    const matchesDate = dateFilter
+      ? new Date(essay.updatedAt).toDateString() === dateFilter.toDateString()
+      : true;
+    
+    return matchesFilter && matchesDate;
   });
 
-  const header = (
-    <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-      <span className="p-input-icon-left w-full md:w-auto">
-        <i className="pi pi-search" />
-        <InputText
-          type="search"
-          value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          placeholder="Buscar redação analisada..."
-          className="w-full"
-        />
-      </span>
-    </div>
-  );
 
   if (isLoading || !showContent) {
     return <Loading onComplete={() => setShowContent(true)} />;
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
           <div className="flex items-center justify-center">
@@ -160,13 +153,49 @@ const AnalyzedEssays: React.FC = () => {
         </div>
       </div>
 
-      <Card className="shadow-lg border-0">
-        <div className="p-6">
+      <Card className="shadow-lg border-0 bg-white">
+        <div className="p-4">
+          <div className="mb-4">
+            <h2 className="text-lg font-bold text-[#162A41] mb-1">Filtros e Busca</h2>
+            <p className="text-gray-600 text-xs">Encontre suas redações analisadas rapidamente</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+            <div className="md:col-span-8">
+              <span className="p-input-icon-left w-full">
+                <i className="pi pi-search"></i>
+                <InputText
+                  type="search"
+                  value={globalFilter}
+                  onChange={(e) => setGlobalFilter(e.target.value)}
+                  placeholder="Buscar redação analisada..."
+                  className="w-full"
+                />
+              </span>
+            </div>
+            <div className="md:col-span-4">
+              <span className="p-input-icon-left w-full">
+                <i className="pi pi-calendar"></i>
+                <Calendar
+                  value={dateFilter}
+                  onChange={(e) => setDateFilter(e.value as Date | null)}
+                  placeholder="Filtrar por data"
+                  dateFormat="dd/mm/yy"
+                  showIcon={false}
+                  className="w-full"
+                  inputClassName="w-full"
+                  panelClassName="shadow-xl border border-gray-200 rounded-lg"
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+      </Card>
 
+      <Card className="shadow-lg border-0">
+        <div className="p-0">
           {filteredEssays.length > 0 ? (
             <DataTable
               value={filteredEssays}
-              header={header}
               paginator
               rows={10}
               rowsPerPageOptions={[5, 10, 25, 50]}

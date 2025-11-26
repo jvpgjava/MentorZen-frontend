@@ -141,7 +141,7 @@ const Drafts: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       <ConfirmDialog />
 
       <div className="flex items-center justify-between mb-8">
@@ -163,30 +163,35 @@ const Drafts: React.FC = () => {
       </div>
 
       <Card className="shadow-lg border-0 bg-white">
-        <div className="p-6">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
+        <div className="p-4">
+          <div className="mb-4">
+            <h2 className="text-lg font-bold text-[#162A41] mb-1">Filtros e Busca</h2>
+            <p className="text-gray-600 text-xs">Encontre seus rascunhos rapidamente</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+            <div className="md:col-span-8">
               <span className="p-input-icon-left w-full">
-                <i className="pi pi-search text-gray-400" />
+                <i className="pi pi-search"></i>
                 <InputText
                   placeholder="Buscar por título ou tema..."
                   value={searchFilter}
                   onChange={(e) => setSearchFilter(e.target.value)}
-                  className="w-full h-12 text-base border-2 border-gray-200 focus:border-primary-500 rounded-lg"
+                  className="w-full"
                 />
               </span>
             </div>
-            <div className="w-full md:w-48">
+            <div className="md:col-span-4">
               <span className="p-input-icon-left w-full">
-                <i className="pi pi-calendar text-gray-400" />
+                <i className="pi pi-calendar"></i>
                 <Calendar
                   value={dateFilter}
                   onChange={(e) => setDateFilter(e.value as Date | null)}
                   placeholder="Filtrar por data"
                   dateFormat="dd/mm/yy"
-                  className="w-full h-12 text-base border-2 border-gray-200 focus:border-primary-500 rounded-lg"
-                  inputClassName="w-full h-12 text-base pl-10"
-                  panelClassName="text-base"
+                  showIcon={false}
+                  className="w-full"
+                  inputClassName="w-full"
+                  panelClassName="shadow-xl border border-gray-200 rounded-lg"
                 />
               </span>
             </div>

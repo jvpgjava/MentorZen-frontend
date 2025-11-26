@@ -380,6 +380,7 @@ h6 {
   width: 48px !important;
   height: 48px !important;
   border-radius: 50% !important;
+  background-color: #4472d6 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -391,15 +392,12 @@ h6 {
 }
 
 .header-circle-button:hover {
+  background-color: #162A41 !important;
   transform: scale(1.05) !important;
 }
 
-.header-circle-button:hover i {
-  color: #2450af !important;
-}
-
 .header-circle-button i {
-  color: #4472d6 !important;
+  color: white !important;
   font-size: 18px !important;
   line-height: 1 !important;
   display: flex !important;
@@ -1115,4 +1113,186 @@ h6 {
 
 .p-calendar .p-datepicker-trigger {
   display: none !important;
+}
+
+/* Estilos para p-input-icon-left - garantir espaçamento correto e tamanhos uniformes */
+.p-input-icon-left {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  height: 46px !important;
+}
+
+.p-input-icon-left>i {
+  position: absolute !important;
+  left: 1rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: #6b7280 !important;
+  z-index: 10 !important;
+  pointer-events: none !important;
+  font-size: 1rem !important;
+  line-height: 1 !important;
+  display: inline-block !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  vertical-align: middle !important;
+}
+
+.p-input-icon-left>.p-inputtext,
+.p-input-icon-left>.p-calendar .p-inputtext {
+  padding-left: 2.75rem !important;
+  padding-right: 1rem !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  width: 100% !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  font-size: 1rem !important;
+  line-height: 48px !important;
+  border: 2px solid #d1d5db !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.2s ease !important;
+  box-sizing: border-box !important;
+  vertical-align: middle !important;
+  display: block !important;
+  margin: 0 !important;
+}
+
+.p-input-icon-left>.p-inputtext:not(.p-disabled):hover,
+.p-input-icon-left>.p-calendar .p-inputtext:not(.p-disabled):hover {
+  border-color: #88a7e8 !important;
+}
+
+.p-input-icon-left>.p-inputtext:not(.p-disabled).p-focus,
+.p-input-icon-left>.p-calendar .p-inputtext:not(.p-disabled).p-focus {
+  border-color: #88a7e8 !important;
+  box-shadow: 0 0 0 3px rgba(136, 167, 232, 0.1) !important;
+  outline: none !important;
+}
+
+.p-input-icon-left>.p-calendar {
+  width: 100% !important;
+  display: block !important;
+}
+
+.p-input-icon-left>.p-calendar .p-inputtext {
+  padding-left: 2.75rem !important;
+}
+
+/* Dropdown specific adjustments for consistent height and alignment */
+.p-dropdown {
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  border: 2px solid #d1d5db !important;
+  border-radius: 0.75rem !important;
+  font-size: 1rem !important;
+  line-height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+.p-dropdown .p-dropdown-label {
+  padding: 0 1rem !important;
+  line-height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  flex-grow: 1;
+}
+
+.p-dropdown .p-dropdown-trigger {
+  width: 3rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0;
+}
+
+/* Alinhamento de botões */
+.p-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+}
+
+.p-button .p-button-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+}
+
+.p-button .p-button-label {
+  display: inline-flex !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+  line-height: 1 !important;
+}
+
+/* Tamanhos dos campos de filtro - aumentados */
+.p-input-icon-left>.p-inputtext,
+.p-input-icon-left>.p-calendar .p-inputtext {
+  height: 46px !important;
+  min-height: 46px !important;
+  max-height: 46px !important;
+  line-height: 46px !important;
+  font-size: 1rem !important;
+  padding-left: 2.75rem !important;
+  display: block !important;
+  margin: 0 !important;
+}
+
+.p-input-icon-left>i {
+  font-size: 1rem !important;
+  line-height: 1 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  vertical-align: middle !important;
+}
+
+.p-dropdown {
+  height: 46px !important;
+  min-height: 46px !important;
+  max-height: 46px !important;
+  line-height: 46px !important;
+  font-size: 1rem !important;
+}
+
+.p-dropdown .p-dropdown-label {
+  line-height: 46px !important;
+  font-size: 1rem !important;
+}
+
+/* Alinhamento de botões com textos */
+.p-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+  gap: 0.5rem !important;
+}
+
+.p-button .p-button-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+  height: auto !important;
+}
+
+.p-button .p-button-label {
+  display: inline-flex !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  height: auto !important;
 }

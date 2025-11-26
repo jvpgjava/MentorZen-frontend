@@ -131,27 +131,27 @@ const Feedbacks: React.FC = () => {
   });
 
   const header = (
-    <div className="flex flex-col md:flex-row gap-4">
-      <div className="flex-1">
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+      <div className="md:col-span-6">
         <span className="p-input-icon-left w-full">
-          <i className="pi pi-search text-gray-400" />
+          <i className="pi pi-search"></i>
           <InputText
             type="search"
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
             placeholder="Buscar feedback..."
-            className="w-full h-12 text-base border-2 border-gray-200 focus:border-primary-500 rounded-lg"
+            className="w-full"
           />
         </span>
       </div>
-      <div className="w-full md:w-48">
+      <div className="md:col-span-6">
         <Dropdown
           value={selectedType}
           options={typeOptions}
           onChange={(e) => setSelectedType(e.value)}
           placeholder="Filtrar por tipo"
-          className="w-full h-12 text-base border-2 border-gray-200 focus:border-primary-500 rounded-lg custom-dropdown"
-          panelClassName="text-base"
+          className="w-full"
+          panelClassName="shadow-xl border border-gray-200 rounded-lg"
         />
       </div>
     </div>
@@ -162,7 +162,7 @@ const Feedbacks: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       <div className="flex items-center gap-4 mb-4">
         <div className="flex items-center justify-center">
           <img
@@ -180,11 +180,22 @@ const Feedbacks: React.FC = () => {
       </div>
 
       <Card className="shadow-lg border-0 bg-white">
-        <div className="p-6">
+        <div className="p-4">
+          <div className="mb-4">
+            <h2 className="text-lg font-bold text-[#162A41] mb-1">Filtros e Busca</h2>
+            <p className="text-gray-600 text-xs">Encontre seus feedbacks rapidamente</p>
+          </div>
+          <div>
+            {header}
+          </div>
+        </div>
+      </Card>
+
+      <Card className="shadow-lg border-0">
+        <div className="p-0">
           {filteredFeedbacks.length > 0 ? (
             <DataTable
               value={filteredFeedbacks}
-              header={header}
               paginator
               rows={10}
               rowsPerPageOptions={[5, 10, 25, 50]}
