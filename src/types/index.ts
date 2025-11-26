@@ -35,6 +35,7 @@ export interface Essay {
 export enum EssayStatus {
   DRAFT = 'DRAFT',
   SUBMITTED = 'SUBMITTED',
+  WAITING_FOR_ANALYSIS = 'WAITING_FOR_ANALYSIS',
   ANALYZED = 'ANALYZED',
   ARCHIVED = 'ARCHIVED'
 }

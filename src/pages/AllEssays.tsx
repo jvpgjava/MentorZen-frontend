@@ -65,6 +65,7 @@ const AllEssays: React.FC = () => {
     { label: 'Todos os Status', value: null },
     { label: 'Rascunho', value: EssayStatus.DRAFT },
     { label: 'Enviada', value: EssayStatus.SUBMITTED },
+    { label: 'Aguardando Análise', value: EssayStatus.WAITING_FOR_ANALYSIS },
     { label: 'Analisada', value: EssayStatus.ANALYZED },
     { label: 'Arquivada', value: EssayStatus.ARCHIVED },
   ];
@@ -101,6 +102,7 @@ const AllEssays: React.FC = () => {
     const statusConfig = {
       [EssayStatus.DRAFT]: { label: 'Rascunho', className: 'text-blue-600 font-semibold' },
       [EssayStatus.SUBMITTED]: { label: 'Enviada', className: 'text-yellow-600 font-semibold' },
+      [EssayStatus.WAITING_FOR_ANALYSIS]: { label: 'Aguardando Análise', className: 'text-orange-600 font-semibold' },
       [EssayStatus.ANALYZED]: { label: 'Analisada', className: 'text-green-600 font-semibold' },
       [EssayStatus.ARCHIVED]: { label: 'Arquivada', className: 'text-gray-600 font-semibold' },
     };
@@ -114,7 +116,7 @@ const AllEssays: React.FC = () => {
   };
 
   const actionBodyTemplate = (essay: Essay) => {
-    const canResend = essay.status === EssayStatus.SUBMITTED || essay.status === EssayStatus.ANALYZED;
+    const canResend = essay.status === EssayStatus.WAITING_FOR_ANALYSIS;
     const isResending = resendingId === essay.id;
 
     return (
@@ -139,7 +141,7 @@ const AllEssays: React.FC = () => {
         {canResend && (
           <i
             className={`pi ${isResending ? 'pi-spin pi-spinner' : 'pi-refresh'} text-[#162A41] text-xl cursor-pointer hover:text-[#162A41] hover:opacity-80 transition-colors ${isResending ? 'pointer-events-none opacity-50' : ''}`}
-            title={essay.status === EssayStatus.SUBMITTED ? 'Reenviar para Análise' : 'Solicitar Nova Análise'}
+            title="Tentar Novamente"
             onClick={() => !isResending && handleResend(essay)}
           />
         )}
@@ -238,7 +240,6 @@ const AllEssays: React.FC = () => {
             onSort={handleSort}
             sortField={sortField}
             sortOrder={sortOrder}
-            responsiveLayout="scroll"
             emptyMessage="Nenhuma redação encontrada"
             className="custom-datatable"
             loading={isLoading}

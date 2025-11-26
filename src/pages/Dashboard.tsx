@@ -68,8 +68,9 @@ const Dashboard: React.FC = () => {
 
   const getStatusBadge = (status: EssayStatus) => {
     const statusConfig: { [key: string]: { label: string; color: string } } = {
-      [EssayStatus.DRAFT]: { label: 'Rascunho', color: 'text-[#F2D066]' },
+      [EssayStatus.DRAFT]: { label: 'Rascunho', color: 'text-[#abb3ddff]' },
       [EssayStatus.SUBMITTED]: { label: 'Enviada', color: 'text-[#4472d6]' },
+      [EssayStatus.WAITING_FOR_ANALYSIS]: { label: 'Aguardando Análise', color: 'text-orange-600' },
       [EssayStatus.ANALYZED]: { label: 'Analisada', color: 'text-[#63da8e]' },
     };
 
@@ -88,24 +89,27 @@ const Dashboard: React.FC = () => {
     const drafts = essays.filter(e => e.status === EssayStatus.DRAFT).length;
     const analyzed = essays.filter(e => e.status === EssayStatus.ANALYZED).length;
     const submitted = essays.filter(e => e.status === EssayStatus.SUBMITTED).length;
+    const waitingForAnalysis = essays.filter(e => e.status === EssayStatus.WAITING_FOR_ANALYSIS).length;
 
-    return { total, drafts, analyzed, submitted };
+    return { total, drafts, analyzed, submitted, waitingForAnalysis };
   };
 
   const essayStats = getEssayStats();
 
   const chartData = {
-    labels: ['Rascunhos', 'Enviadas', 'Analisadas'],
+    labels: ['Rascunhos', 'Enviadas', 'Aguardando Análise', 'Analisadas'],
     datasets: [
       {
         data: [
           essayStats.drafts,
           essayStats.submitted,
+          essayStats.waitingForAnalysis,
           essayStats.analyzed,
         ],
         backgroundColor: [
-          '#F2D066',
+          '#abb3ddff',
           '#4472d6',
+          '#fb923c',
           '#63da8e'
         ],
         borderWidth: 0,
@@ -250,18 +254,30 @@ const Dashboard: React.FC = () => {
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm w-full max-w-sm justify-center">
-                  <div className="flex items-center gap-4 justify-center">
-                    <div className="w-5 h-5 bg-[#F2D066] rounded-full flex-shrink-0 shadow-sm border border-yellow-400"></div>
-                    <span className="text-[#F2D066] font-medium">Rascunhos</span>
-                  </div>
-                  <div className="flex items-center gap-3 justify-center">
-                    <div className="w-5 h-5 bg-[#4472d6] rounded-full flex-shrink-0 shadow-sm border border-primary-400"></div>
-                    <span className="text-primary-600 font-medium">Enviadas</span>
-                  </div>
-                  <div className="flex items-center gap-3 justify-center">
-                    <div className="w-5 h-5 bg-[#63da8e] rounded-full flex-shrink-0 shadow-sm border border-green-400"></div>
-                    <span className="text-green-600 font-medium">Analisadas</span>
-                  </div>
+                  {essayStats.drafts > 0 && (
+                    <div className="flex items-center gap-4 justify-center">
+                      <div className="w-5 h-5 bg-[#abb3ddff] rounded-full flex-shrink-0 shadow-sm"></div>
+                      <span className="text-[#abb3ddff] font-medium">Rascunhos</span>
+                    </div>
+                  )}
+                  {essayStats.submitted > 0 && (
+                    <div className="flex items-center gap-3 justify-center">
+                      <div className="w-5 h-5 bg-[#4472d6] rounded-full flex-shrink-0 shadow-sm"></div>
+                      <span className="text-primary-600 font-medium">Enviadas</span>
+                    </div>
+                  )}
+                  {essayStats.waitingForAnalysis > 0 && (
+                    <div className="flex items-center gap-3 justify-center">
+                      <div className="w-5 h-5 bg-[#fb923c] rounded-full flex-shrink-0 shadow-sm"></div>
+                      <span className="text-orange-600 font-medium">Aguardando</span>
+                    </div>
+                  )}
+                  {essayStats.analyzed > 0 && (
+                    <div className="flex items-center gap-3 justify-center">
+                      <div className="w-5 h-5 bg-[#63da8e] rounded-full flex-shrink-0 shadow-sm"></div>
+                      <span className="text-green-600 font-medium">Analisadas</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -322,7 +338,6 @@ const Dashboard: React.FC = () => {
           {recentEssays.length > 0 ? (
             <DataTable
               value={recentEssays}
-              responsiveLayout="scroll"
               emptyMessage="Nenhuma redação encontrada"
               className="custom-datatable"
               paginator={recentEssays.length > 5}
